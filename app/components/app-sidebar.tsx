@@ -1,5 +1,6 @@
 import { Link } from "react-router"
 import {
+  Home,
   Key,
   User,
   Monitor,
@@ -25,6 +26,11 @@ import {
 } from "~/components/ui/sidebar"
 
 const menuItems = [
+  {
+    title: "ホーム",
+    url: "/",
+    icon: Home,
+  },
   {
     title: "キーペア",
     url: "/keypair",
@@ -87,20 +93,20 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="flex flex-row items-center justify-between">
-        <h2 className="text-lg font-semibold group-data-[collapsible=icon]:hidden">Symbol DevToys</h2>
-        <SidebarTrigger className="ml-auto" />
+      <SidebarHeader className="flex flex-row items-center justify-end p-2">
+        <SidebarTrigger />
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="pt-0">
         <SidebarMenu>
           {menuItems.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
                 asChild
                 tooltip={state === "collapsed" ? item.title : undefined}
+                className="h-10 px-2"
               >
                 <Link to={item.url}>
-                  <item.icon />
+                  <item.icon className="h-4 w-4" />
                   <span>{item.title}</span>
                 </Link>
               </SidebarMenuButton>

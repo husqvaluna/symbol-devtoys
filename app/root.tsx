@@ -6,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
+import { useTranslation } from "react-i18next";
 
 import type { Route } from "./+types/root";
 import "./app.css";
@@ -39,11 +40,32 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language || 'ja';
+  const manifestPath = currentLanguage === 'en' ? '/manifest-en.json' : '/manifest.json';
+
   return (
-    <html lang="ja">
+    <html lang={currentLanguage}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {/* PWA関連メタタグ */}
+        <meta name="theme-color" content="#ffffff" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Symbol DevToys" />
+        <meta name="application-name" content="Symbol DevToys" />
+        <meta name="msapplication-TileColor" content="#ffffff" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+
+        {/* PWAアイコン */}
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/pwa-192x192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/pwa-512x512.png" />
+        <link rel="manifest" href={manifestPath} />
+
         <Meta />
         <Links />
       </head>

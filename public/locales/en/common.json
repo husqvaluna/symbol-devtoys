@@ -1,0 +1,42 @@
+{
+  "menu": {
+    "home": "Home",
+    "keypair": "Keypair",
+    "account": "Account",
+    "monitor": "Monitor",
+    "namespace": "Namespace",
+    "mosaic": "Mosaic",
+    "block": "Block",
+    "transaction": "Transaction",
+    "node": "Node",
+    "network": "Network",
+    "payload": "Payload",
+    "fee": "Fee Calculator"
+  },
+  "home": {
+    "title": "Symbol DevToys",
+    "subtitle": "Developer tools for Symbol blockchain",
+    "meta": {
+      "title": "Symbol DevToys - Home",
+      "description": "Symbol DevToys homepage"
+    },
+    "categories": {
+      "accountManagement": {
+        "title": "Account Management",
+        "description": "Generate keypairs and check account information"
+      },
+      "blockchainMonitoring": {
+        "title": "Blockchain Monitoring",
+        "description": "Monitor blocks, transactions, and network status"
+      },
+      "assetManagement": {
+        "title": "Asset Management",
+        "description": "Create and manage namespaces and mosaics"
+      },
+      "developmentSupport": {
+        "title": "Development Support",
+        "description": "Development support tools for payload creation and fee calculation"
+      }
+    }
+  }
+}

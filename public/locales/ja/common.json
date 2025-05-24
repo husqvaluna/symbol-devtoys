@@ -1,0 +1,42 @@
+{
+  "menu": {
+    "home": "ホーム",
+    "keypair": "キーペア",
+    "account": "アカウント",
+    "monitor": "モニター",
+    "namespace": "ネームスペース",
+    "mosaic": "モザイク",
+    "block": "ブロック",
+    "transaction": "トランザクション",
+    "node": "ノード",
+    "network": "ネットワーク",
+    "payload": "ペイロード",
+    "fee": "手数料計算機"
+  },
+  "home": {
+    "title": "Symbol DevToys",
+    "subtitle": "Symbol ブロックチェーン開発者向けツール集",
+    "meta": {
+      "title": "Symbol DevToys - ホーム",
+      "description": "Symbol DevToys のホームページ"
+    },
+    "categories": {
+      "accountManagement": {
+        "title": "アカウント管理",
+        "description": "キーペアの生成やアカウント情報の確認ができます"
+      },
+      "blockchainMonitoring": {
+        "title": "ブロックチェーン監視",
+        "description": "ブロック、トランザクション、ネットワークの状態を監視できます"
+      },
+      "assetManagement": {
+        "title": "アセット管理",
+        "description": "ネームスペースやモザイクの作成・管理ができます"
+      },
+      "developmentSupport": {
+        "title": "開発支援",
+        "description": "ペイロード作成や手数料計算などの開発支援ツールです"
+      }
+    }
+  }
+}

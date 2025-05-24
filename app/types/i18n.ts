@@ -1,4 +1,4 @@
-export interface TranslationKeys {
+export interface CommonTranslation {
   menu: {
     home: string;
     keypair: string;
@@ -43,9 +43,9 @@ export interface TranslationKeys {
 
 declare module 'react-i18next' {
   interface CustomTypeOptions {
-    defaultNS: 'translation';
+    defaultNS: 'common';
     resources: {
-      translation: TranslationKeys;
+      common: CommonTranslation;
     };
   }
 }

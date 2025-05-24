@@ -13,4 +13,5 @@ export default [
   route("/network", "routes/network.tsx"),
   route("/payload", "routes/payload.tsx"),
   route("/fee", "routes/fee.tsx"),
+  route("/settings", "routes/settings.tsx"),
 ] satisfies RouteConfig;

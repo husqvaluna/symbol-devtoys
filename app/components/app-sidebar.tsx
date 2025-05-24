@@ -13,11 +13,13 @@ import {
   Network,
   FileText,
   Calculator,
+  Settings,
 } from "lucide-react"
 
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
@@ -131,6 +133,22 @@ export function AppSidebar() {
           ))}
         </SidebarMenu>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              asChild
+              tooltip={state === "collapsed" ? t("menu.settings") : undefined}
+              className="h-10 px-2"
+            >
+              <Link to="/settings">
+                <Settings className="h-4 w-4" />
+                <span>{t("menu.settings")}</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   )
 }

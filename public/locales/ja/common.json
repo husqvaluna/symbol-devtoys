@@ -11,7 +11,8 @@
     "node": "ノード",
     "network": "ネットワーク",
     "payload": "ペイロード",
-    "fee": "手数料計算機"
+    "fee": "手数料計算機",
+    "settings": "設定"
   },
   "home": {
     "title": "Symbol DevToys",
@@ -37,6 +38,14 @@
         "title": "開発支援",
         "description": "ペイロード作成や手数料計算などの開発支援ツールです"
       }
+    }
+  },
+  "settings": {
+    "title": "設定",
+    "subtitle": "アプリケーションの設定を管理します",
+    "meta": {
+      "title": "Symbol DevToys - 設定",
+      "description": "Symbol DevToys の設定ページ"
     }
   }
 }

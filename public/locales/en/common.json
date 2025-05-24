@@ -11,7 +11,8 @@
     "node": "Node",
     "network": "Network",
     "payload": "Payload",
-    "fee": "Fee Calculator"
+    "fee": "Fee Calculator",
+    "settings": "Settings"
   },
   "home": {
     "title": "Symbol DevToys",
@@ -37,6 +38,14 @@
         "title": "Development Support",
         "description": "Development support tools for payload creation and fee calculation"
       }
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage application settings",
+    "meta": {
+      "title": "Symbol DevToys - Settings",
+      "description": "Symbol DevToys settings page"
     }
   }
 }

@@ -10,7 +10,7 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 
-import { SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar"
+import { SidebarProvider } from "~/components/ui/sidebar"
 import { AppSidebar } from "~/components/app-sidebar"
 
 export const links: Route.LinksFunction = () => [
@@ -31,7 +31,6 @@ function Layout({ children }: { children: React.ReactNode }) {
     <SidebarProvider>
       <AppSidebar />
       <main>
-        <SidebarTrigger />
         {children}
       </main>
     </SidebarProvider>

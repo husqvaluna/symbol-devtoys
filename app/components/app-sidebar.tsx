@@ -20,6 +20,8 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarTrigger,
+  useSidebar,
 } from "~/components/ui/sidebar"
 
 const menuItems = [
@@ -81,16 +83,22 @@ const menuItems = [
 ]
 
 export function AppSidebar() {
+  const { state } = useSidebar()
+
   return (
-    <Sidebar>
-      <SidebarHeader>
-        <h2 className="text-lg font-semibold">Symbol DevToys</h2>
+    <Sidebar collapsible="icon">
+      <SidebarHeader className="flex flex-row items-center justify-between">
+        <h2 className="text-lg font-semibold group-data-[collapsible=icon]:hidden">Symbol DevToys</h2>
+        <SidebarTrigger className="ml-auto" />
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
           {menuItems.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild>
+              <SidebarMenuButton
+                asChild
+                tooltip={state === "collapsed" ? item.title : undefined}
+              >
                 <Link to={item.url}>
                   <item.icon />
                   <span>{item.title}</span>

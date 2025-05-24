@@ -1,4 +1,5 @@
 import { Link } from "react-router"
+import { useTranslation } from "react-i18next"
 import {
   Home,
   Key,
@@ -24,65 +25,78 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "~/components/ui/sidebar"
+import { LanguageSwitcher } from "~/components/language-switcher"
 
-const menuItems = [
+const getMenuItems = (t: (key: string) => string) => [
   {
-    title: "ホーム",
+    titleKey: "menu.home",
+    title: t("menu.home"),
     url: "/",
     icon: Home,
   },
   {
-    title: "キーペア",
+    titleKey: "menu.keypair",
+    title: t("menu.keypair"),
     url: "/keypair",
     icon: Key,
   },
   {
-    title: "アカウント",
+    titleKey: "menu.account",
+    title: t("menu.account"),
     url: "/account",
     icon: User,
   },
   {
-    title: "モニター",
+    titleKey: "menu.monitor",
+    title: t("menu.monitor"),
     url: "/monitor",
     icon: Monitor,
   },
   {
-    title: "ネームスペース",
+    titleKey: "menu.namespace",
+    title: t("menu.namespace"),
     url: "/namespace",
     icon: Tag,
   },
   {
-    title: "モザイク",
+    titleKey: "menu.mosaic",
+    title: t("menu.mosaic"),
     url: "/mosaic",
     icon: Grid3X3,
   },
   {
-    title: "ブロック",
+    titleKey: "menu.block",
+    title: t("menu.block"),
     url: "/block",
     icon: Box,
   },
   {
-    title: "トランザクション",
+    titleKey: "menu.transaction",
+    title: t("menu.transaction"),
     url: "/transaction",
     icon: ArrowLeftRight,
   },
   {
-    title: "ノード",
+    titleKey: "menu.node",
+    title: t("menu.node"),
     url: "/node",
     icon: Server,
   },
   {
-    title: "ネットワーク",
+    titleKey: "menu.network",
+    title: t("menu.network"),
     url: "/network",
     icon: Network,
   },
   {
-    title: "ペイロード",
+    titleKey: "menu.payload",
+    title: t("menu.payload"),
     url: "/payload",
     icon: FileText,
   },
   {
-    title: "手数料計算機",
+    titleKey: "menu.fee",
+    title: t("menu.fee"),
     url: "/fee",
     icon: Calculator,
   },
@@ -90,16 +104,19 @@ const menuItems = [
 
 export function AppSidebar() {
   const { state } = useSidebar()
+  const { t } = useTranslation()
+  const menuItems = getMenuItems(t)
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="flex flex-row items-center justify-end p-2">
+      <SidebarHeader className="flex flex-row items-center justify-between p-2">
+        {state !== "collapsed" && <LanguageSwitcher />}
         <SidebarTrigger />
       </SidebarHeader>
       <SidebarContent className="pt-0">
         <SidebarMenu>
           {menuItems.map((item) => (
-            <SidebarMenuItem key={item.title}>
+            <SidebarMenuItem key={item.titleKey}>
               <SidebarMenuButton
                 asChild
                 tooltip={state === "collapsed" ? item.title : undefined}

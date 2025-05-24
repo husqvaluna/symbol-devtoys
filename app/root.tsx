@@ -9,6 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import "./i18n";
 
 import { SidebarProvider } from "~/components/ui/sidebar"
 import { AppSidebar } from "~/components/app-sidebar"

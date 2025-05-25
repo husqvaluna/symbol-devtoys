@@ -7,6 +7,7 @@ import {
   Monitor,
   Tag,
   Grid3X3,
+  TicketCheck,
   Box,
   ArrowLeftRight,
   Server,
@@ -75,7 +76,7 @@ const getMenuItems = (t: (key: string) => string) => [
     titleKey: "menu.transaction",
     title: t("menu.transaction"),
     url: "/transaction",
-    icon: ArrowLeftRight,
+    icon: TicketCheck,
   },
   {
     titleKey: "menu.node",
@@ -101,6 +102,12 @@ const getMenuItems = (t: (key: string) => string) => [
     url: "/fee",
     icon: Calculator,
   },
+  {
+    titleKey: "menu.converter",
+    title: t("menu.converter"),
+    url: "/converter",
+    icon: ArrowLeftRight,
+  },
 ]
 
 export function AppSidebar() {
@@ -121,8 +128,12 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="flex flex-row items-center justify-end p-2">
-        <SidebarTrigger />
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarTrigger className="h-10 px-2 w-full justify-start data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground" />
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>

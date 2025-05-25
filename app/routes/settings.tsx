@@ -39,168 +39,153 @@ export default function Settings() {
   const [textEditor, setTextEditor] = useState("monaco");
 
   return (
-    <div className="flex flex-col min-h-screen p-8">
-      <div className="max-w-4xl mx-auto w-full space-y-8">
+    <div className="p-4">
+      <div className="w-full space-y-2">
         {/* ページヘッダー */}
         <div className="space-y-2">
-          <div className="flex items-center gap-3">
-            <SettingsIcon className="h-8 w-8 text-blue-600" />
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-              {t("settings.title")}
-            </h1>
+          <div className="flex items-center">
+            <h1 className="font-bold text-gray-900 dark:text-gray-100">{t("settings.title")}</h1>
           </div>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
-            {t("settings.subtitle")}
-          </p>
+          <p className="text-xs text-gray-600 dark:text-gray-400">{t("settings.subtitle")}</p>
         </div>
 
-        <Separator />
-
         {/* 一般設定 */}
-        <div className="space-y-6">
-          <div className="flex items-center gap-3">
-            <Globe className="h-6 w-6 text-blue-600" />
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-              {t("settings.general.title")}
-            </h2>
+        <div className="space-y-2">
+          <div className="flex items-center">
+            <h2 className="text-sm font-bold text-gray-900 dark:text-gray-100">{t("settings.general.title")}</h2>
           </div>
 
           {/* 言語設定 */}
-          <Card>
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <Globe className="h-5 w-5" />
+          <Card className="rounded-md py-4 w-[650px]">
+            <CardContent>
+              <div className="flex items-center space-x-4">
+                <Globe className="h-4 w-4 flex-shrink-0" />
+                <div className="flex-1 space-y-1">
+                  <p className="text-sm font-medium leading-none">
                     {t("settings.general.language.label")}
-                  </CardTitle>
-                  <CardDescription className="mt-1">
+                  </p>
+                  <p className="text-xs text-muted-foreground">
                     {t("settings.general.language.description")}
-                  </CardDescription>
+                  </p>
                 </div>
-                <div className="min-w-[200px]">
-                  <LanguageSwitcher />
-                </div>
+                <LanguageSwitcher />
               </div>
-            </CardHeader>
+            </CardContent>
           </Card>
 
           {/* テーマ設定 */}
-          <Card>
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <Palette className="h-5 w-5" />
+          <Card className="rounded-md py-4 w-[650px]">
+            <CardContent>
+              <div className="flex items-center space-x-4">
+                <Palette className="h-4 w-4 flex-shrink-0" />
+                <div className="flex-1 space-y-1">
+                  <p className="text-sm font-medium leading-none">
                     {t("settings.general.theme.label")}
-                  </CardTitle>
-                  <CardDescription className="mt-1">
+                  </p>
+                  <p className="text-xs text-muted-foreground">
                     {t("settings.general.theme.description")}
-                  </CardDescription>
+                  </p>
                 </div>
-                <div className="min-w-[200px]">
-                  <Select value={theme} onValueChange={setTheme}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="light">{t("settings.general.theme.options.light")}</SelectItem>
-                      <SelectItem value="dark">{t("settings.general.theme.options.dark")}</SelectItem>
-                      <SelectItem value="system">{t("settings.general.theme.options.system")}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                <Select value={theme} onValueChange={setTheme}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="light">{t("settings.general.theme.options.light")}</SelectItem>
+                    <SelectItem value="dark">{t("settings.general.theme.options.dark")}</SelectItem>
+                    <SelectItem value="system">{t("settings.general.theme.options.system")}</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-            </CardHeader>
+            </CardContent>
           </Card>
 
           {/* コンパクト表示 */}
-          <Card>
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <Monitor className="h-5 w-5" />
+          <Card className="rounded-md py-4 w-[650px]">
+            <CardContent>
+              <div className="flex items-center space-x-4">
+                <Monitor className="h-4 w-4 flex-shrink-0" />
+                <div className="flex-1 space-y-1">
+                  <p className="text-sm font-medium leading-none">
                     {t("settings.general.compact.label")}
-                  </CardTitle>
-                  <CardDescription className="mt-1">
+                  </p>
+                  <p className="text-xs text-muted-foreground">
                     {t("settings.general.compact.description")}
-                  </CardDescription>
+                  </p>
                 </div>
                 <Switch
                   checked={compactDisplay}
                   onCheckedChange={setCompactDisplay}
                 />
               </div>
-            </CardHeader>
+            </CardContent>
           </Card>
 
           {/* 更新の確認 */}
-          <Card>
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <Download className="h-5 w-5" />
+          <Card className="rounded-md py-4 w-[650px]">
+            <CardContent>
+              <div className="flex items-center space-x-4">
+                <Download className="h-4 w-4 flex-shrink-0" />
+                <div className="flex-1 space-y-1">
+                  <p className="text-sm font-medium leading-none">
                     {t("settings.general.updates.label")}
-                  </CardTitle>
-                  <CardDescription className="mt-1">
+                  </p>
+                  <p className="text-xs text-muted-foreground">
                     {t("settings.general.updates.description")}
-                  </CardDescription>
+                  </p>
                 </div>
                 <Switch
                   checked={checkUpdates}
                   onCheckedChange={setCheckUpdates}
                 />
               </div>
-            </CardHeader>
+            </CardContent>
           </Card>
         </div>
 
         <Separator />
 
         {/* 表示設定 */}
-        <div className="space-y-6">
-          <div className="flex items-center gap-3">
-            <Monitor className="h-6 w-6 text-blue-600" />
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+        <div className="space-y-2">
+          <div className="flex items-center">
+            <h2 className="text-sm font-bold text-gray-900 dark:text-gray-100">
               {t("settings.display.title")}
             </h2>
           </div>
 
           {/* 使用統計とツール表示 */}
-          <Card>
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <BarChart3 className="h-5 w-5" />
+          <Card className="rounded-md py-4 w-[650px]">
+            <CardContent>
+              <div className="flex items-center space-x-4">
+                <BarChart3 className="h-4 w-4 flex-shrink-0" />
+                <div className="flex-1 space-y-1">
+                  <p className="text-sm font-medium leading-none">
                     {t("settings.display.statistics.label")}
-                  </CardTitle>
-                  <CardDescription className="mt-1">
+                  </p>
+                  <p className="text-xs text-muted-foreground">
                     {t("settings.display.statistics.description")}
-                  </CardDescription>
+                  </p>
                 </div>
                 <Switch
                   checked={showStatistics}
                   onCheckedChange={setShowStatistics}
                 />
               </div>
-            </CardHeader>
+            </CardContent>
           </Card>
 
           {/* スマート検出 */}
-          <Card>
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <Zap className="h-5 w-5" />
+          <Card className="rounded-md py-4 w-[650px]">
+            <CardContent>
+              <div className="flex items-center space-x-4">
+                <Zap className="h-4 w-4 flex-shrink-0" />
+                <div className="flex-1 space-y-1">
+                  <p className="text-sm font-medium leading-none">
                     {t("settings.display.smartDetection.label")}
-                  </CardTitle>
-                  <CardDescription className="mt-1">
+                  </p>
+                  <p className="text-xs text-muted-foreground">
                     {t("settings.display.smartDetection.description")}
-                  </CardDescription>
+                  </p>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="min-w-[150px]">
@@ -225,33 +210,32 @@ export default function Settings() {
                   />
                 </div>
               </div>
-            </CardHeader>
+            </CardContent>
           </Card>
         </div>
 
         <Separator />
 
         {/* エディター設定 */}
-        <div className="space-y-6">
-          <div className="flex items-center gap-3">
-            <FileText className="h-6 w-6 text-blue-600" />
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+        <div className="space-y-2">
+          <div className="flex items-center">
+            <h2 className="text-sm font-bold text-gray-900 dark:text-gray-100">
               {t("settings.editor.title")}
             </h2>
           </div>
 
           {/* テキストエディター */}
-          <Card>
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <FileText className="h-5 w-5" />
+          <Card className="rounded-md py-4 w-[650px]">
+            <CardContent>
+              <div className="flex items-center space-x-4">
+                <FileText className="h-4 w-4 flex-shrink-0" />
+                <div className="flex-1 space-y-1">
+                  <p className="text-sm font-medium leading-none">
                     {t("settings.editor.textEditor.label")}
-                  </CardTitle>
-                  <CardDescription className="mt-1">
+                  </p>
+                  <p className="text-xs text-muted-foreground">
                     {t("settings.editor.textEditor.description")}
-                  </CardDescription>
+                  </p>
                 </div>
                 <div className="min-w-[200px]">
                   <Select value={textEditor} onValueChange={setTextEditor}>
@@ -266,45 +250,44 @@ export default function Settings() {
                   </Select>
                 </div>
               </div>
-            </CardHeader>
+            </CardContent>
           </Card>
         </div>
 
         <Separator />
 
         {/* このアプリについて */}
-        <div className="space-y-6">
-          <div className="flex items-center gap-3">
-            <SettingsIcon className="h-6 w-6 text-blue-600" />
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+        <div className="space-y-2">
+          <div className="flex items-center">
+            <h2 className="text-sm font-bold text-gray-900 dark:text-gray-100">
               {t("settings.about.title")}
             </h2>
           </div>
 
           {/* DevToys */}
-          <Card>
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <ExternalLink className="h-5 w-5" />
+          <Card className="rounded-md py-4 w-[650px]">
+            <CardContent>
+              <div className="flex items-center space-x-4">
+                <ExternalLink className="h-4 w-4 flex-shrink-0" />
+                <div className="flex-1 space-y-1">
+                  <p className="text-sm font-medium leading-none">
                     {t("settings.about.devtoys.label")}
-                  </CardTitle>
-                  <CardDescription className="mt-1">
+                  </p>
+                  <p className="text-xs text-muted-foreground">
                     {t("settings.about.devtoys.description")}
-                  </CardDescription>
+                  </p>
                 </div>
                 <a
                   href="https://devtoys.app/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-md transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium hover:text-blue-700 hover:bg-blue-50 rounded-md transition-colors"
                 >
                   DevToys
                   <ExternalLink className="h-4 w-4" />
                 </a>
               </div>
-            </CardHeader>
+            </CardContent>
           </Card>
         </div>
       </div>

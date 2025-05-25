@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 export function meta() {
   return [
     { title: "ブロック - Symbol DevToys" },
@@ -6,16 +8,15 @@ export function meta() {
 }
 
 export default function Block() {
+  const { t } = useTranslation();
+
   return (
-    <div className="container mx-auto p-6">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold">ブロック</h1>
-        <p className="text-muted-foreground mt-2">
-          ブロックハッシュまたは番号でネットワークに問い合わせて、ブロック情報を取得します。
-        </p>
-      </div>
-      <div className="bg-muted/50 rounded-lg p-8 text-center">
-        <p className="text-lg text-muted-foreground">実装予定</p>
+    <div className="p-4">
+      <div className="space-y-2">
+        <div className="flex items-center">
+          <h1 className="font-bold text-gray-900 dark:text-gray-100">{t("block.title")}</h1>
+        </div>
+        <p className="text-xs text-gray-600 dark:text-gray-400">{t("block.subtitle")}</p>
       </div>
     </div>
   );

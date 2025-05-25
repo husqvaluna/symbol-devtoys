@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 export function meta() {
   return [
     { title: "手数料計算機 - Symbol DevToys" },
@@ -6,16 +8,15 @@ export function meta() {
 }
 
 export default function Fee() {
+  const { t } = useTranslation();
+
   return (
-    <div className="container mx-auto p-6">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold">手数料計算機</h1>
-        <p className="text-muted-foreground mt-2">
-          構築したトランザクションの手数料を試算する計算機です。
-        </p>
-      </div>
-      <div className="bg-muted/50 rounded-lg p-8 text-center">
-        <p className="text-lg text-muted-foreground">実装予定</p>
+    <div className="p-4">
+      <div className="space-y-2">
+        <div className="flex items-center">
+          <h1 className="font-bold text-gray-900 dark:text-gray-100">{t("fee.title")}</h1>
+        </div>
+        <p className="text-xs text-gray-600 dark:text-gray-400">{t("fee.subtitle")}</p>
       </div>
     </div>
   );

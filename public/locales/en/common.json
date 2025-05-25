@@ -40,6 +40,54 @@
       }
     }
   },
+  "converter": {
+    "title": "Converter",
+    "subtitle": "Convert various values to each other."
+  },
+  "keypair": {
+    "title": "Keypair",
+    "subtitle": "Generate new keypairs and derive public keys and addresses from private keys."
+  },
+  "account": {
+    "title": "Account",
+    "subtitle": "Query the network with an address to retrieve account information."
+  },
+  "block": {
+    "title": "Block",
+    "subtitle": "Query the network with a block hash or number to retrieve block information."
+  },
+  "monitor": {
+    "title": "Monitor",
+    "subtitle": "Provides monitoring functionality for the Symbol network."
+  },
+  "namespace": {
+    "title": "Namespace",
+    "subtitle": "Query the network with a namespace to retrieve namespace information."
+  },
+  "mosaic": {
+    "title": "Mosaic",
+    "subtitle": "Query the network with a mosaic to retrieve mosaic information."
+  },
+  "transaction": {
+    "title": "Transaction",
+    "subtitle": "Query the network with a transaction hash to retrieve transaction information."
+  },
+  "node": {
+    "title": "Node",
+    "subtitle": "Retrieve node information from a node host URL."
+  },
+  "network": {
+    "title": "Network",
+    "subtitle": "Retrieve and display Symbol network information."
+  },
+  "payload": {
+    "title": "Payload",
+    "subtitle": "Decode payload hexadecimal strings to represent transaction content."
+  },
+  "fee": {
+    "title": "Fee Calculator",
+    "subtitle": "A calculator to estimate fees for constructed transactions."
+  },
   "settings": {
     "title": "Settings",
     "subtitle": "Manage application settings",

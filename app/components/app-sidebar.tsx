@@ -27,7 +27,6 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "~/components/ui/sidebar"
-import { LanguageSwitcher } from "~/components/language-switcher"
 
 const getMenuItems = (t: (key: string) => string) => [
   {
@@ -111,8 +110,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="flex flex-row items-center justify-between p-2">
-        {state !== "collapsed" && <LanguageSwitcher />}
+      <SidebarHeader className="flex flex-row items-center justify-end p-2">
         <SidebarTrigger />
       </SidebarHeader>
       <SidebarContent className="pt-0">

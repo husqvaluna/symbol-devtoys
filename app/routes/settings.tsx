@@ -1,5 +1,9 @@
 import { useTranslation } from "react-i18next";
 import type { Route } from "./+types/settings";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import { Label } from "~/components/ui/label";
+import { Separator } from "~/components/ui/separator";
+import { LanguageSwitcher } from "~/components/language-switcher";
 
 export function meta({}: Route.MetaArgs) {
   // Note: meta関数内ではuseTranslationが使用できないため、
@@ -15,7 +19,8 @@ export default function Settings() {
 
   return (
     <div className="flex flex-col min-h-screen p-8">
-      <div className="max-w-4xl mx-auto w-full space-y-6">
+      <div className="max-w-4xl mx-auto w-full space-y-8">
+        {/* ページヘッダー */}
         <div className="space-y-2">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
             {t("settings.title")}
@@ -25,35 +30,135 @@ export default function Settings() {
           </p>
         </div>
 
-        <div className="border-t pt-6">
-          <div className="grid gap-6">
-            <div className="p-6 border rounded-lg bg-white dark:bg-gray-800 shadow-sm">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                一般設定
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400">
-                設定項目は今後追加予定です。
-              </p>
-            </div>
+        <Separator />
 
-            <div className="p-6 border rounded-lg bg-white dark:bg-gray-800 shadow-sm">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                表示設定
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400">
-                テーマやレイアウトの設定項目は今後追加予定です。
-              </p>
-            </div>
-
-            <div className="p-6 border rounded-lg bg-white dark:bg-gray-800 shadow-sm">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                ネットワーク設定
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400">
-                Symbol ネットワークの接続設定は今後追加予定です。
-              </p>
-            </div>
+        {/* 一般設定 */}
+        <div className="space-y-6">
+          <div>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+              {t("settings.general.title")}
+            </h2>
           </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">
+                {t("settings.general.language.label")}
+              </CardTitle>
+              <CardDescription>
+                {t("settings.general.language.description")}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <LanguageSwitcher />
+            </CardContent>
+          </Card>
+        </div>
+
+        <Separator />
+
+        {/* 表示設定 */}
+        <div className="space-y-6">
+          <div>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+              {t("settings.display.title")}
+            </h2>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">テーマ設定</CardTitle>
+              <CardDescription>
+                {t("settings.display.description")}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    カラーテーマ
+                  </Label>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    ライト・ダークテーマの設定は今後追加予定です。
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">レイアウト設定</CardTitle>
+              <CardDescription>
+                レイアウトやフォントサイズの設定項目
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    フォントサイズ
+                  </Label>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    フォントサイズの設定は今後追加予定です。
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Separator />
+
+        {/* ネットワーク設定 */}
+        <div className="space-y-6">
+          <div>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+              {t("settings.network.title")}
+            </h2>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Symbol ネットワーク</CardTitle>
+              <CardDescription>
+                {t("settings.network.description")}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    ネットワークタイプ
+                  </Label>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    メインネット・テストネットの選択は今後追加予定です。
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">ノード設定</CardTitle>
+              <CardDescription>
+                接続するSymbolノードの設定
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    ノードURL
+                  </Label>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    カスタムノードURLの設定は今後追加予定です。
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

@@ -46,6 +46,25 @@
     "meta": {
       "title": "Symbol DevToys - 設定",
       "description": "Symbol DevToys の設定ページ"
+    },
+    "general": {
+      "title": "一般設定",
+      "language": {
+        "label": "言語",
+        "description": "アプリケーションの表示言語を選択してください",
+        "options": {
+          "ja": "日本語",
+          "en": "English"
+        }
+      }
+    },
+    "display": {
+      "title": "表示設定",
+      "description": "テーマやレイアウトの設定項目は今後追加予定です。"
+    },
+    "network": {
+      "title": "ネットワーク設定",
+      "description": "Symbol ネットワークの接続設定は今後追加予定です。"
     }
   }
 }

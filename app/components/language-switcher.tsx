@@ -1,22 +1,40 @@
 import { useTranslation } from "react-i18next";
-import { Button } from "~/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 
 export function LanguageSwitcher() {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'ja' ? 'en' : 'ja';
-    i18n.changeLanguage(newLang);
+  const handleLanguageChange = (value: string) => {
+    i18n.changeLanguage(value);
   };
 
   return (
-    <Button
-      variant="outline"
-      size="sm"
-      onClick={toggleLanguage}
-      className="min-w-[60px]"
-    >
-      {i18n.language === 'ja' ? 'EN' : 'JA'}
-    </Button>
+    <div className="space-y-2">
+      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+        {t("settings.general.language.label")}
+      </label>
+      <Select value={i18n.language} onValueChange={handleLanguageChange}>
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder={t("settings.general.language.label")} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="ja">
+            {t("settings.general.language.options.ja")}
+          </SelectItem>
+          <SelectItem value="en">
+            {t("settings.general.language.options.en")}
+          </SelectItem>
+        </SelectContent>
+      </Select>
+      <p className="text-xs text-gray-500 dark:text-gray-400">
+        {t("settings.general.language.description")}
+      </p>
+    </div>
   );
 }

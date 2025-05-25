@@ -1,4 +1,4 @@
-import { Link } from "react-router"
+import { Link, useLocation } from "react-router"
 import { useTranslation } from "react-i18next"
 import {
   Home,
@@ -106,7 +106,18 @@ const getMenuItems = (t: (key: string) => string) => [
 export function AppSidebar() {
   const { state } = useSidebar()
   const { t } = useTranslation()
+  const location = useLocation()
   const menuItems = getMenuItems(t)
+
+  // 現在のパスがメニュー項目のURLと一致するかチェックする関数
+  const isActiveRoute = (url: string) => {
+    if (url === "/") {
+      // ホームページの場合は完全一致
+      return location.pathname === "/"
+    }
+    // その他のページの場合はパスが一致するかチェック
+    return location.pathname === url || location.pathname.startsWith(url + "/")
+  }
 
   return (
     <Sidebar collapsible="icon">
@@ -119,6 +130,7 @@ export function AppSidebar() {
             <SidebarMenuItem key={item.titleKey}>
               <SidebarMenuButton
                 asChild
+                isActive={isActiveRoute(item.url)}
                 tooltip={state === "collapsed" ? item.title : undefined}
                 className="h-10 px-2"
               >
@@ -136,6 +148,7 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
+              isActive={isActiveRoute("/settings")}
               tooltip={state === "collapsed" ? t("menu.settings") : undefined}
               className="h-10 px-2"
             >

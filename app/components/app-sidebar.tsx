@@ -113,7 +113,7 @@ export function AppSidebar() {
       <SidebarHeader className="flex flex-row items-center justify-end p-2">
         <SidebarTrigger />
       </SidebarHeader>
-      <SidebarContent className="pt-0">
+      <SidebarContent>
         <SidebarMenu>
           {menuItems.map((item) => (
             <SidebarMenuItem key={item.titleKey}>

@@ -59,6 +59,23 @@ export const encodeNamespace = (value: string): bigint => {
   return sub2Id;
 }
 
+/**
+ * Convert namespace string to ID value using encodeNamespace function
+ * This is a one-way conversion only (namespace string → ID value)
+ *
+ * @param value - Namespace string to convert
+ * @returns Namespace ID as string, or empty string if conversion fails
+ */
+export const convertNamespaceToId = (value: string): string => {
+  try {
+    const namespaceId = encodeNamespace(value);
+    return namespaceId.toString();
+  } catch (error) {
+    // Return empty string instead of throwing exception for invalid input
+    return "";
+  }
+}
+
 // export const convertHexToNum = (value: string) => {
 //   const parsed = parseInt(value, 16)
 //   return Number.isNaN(parsed) ? "" : parsed.toString()

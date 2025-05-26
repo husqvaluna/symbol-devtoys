@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-// import { convertNamespaceToId } from "~/logics/convert";
+import { convertNamespaceToId } from "~/logics/convert";
 
 export function meta() {
   return [
@@ -64,9 +64,8 @@ export default function Converter() {
 
   const handleNamespaceStringChange = (value: string) => {
     setNamespaceString(value);
-    // const convertedId = convertNamespaceToId(value);
-    // setNamespaceId(convertedId);
-    setNamespaceId(value);
+    const convertedId = convertNamespaceToId(value);
+    setNamespaceId(convertedId);
   };
 
   return (

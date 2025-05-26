@@ -2,42 +2,42 @@ import { describe, it, expect } from 'vitest';
 import { encodeNamespace, convertNamespaceToId } from './convert';
 
 describe('encodeNamespace', () => {
-  describe('正常なケース', () => {
-    it('ルートネームスペースのみの場合、正しいIDを返す', () => {
+  describe('Valid cases', () => {
+    it('should return correct ID for root namespace only', () => {
       const result = encodeNamespace('test');
       expect(result).toBe(15276497235419185774n);
     });
 
-    it('ルート.サブネームスペースの場合、正しいIDを返す', () => {
+    it('should return correct ID for root.sub namespace', () => {
       const result = encodeNamespace('test.sub');
       expect(result).toBe(16257221637874783385n);
     });
 
-    it('ルート.サブ1.サブ2の場合、正しいIDを返す', () => {
+    it('should return correct ID for root.sub1.sub2', () => {
       const result = encodeNamespace('test.sub1.sub2');
       expect(result).toBe(12528015024162528018n);
     });
 
-    it('同じ入力に対して一貫した結果を返す', () => {
+    it('should return consistent results for same input', () => {
       const result1 = encodeNamespace('test.sub');
       const result2 = encodeNamespace('test.sub');
       expect(result1).toBe(result2);
     });
 
-    it('異なるネームスペース名に対して異なる結果を返す', () => {
+    it('should return different results for different namespace names', () => {
       const result1 = encodeNamespace('namespace1');
       const result2 = encodeNamespace('namespace2');
       expect(result1).not.toBe(result2);
     });
   });
 
-  describe('階層レベル別のテスト', () => {
-    it('サブレベル1のネームスペースIDが正しく生成される', () => {
+  describe('Hierarchical level tests', () => {
+    it('should correctly generate sub-level 1 namespace ID', () => {
       const result = encodeNamespace('root.sub1');
       expect(result).toBe(12498908868464373370n);
     });
 
-    it('サブレベル2のネームスペースIDが正しく生成される', () => {
+    it('should correctly generate sub-level 2 namespace ID', () => {
       const result = encodeNamespace('root.sub1.sub2');
       expect(result).toBe(9952335005538369418n);
     });
@@ -46,27 +46,27 @@ describe('encodeNamespace', () => {
   describe('Exception cases', () => {
     describe('Empty namespace validation', () => {
       it('should throw error for empty string', () => {
-        expect(() => encodeNamespace('')).toThrow('ネームスペース名が空です');
+        expect(() => encodeNamespace('')).toThrow('Namespace name is empty');
       });
 
       it('should throw error for whitespace only string', () => {
-        expect(() => encodeNamespace('   ')).toThrow('ネームスペース名が空です');
+        expect(() => encodeNamespace('   ')).toThrow('Namespace name is empty');
       });
 
       it('should throw error for tab and newline characters', () => {
-        expect(() => encodeNamespace('\t\n')).toThrow('ネームスペース名が空です');
+        expect(() => encodeNamespace('\t\n')).toThrow('Namespace name is empty');
       });
     });
 
     describe('Length validation', () => {
       it('should throw error for namespace longer than 64 characters', () => {
         const longNamespace = 'a'.repeat(65);
-        expect(() => encodeNamespace(longNamespace)).toThrow('ネームスペース名は64文字以下である必要があります');
+        expect(() => encodeNamespace(longNamespace)).toThrow('Namespace name must be 64 characters or less');
       });
 
       it('should throw error for multi-level namespace exceeding 64 characters', () => {
         const longNamespace = 'a'.repeat(30) + '.' + 'b'.repeat(35);
-        expect(() => encodeNamespace(longNamespace)).toThrow('ネームスペース名は64文字以下である必要があります');
+        expect(() => encodeNamespace(longNamespace)).toThrow('Namespace name must be 64 characters or less');
       });
     });
 
@@ -78,71 +78,71 @@ describe('encodeNamespace', () => {
       });
 
       it('should throw error for special characters', () => {
-        expect(() => encodeNamespace('test@namespace')).toThrow('ネームスペース名には a-z, 0-9, _, - のみ使用できます');
+        expect(() => encodeNamespace('test@namespace')).toThrow('Namespace name can only use a-z, 0-9, _, -');
       });
 
       it('should throw error for spaces', () => {
-        expect(() => encodeNamespace('test namespace')).toThrow('ネームスペース名には a-z, 0-9, _, - のみ使用できます');
+        expect(() => encodeNamespace('test namespace')).toThrow('Namespace name can only use a-z, 0-9, _, -');
       });
 
       it('should throw error for Japanese characters', () => {
-        expect(() => encodeNamespace('テスト')).toThrow('ネームスペース名には a-z, 0-9, _, - のみ使用できます');
+        expect(() => encodeNamespace('テスト')).toThrow('Namespace name can only use a-z, 0-9, _, -');
       });
 
       it('should throw error for symbols like #, $, %', () => {
-        expect(() => encodeNamespace('test#namespace')).toThrow('ネームスペース名には a-z, 0-9, _, - のみ使用できます');
-        expect(() => encodeNamespace('test$namespace')).toThrow('ネームスペース名には a-z, 0-9, _, - のみ使用できます');
-        expect(() => encodeNamespace('test%namespace')).toThrow('ネームスペース名には a-z, 0-9, _, - のみ使用できます');
+        expect(() => encodeNamespace('test#namespace')).toThrow('Namespace name can only use a-z, 0-9, _, -');
+        expect(() => encodeNamespace('test$namespace')).toThrow('Namespace name can only use a-z, 0-9, _, -');
+        expect(() => encodeNamespace('test%namespace')).toThrow('Namespace name can only use a-z, 0-9, _, -');
       });
     });
 
     describe('Level validation', () => {
       it('should throw error for more than 3 levels', () => {
-        expect(() => encodeNamespace('level1.level2.level3.level4')).toThrow('ネームスペースは最大3レベルまでです');
+        expect(() => encodeNamespace('level1.level2.level3.level4')).toThrow('Namespace can have maximum 3 levels');
       });
 
       it('should throw error for 5 levels', () => {
-        expect(() => encodeNamespace('a.b.c.d.e')).toThrow('ネームスペースは最大3レベルまでです');
+        expect(() => encodeNamespace('a.b.c.d.e')).toThrow('Namespace can have maximum 3 levels');
       });
     });
 
     describe('Empty level validation', () => {
       it('should throw error for empty root level', () => {
-        expect(() => encodeNamespace('.sub')).toThrow('レベル1のネームスペース名が空です');
+        expect(() => encodeNamespace('.sub')).toThrow('Level 1 namespace name is empty');
       });
 
       it('should throw error for empty sub level 1', () => {
-        expect(() => encodeNamespace('root.')).toThrow('レベル2のネームスペース名が空です');
+        expect(() => encodeNamespace('root.')).toThrow('Level 2 namespace name is empty');
       });
 
       it('should throw error for empty sub level 2', () => {
-        expect(() => encodeNamespace('root.sub1.')).toThrow('レベル3のネームスペース名が空です');
+        expect(() => encodeNamespace('root.sub1.')).toThrow('Level 3 namespace name is empty');
       });
 
       it('should throw error for empty middle level', () => {
-        expect(() => encodeNamespace('root..sub2')).toThrow('レベル2のネームスペース名が空です');
+        expect(() => encodeNamespace('root..sub2')).toThrow('Level 2 namespace name is empty');
       });
 
       it('should throw error for multiple consecutive dots', () => {
         // Multiple consecutive dots create more than 3 levels, so level validation comes first
-        expect(() => encodeNamespace('root...sub')).toThrow('ネームスペースは最大3レベルまでです');
+        expect(() => encodeNamespace('root...sub')).toThrow('Namespace can have maximum 3 levels');
       });
     });
 
     describe('Additional empty level cases', () => {
       it('should throw error for two consecutive dots at start', () => {
-        expect(() => encodeNamespace('..valid')).toThrow('レベル1のネームスペース名が空です');
+        expect(() => encodeNamespace('..valid')).toThrow('Level 1 namespace name is empty');
       });
 
       it('should throw error for two consecutive dots in middle', () => {
-        expect(() => encodeNamespace('valid..sub')).toThrow('レベル2のネームスペース名が空です');
+        expect(() => encodeNamespace('valid..sub')).toThrow('Level 2 namespace name is empty');
       });
     });
 
     describe('Edge cases', () => {
       it('should throw error for only dots', () => {
         // Three dots create 4 levels, so level validation comes first
-        expect(() => encodeNamespace('...')).toThrow('ネームスペースは最大3レベルまでです');
+        expect(() => encodeNamespace('...')).toThrow('Namespace can have maximum 3 levels');
       });
 
       it('should accept mixed case characters (converted to lowercase)', () => {
@@ -152,11 +152,11 @@ describe('encodeNamespace', () => {
       });
 
       it('should throw error for namespace starting with dot after trim', () => {
-        expect(() => encodeNamespace('  .namespace')).toThrow('レベル1のネームスペース名が空です');
+        expect(() => encodeNamespace('  .namespace')).toThrow('Level 1 namespace name is empty');
       });
 
       it('should throw error for namespace ending with dot after trim', () => {
-        expect(() => encodeNamespace('namespace.  ')).toThrow('レベル2のネームスペース名が空です');
+        expect(() => encodeNamespace('namespace.  ')).toThrow('Level 2 namespace name is empty');
       });
     });
   });

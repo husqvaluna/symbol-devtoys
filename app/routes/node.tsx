@@ -2,8 +2,8 @@ import { useTranslation } from "react-i18next";
 
 export function meta() {
   return [
-    { title: "ノード - Symbol DevToys" },
-    { name: "description", content: "ノードホストURLからノード情報を取得します。" },
+    { title: "Node - Symbol DevToys" },
+    { name: "description", content: "Retrieve node information from a node host URL." },
   ];
 }
 

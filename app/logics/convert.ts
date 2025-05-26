@@ -1,59 +1,59 @@
 import { SymbolFacade, Network, generateNamespaceId } from "symbol-sdk/symbol";
 
 /**
- * ネームスペース名をエンコードしてネームスペースIDを生成します
+ * Encodes namespace name to generate namespace ID
  *
- * @param value - ネームスペース名（最大64文字、a-z, 0-9, _, - のみ使用可能）
- * @param networkType - ネットワークタイプ（デフォルト: TESTNET）
- * @returns ネームスペースID
- * @throws Error 不正な入力値の場合
+ * @param value - Namespace name (max 64 characters, only a-z, 0-9, _, - allowed)
+ * @param networkType - Network type (default: TESTNET)
+ * @returns Namespace ID
+ * @throws Error for invalid input values
  */
 export const encodeNamespace = (value: string): bigint => {
   const normalizedValue = value.trim().toLowerCase();
 
   if (!normalizedValue) {
-    throw new Error('ネームスペース名が空です');
+    throw new Error('Namespace name is empty');
   }
 
   if (normalizedValue.length > 64) {
-    throw new Error('ネームスペース名は64文字以下である必要があります');
+    throw new Error('Namespace name must be 64 characters or less');
   }
 
   if (!/^[a-z0-9_.-]+$/.test(normalizedValue)) {
-    throw new Error('ネームスペース名には a-z, 0-9, _, - のみ使用できます');
+    throw new Error('Namespace name can only use a-z, 0-9, _, -');
   }
 
   const parts = normalizedValue.split('.');
 
-  // レベル数のチェック（最大3レベル）
+  // Check number of levels (maximum 3 levels)
   if (parts.length > 3) {
-    throw new Error('ネームスペースは最大3レベルまでです');
+    throw new Error('Namespace can have maximum 3 levels');
   }
 
-  // 各レベルの名前が空でないことをチェック
+  // Check that each level name is not empty
   for (let i = 0; i < parts.length; i++) {
     if (!parts[i]) {
-      throw new Error(`レベル${i + 1}のネームスペース名が空です`);
+      throw new Error(`Level ${i + 1} namespace name is empty`);
     }
   }
 
   const [root, sub1, sub2] = parts;
 
-  // ルートネームスペースIDを生成
+  // Generate root namespace ID
   const rootId = generateNamespaceId(root);
 
   if (sub1 == null) {
     return rootId;
   }
 
-  // サブネームスペース1のIDを生成
+  // Generate sub-namespace 1 ID
   const sub1Id = generateNamespaceId(sub1, rootId);
 
   if (sub2 == null) {
     return sub1Id;
   }
 
-  // サブネームスペース2のIDを生成
+  // Generate sub-namespace 2 ID
   const sub2Id = generateNamespaceId(sub2, sub1Id);
 
   return sub2Id;

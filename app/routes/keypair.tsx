@@ -2,8 +2,8 @@ import { useTranslation } from "react-i18next";
 
 export function meta() {
   return [
-    { title: "キーペア - Symbol DevToys" },
-    { name: "description", content: "新しいキーペアを生成し、秘密鍵から公開鍵とアドレスを導出します。" },
+    { title: "Keypair - Symbol DevToys" },
+    { name: "description", content: "Generate new keypairs and derive public keys and addresses from private keys." },
   ];
 }
 

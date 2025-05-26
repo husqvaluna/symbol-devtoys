@@ -2,8 +2,8 @@ import { useTranslation } from "react-i18next";
 
 export function meta() {
   return [
-    { title: "アカウント - Symbol DevToys" },
-    { name: "description", content: "アドレスでネットワークに問い合わせて、アカウント情報を取得します。" },
+    { title: "Account - Symbol DevToys" },
+    { name: "description", content: "Query the network with an address to retrieve account information." },
   ];
 }
 

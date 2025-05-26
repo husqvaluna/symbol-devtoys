@@ -6,8 +6,8 @@ import { Label } from "~/components/ui/label";
 
 export function meta() {
   return [
-    { title: "コンバータ - Symbol DevToys" },
-    { name: "description", content: "様々な値を相互変換します。" },
+    { title: "Converter - Symbol DevToys" },
+    { name: "description", content: "Convert various values to each other." },
   ];
 }
 
@@ -18,7 +18,7 @@ export default function Converter() {
   const [networkTime, setNetworkTime] = useState("");
   const [dateTimeString, setDateTimeString] = useState("");
 
-  // 16進数文字列エンデコの状態
+  // Hex string encode/decode state
   const [hexString, setHexString] = useState("");
   const [utf8String, setUtf8String] = useState("");
 
@@ -89,7 +89,7 @@ export default function Converter() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="datetime-string">ISO8601日時文字列</Label>
+                <Label htmlFor="datetime-string">ISO8601 DateTime String</Label>
                 <Input
                   id="datetime-string"
                   type="text"
@@ -102,12 +102,12 @@ export default function Converter() {
           </CardContent>
         </Card>
 
-        {/* 16進数文字列のエンデコ */}
+        {/* Hex string encode/decode */}
         <Card>
           <CardHeader>
-            <CardTitle>16進数文字列のエンデコ</CardTitle>
+            <CardTitle>Hex String Encode/Decode</CardTitle>
             <CardDescription>
-              16進数メッセージをリーダブルな文字列へ相互変換します
+              Convert hex messages to readable strings and vice versa
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -123,7 +123,7 @@ export default function Converter() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="utf8-string">UTF-8文字列</Label>
+                <Label htmlFor="utf8-string">UTF-8 String</Label>
                 <Input
                   id="utf8-string"
                   type="text"
@@ -141,7 +141,7 @@ export default function Converter() {
           <CardHeader>
             <CardTitle>アドレスのエンデコ</CardTitle>
             <CardDescription>
-              16進数アドレスをアカウントアドレスへ相互変換します
+              Convert hex addresses to account addresses and vice versa
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -157,7 +157,7 @@ export default function Converter() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="account-address">アカウントアドレス</Label>
+                <Label htmlFor="account-address">Account Address</Label>
                 <Input
                   id="account-address"
                   type="text"

@@ -216,7 +216,7 @@ export default function Settings() {
 
         <Separator />
 
-        {/* エディター設定 */}
+        {/* Editor settings */}
         <div className="space-y-2">
           <div className="flex items-center">
             <h2 className="text-sm font-bold text-gray-900 dark:text-gray-100">
@@ -224,7 +224,7 @@ export default function Settings() {
             </h2>
           </div>
 
-          {/* テキストエディター */}
+          {/* Text editor */}
           <Card className="rounded-md py-4 w-[650px]">
             <CardContent>
               <div className="flex items-center space-x-4">

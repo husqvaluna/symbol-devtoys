@@ -116,13 +116,13 @@ export function AppSidebar() {
   const location = useLocation()
   const menuItems = getMenuItems(t)
 
-  // 現在のパスがメニュー項目のURLと一致するかチェックする関数
+  // Function to check if current path matches menu item URL
   const isActiveRoute = (url: string) => {
     if (url === "/") {
       // ホームページの場合は完全一致
       return location.pathname === "/"
     }
-    // その他のページの場合はパスが一致するかチェック
+    // For other pages, check if path matches
     return location.pathname === url || location.pathname.startsWith(url + "/")
   }
 

@@ -12,6 +12,7 @@
     "network": "Network",
     "payload": "Payload",
     "fee": "Fee Calculator",
+    "converter": "Converter",
     "settings": "Settings"
   },
   "home": {

@@ -134,7 +134,7 @@ body {
   }
 }
 
-/* サイドバーのスクロールバーカスタムスタイル */
+/* Custom scrollbar styles for sidebar */
 [data-sidebar="content"]::-webkit-scrollbar {
   width: 2px;
 }
@@ -152,7 +152,7 @@ body {
   background: hsl(var(--sidebar-foreground) / 0.2);
 }
 
-/* Firefox用のスクロールバースタイル */
+/* Scrollbar styles for Firefox */
 [data-sidebar="content"] {
   scrollbar-width: thin;
   scrollbar-color: hsl(var(--sidebar-border)) transparent;

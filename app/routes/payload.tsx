@@ -2,8 +2,8 @@ import { useTranslation } from "react-i18next";
 
 export function meta() {
   return [
-    { title: "ペイロード - Symbol DevToys" },
-    { name: "description", content: "ペイロード16進数文字列をデコードして、トランザクションの内容を表現します。" },
+    { title: "Payload - Symbol DevToys" },
+    { name: "description", content: "Decode payload hexadecimal strings to represent transaction content." },
   ];
 }
 

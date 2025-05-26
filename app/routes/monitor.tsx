@@ -2,8 +2,8 @@ import { useTranslation } from "react-i18next";
 
 export function meta() {
   return [
-    { title: "モニター - Symbol DevToys" },
-    { name: "description", content: "Symbolネットワークの監視機能を提供します。" },
+    { title: "Monitor - Symbol DevToys" },
+    { name: "description", content: "Provides monitoring functionality for the Symbol network." },
   ];
 }
 

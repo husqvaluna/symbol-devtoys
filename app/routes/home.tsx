@@ -2,8 +2,8 @@ import { useTranslation } from "react-i18next";
 import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {
-  // Note: meta関数内ではuseTranslationが使用できないため、
-  // 実際のプロジェクトではloaderでi18nインスタンスを使用することを推奨
+  // Note: useTranslation cannot be used within meta function,
+  // it is recommended to use i18n instance in loader for actual projects
   return [
     { title: "Symbol DevToys - ホーム" },
     { name: "description", content: "Symbol DevToys のホームページ" },

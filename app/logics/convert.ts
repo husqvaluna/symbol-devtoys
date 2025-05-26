@@ -1,4 +1,4 @@
-import { SymbolFacade, Network, generateNamespaceId } from "symbol-sdk/symbol";
+import { generateNamespaceId } from "symbol-sdk/symbol";
 
 /**
  * Encodes namespace name to generate namespace ID

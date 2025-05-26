@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+// import { convertNamespaceToId } from "~/logics/convert";
 
 export function meta() {
   return [
@@ -25,6 +26,10 @@ export default function Converter() {
   // アドレスエンデコの状態
   const [hexAddress, setHexAddress] = useState("");
   const [accountAddress, setAccountAddress] = useState("");
+
+  // ネームスペース変換の状態
+  const [namespaceString, setNamespaceString] = useState("");
+  const [namespaceId, setNamespaceId] = useState("");
 
   // 仮実装：同じ値をそのまま表示
   const handleNetworkTimeChange = (value: string) => {
@@ -55,6 +60,13 @@ export default function Converter() {
   const handleAccountAddressChange = (value: string) => {
     setAccountAddress(value);
     setHexAddress(value); // 仮実装
+  };
+
+  const handleNamespaceStringChange = (value: string) => {
+    setNamespaceString(value);
+    // const convertedId = convertNamespaceToId(value);
+    // setNamespaceId(convertedId);
+    setNamespaceId(value);
   };
 
   return (
@@ -164,6 +176,41 @@ export default function Converter() {
                   placeholder="SBXE4P-QDLEFN-CTXVN2-SPP3JZ-QDA4MJ-ELPFWH-QRKW"
                   value={accountAddress}
                   onChange={(e) => handleAccountAddressChange(e.target.value)}
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Namespace to ID Conversion */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Namespace to ID Conversion</CardTitle>
+            <CardDescription>
+              Convert namespace strings to ID values (one-way conversion only)
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <div className="space-y-2">
+                <Label htmlFor="namespace-string">Namespace String</Label>
+                <Input
+                  id="namespace-string"
+                  type="text"
+                  placeholder="symbol.xym"
+                  value={namespaceString}
+                  onChange={(e) => handleNamespaceStringChange(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="namespace-id">Namespace ID (Read-only)</Label>
+                <Input
+                  id="namespace-id"
+                  type="text"
+                  placeholder="Generated ID will appear here"
+                  value={namespaceId}
+                  readOnly
+                  className="bg-gray-50 dark:bg-gray-800"
                 />
               </div>
             </div>

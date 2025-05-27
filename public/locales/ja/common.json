@@ -153,6 +153,25 @@
         }
       }
     },
+    "nodes": {
+      "title": "ノード設定",
+      "description": "Symbol ネットワークのノードURL設定を管理します",
+      "testnet": {
+        "label": "テストネット",
+        "description": "テストネット用のノードURLを設定してください（1行に1つのURL）"
+      },
+      "mainnet": {
+        "label": "メインネット",
+        "description": "メインネット用のノードURLを設定してください（1行に1つのURL）"
+      },
+      "placeholder": "https://node1.example.com\nhttps://node2.example.com",
+      "save": "保存",
+      "reset": "デフォルトに戻す",
+      "toast": {
+        "saved": "設定を保存しました",
+        "reset": "デフォルト設定に戻しました"
+      }
+    },
     "network": {
       "title": "ネットワーク設定",
       "description": "Symbol ネットワークの接続設定は今後追加予定です。"

@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useToast } from "~/components/ui/toast-provider";
 import type { Route } from "./+types/settings";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { Separator } from "~/components/ui/separator";
 import { Switch } from "~/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
+import { Button } from "~/components/ui/button";
+import { Textarea } from "~/components/ui/textarea";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "~/components/ui/tabs";
 import { LanguageSwitcher } from "~/components/language-switcher";
+import { getNodeSettings, saveNodeSettings, parseNodeUrls, formatNodeUrls, type NodeSettings } from "~/lib/node-settings";
 import {
   Globe,
   Palette,
@@ -16,7 +21,10 @@ import {
   Zap,
   FileText,
   ExternalLink,
-  Settings as SettingsIcon
+  Settings as SettingsIcon,
+  Server,
+  Save,
+  RotateCcw
 } from "lucide-react";
 
 export function meta({}: Route.MetaArgs) {
@@ -28,6 +36,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Settings() {
   const { t } = useTranslation();
+  const { addToast } = useToast();
 
   // 設定状態の管理
   const [theme, setTheme] = useState("system");
@@ -37,6 +46,66 @@ export default function Settings() {
   const [smartDetection, setSmartDetection] = useState(true);
   const [smartDetectionMode, setSmartDetectionMode] = useState("auto");
   const [textEditor, setTextEditor] = useState("monaco");
+
+  // ノード設定の状態管理
+  const [nodeSettings, setNodeSettings] = useState<NodeSettings>({ testnet: [], mainnet: [] });
+  const [activeNetworkTab, setActiveNetworkTab] = useState("testnet");
+  const [testnetUrls, setTestnetUrls] = useState("");
+  const [mainnetUrls, setMainnetUrls] = useState("");
+
+  // ノード設定の初期化
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const settings = getNodeSettings();
+      setNodeSettings(settings);
+      setTestnetUrls(formatNodeUrls(settings.testnet));
+      setMainnetUrls(formatNodeUrls(settings.mainnet));
+    }
+  }, []);
+
+  // ノード設定の保存
+  const handleSaveNodeSettings = () => {
+    const newSettings: NodeSettings = {
+      testnet: parseNodeUrls(testnetUrls),
+      mainnet: parseNodeUrls(mainnetUrls),
+    };
+    setNodeSettings(newSettings);
+    saveNodeSettings(newSettings);
+
+    // Toastメッセージを表示
+    addToast({
+      title: t("settings.nodes.toast.saved"),
+      variant: "success",
+      duration: 3000
+    });
+  };
+
+  // ノード設定のリセット
+  const handleResetNodeSettings = () => {
+    const defaultSettings = {
+      testnet: [
+        'https://sym-test-01.opening-line.jp:3001',
+        'https://sym-test-02.opening-line.jp:3001',
+        'https://sym-test-03.opening-line.jp:3001'
+      ],
+      mainnet: [
+        'https://sym-main-01.opening-line.jp:3001',
+        'https://sym-main-02.opening-line.jp:3001',
+        'https://sym-main-03.opening-line.jp:3001'
+      ]
+    };
+    setNodeSettings(defaultSettings);
+    setTestnetUrls(formatNodeUrls(defaultSettings.testnet));
+    setMainnetUrls(formatNodeUrls(defaultSettings.mainnet));
+    saveNodeSettings(defaultSettings);
+
+    // Toastメッセージを表示
+    addToast({
+      title: t("settings.nodes.toast.reset"),
+      variant: "success",
+      duration: 3000
+    });
+  };
 
   return (
     <div className="p-4">
@@ -248,6 +317,98 @@ export default function Settings() {
                       <SelectItem value="textarea">{t("settings.editor.textEditor.options.textarea")}</SelectItem>
                     </SelectContent>
                   </Select>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Separator />
+
+        {/* ノード設定 */}
+        <div className="space-y-2">
+          <div className="flex items-center">
+            <h2 className="text-sm font-bold text-gray-900 dark:text-gray-100">
+              {t("settings.nodes.title")}
+            </h2>
+          </div>
+
+          <Card className="rounded-md py-4 w-[650px]">
+            <CardContent>
+              <div className="flex items-start space-x-4">
+                <Server className="h-4 w-4 flex-shrink-0 mt-1" />
+                <div className="flex-1 space-y-4">
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium leading-none">
+                      {t("settings.nodes.title")}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {t("settings.nodes.description")}
+                    </p>
+                  </div>
+
+                  <Tabs value={activeNetworkTab} onValueChange={setActiveNetworkTab}>
+                    <TabsList className="grid w-full grid-cols-2">
+                      <TabsTrigger value="testnet">{t("settings.nodes.testnet.label")}</TabsTrigger>
+                      <TabsTrigger value="mainnet">{t("settings.nodes.mainnet.label")}</TabsTrigger>
+                    </TabsList>
+
+                    <TabsContent value="testnet" className="space-y-3">
+                      <div className="space-y-2">
+                        <Label htmlFor="testnet-urls" className="text-sm font-medium">
+                          {t("settings.nodes.testnet.label")}
+                        </Label>
+                        <p className="text-xs text-muted-foreground">
+                          {t("settings.nodes.testnet.description")}
+                        </p>
+                        <Textarea
+                          id="testnet-urls"
+                          placeholder={t("settings.nodes.placeholder")}
+                          value={testnetUrls}
+                          onChange={(e) => setTestnetUrls(e.target.value)}
+                          className="min-h-[120px] font-mono text-sm"
+                        />
+                      </div>
+                    </TabsContent>
+
+                    <TabsContent value="mainnet" className="space-y-3">
+                      <div className="space-y-2">
+                        <Label htmlFor="mainnet-urls" className="text-sm font-medium">
+                          {t("settings.nodes.mainnet.label")}
+                        </Label>
+                        <p className="text-xs text-muted-foreground">
+                          {t("settings.nodes.mainnet.description")}
+                        </p>
+                        <Textarea
+                          id="mainnet-urls"
+                          placeholder={t("settings.nodes.placeholder")}
+                          value={mainnetUrls}
+                          onChange={(e) => setMainnetUrls(e.target.value)}
+                          className="min-h-[120px] font-mono text-sm"
+                        />
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+
+                  <div className="flex gap-2 pt-2">
+                    <Button
+                      onClick={handleSaveNodeSettings}
+                      size="sm"
+                      className="flex items-center gap-2"
+                    >
+                      <Save className="h-4 w-4" />
+                      {t("settings.nodes.save")}
+                    </Button>
+                    <Button
+                      onClick={handleResetNodeSettings}
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center gap-2"
+                    >
+                      <RotateCcw className="h-4 w-4" />
+                      {t("settings.nodes.reset")}
+                    </Button>
+                  </div>
                 </div>
               </div>
             </CardContent>

@@ -157,3 +157,72 @@ body {
   scrollbar-width: thin;
   scrollbar-color: hsl(var(--sidebar-border)) transparent;
 }
+
+/* Toast animations */
+@keyframes toast-slide-in-from-top {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-slide-in-from-bottom {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-slide-out-to-right {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes toast-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.animate-in {
+  animation-duration: 0.2s;
+  animation-fill-mode: both;
+}
+
+.animate-out {
+  animation-duration: 0.2s;
+  animation-fill-mode: both;
+}
+
+.slide-in-from-top-full {
+  animation-name: toast-slide-in-from-top;
+}
+
+.slide-in-from-bottom-full {
+  animation-name: toast-slide-in-from-bottom;
+}
+
+.slide-out-to-right-full {
+  animation-name: toast-slide-out-to-right;
+}
+
+.fade-out-80 {
+  animation-name: toast-fade-out;
+}

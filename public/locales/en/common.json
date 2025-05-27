@@ -153,6 +153,25 @@
         }
       }
     },
+    "nodes": {
+      "title": "Node Settings",
+      "description": "Manage Symbol network node URL settings",
+      "testnet": {
+        "label": "Testnet",
+        "description": "Configure node URLs for testnet (one URL per line)"
+      },
+      "mainnet": {
+        "label": "Mainnet",
+        "description": "Configure node URLs for mainnet (one URL per line)"
+      },
+      "placeholder": "https://node1.example.com\nhttps://node2.example.com",
+      "save": "Save",
+      "reset": "Reset to Default",
+      "toast": {
+        "saved": "Settings have been saved",
+        "reset": "Settings have been reset to default"
+      }
+    },
     "network": {
       "title": "Network Settings",
       "description": "Symbol network connection settings will be added in the future."

@@ -14,6 +14,7 @@ import "./i18n";
 
 import { SidebarProvider } from "~/components/ui/sidebar"
 import { AppSidebar } from "~/components/app-sidebar"
+import { ToastProvider } from "~/components/ui/toast-provider"
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -30,12 +31,14 @@ export const links: Route.LinksFunction = () => [
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <main>
-        {children}
-      </main>
-    </SidebarProvider>
+    <ToastProvider>
+      <SidebarProvider>
+        <AppSidebar />
+        <main>
+          {children}
+        </main>
+      </SidebarProvider>
+    </ToastProvider>
   )
 }
 

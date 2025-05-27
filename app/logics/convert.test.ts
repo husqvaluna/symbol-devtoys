@@ -1,5 +1,89 @@
 import { describe, it, expect } from 'vitest';
-import { encodeNamespace, convertNamespaceToId } from './convert';
+import { Address, Network } from 'symbol-sdk/symbol';
+import { encodeNamespace,
+  datetimeStringToNetworkTimestamp,
+  networkTimestampToDatetimeString,
+  encodeAddress,
+  decodeAddress,
+  fromHexToUTF8,
+  fromUTF8ToHex
+} from './convert';
+
+describe('datetimeStringToNetworkTimestamp', () => {
+  describe('Valid cases', () => {
+    it('should return correct timestamp on TESTNET', () => {
+      const result = datetimeStringToNetworkTimestamp('2022-10-31T21:07:47Z');
+      expect(result.timestamp).toBe(0n);
+    });
+
+    it('should return correct timestamp on MAINNET', () => {
+      const result = datetimeStringToNetworkTimestamp('2021-03-16T00:06:25Z', Network.MAINNET);
+      expect(result.timestamp).toBe(0n);
+    });
+  })
+});
+
+describe('networkTimestampToDatetimeString', () => {
+  describe('Valid cases', () => {
+    it('should return correct timestamp on TESTNET', () => {
+      const result = networkTimestampToDatetimeString(0n);
+      expect(result).toEqual(Network.TESTNET.datetimeConverter.epoch);
+    });
+
+    it('should return correct timestamp on MAINNET', () => {
+      const result = networkTimestampToDatetimeString(0n, Network.MAINNET);
+      expect(result).toEqual(Network.MAINNET.datetimeConverter.epoch);
+    });
+  })
+});
+
+describe('encodeAddress', () => {
+  describe('Valid cases', () => {
+    it('should return correct address on TESTNET', () => {
+      const result = encodeAddress("98223AF34A98119217DC2427C6DE7F577A33D8242A2F54C3");
+      expect(result.toString()).toBe("TARDV42KTAIZEF64EQT4NXT7K55DHWBEFIXVJQY");
+    });
+
+    it('should return correct address on MAINNET', () => {
+      const result = encodeAddress("688E494F708C25C4E4CE77B933FDA54E81EDE01F9BD9D7DD");
+      expect(result.toString()).toBe("NCHEST3QRQS4JZGOO64TH7NFJ2A63YA7TPM5PXI");
+    });
+  })
+});
+
+describe('decodeAddress', () => {
+  describe('Valid cases', () => {
+    it('should return correct raw address on TESTNET', () => {
+      const address = new Address("TARDV42KTAIZEF64EQT4NXT7K55DHWBEFIXVJQY")
+      const result = decodeAddress(address);
+      expect(result).toBe("98223AF34A98119217DC2427C6DE7F577A33D8242A2F54C3");
+    });
+
+    it('should return correct raw address on MAINNET', () => {
+      const address = new Address("NCHEST3QRQS4JZGOO64TH7NFJ2A63YA7TPM5PXI")
+      const result = decodeAddress(address);
+      expect(result).toBe("688E494F708C25C4E4CE77B933FDA54E81EDE01F9BD9D7DD");
+    });
+  })
+});
+
+describe('fromUTF8ToHex', () => {
+  describe('Valid cases', () => {
+    it('should return correct hex string', () => {
+      const result = fromUTF8ToHex("GOOD LUCK!");
+      expect(result).toBe("474F4F44204C55434B21");
+    });
+  })
+});
+
+describe('fromHexToUTF8', () => {
+  describe('Valid cases', () => {
+    it('should return correct string', () => {
+      const result = fromHexToUTF8("474F4F44204C55434B21");
+      expect(result).toBe("GOOD LUCK!");
+    });
+  })
+});
 
 describe('encodeNamespace', () => {
   describe('Valid cases', () => {
@@ -157,121 +241,6 @@ describe('encodeNamespace', () => {
 
       it('should throw error for namespace ending with dot after trim', () => {
         expect(() => encodeNamespace('namespace.  ')).toThrow('Level 2 namespace name is empty');
-      });
-    });
-  });
-
-  describe('convertNamespaceToId', () => {
-    describe('Valid namespace conversions', () => {
-      it('should convert root namespace to ID string', () => {
-        const result = convertNamespaceToId('test');
-        expect(result).toBe('15276497235419185774');
-      });
-
-      it('should convert sub-namespace to ID string', () => {
-        const result = convertNamespaceToId('test.sub');
-        expect(result).toBe('16257221637874783385');
-      });
-
-      it('should convert multi-level namespace to ID string', () => {
-        const result = convertNamespaceToId('test.sub1.sub2');
-        expect(result).toBe('12528015024162528018');
-      });
-
-      it('should handle uppercase letters by converting to lowercase', () => {
-        const result = convertNamespaceToId('TEST.SUB');
-        expect(result).toBe(convertNamespaceToId('test.sub'));
-      });
-
-      it('should handle mixed case namespace names', () => {
-        const result = convertNamespaceToId('Symbol.Xym');
-        expect(result).toBe(convertNamespaceToId('symbol.xym'));
-      });
-
-      it('should return consistent results for same input', () => {
-        const result1 = convertNamespaceToId('symbol.xym');
-        const result2 = convertNamespaceToId('symbol.xym');
-        expect(result1).toBe(result2);
-        expect(result1).not.toBe('');
-      });
-    });
-
-    describe('Invalid input handling (should return empty string)', () => {
-      it('should return empty string for empty namespace', () => {
-        const result = convertNamespaceToId('');
-        expect(result).toBe('');
-      });
-
-      it('should return empty string for whitespace only', () => {
-        const result = convertNamespaceToId('   ');
-        expect(result).toBe('');
-      });
-
-      it('should return empty string for namespace longer than 64 characters', () => {
-        const longNamespace = 'a'.repeat(65);
-        const result = convertNamespaceToId(longNamespace);
-        expect(result).toBe('');
-      });
-
-      it('should return empty string for invalid characters', () => {
-        const result = convertNamespaceToId('test@namespace');
-        expect(result).toBe('');
-      });
-
-      it('should return empty string for spaces in namespace', () => {
-        const result = convertNamespaceToId('test namespace');
-        expect(result).toBe('');
-      });
-
-      it('should return empty string for Japanese characters', () => {
-        const result = convertNamespaceToId('テスト');
-        expect(result).toBe('');
-      });
-
-      it('should return empty string for special symbols', () => {
-        expect(convertNamespaceToId('test#namespace')).toBe('');
-        expect(convertNamespaceToId('test$namespace')).toBe('');
-        expect(convertNamespaceToId('test%namespace')).toBe('');
-      });
-
-      it('should return empty string for more than 3 levels', () => {
-        const result = convertNamespaceToId('level1.level2.level3.level4');
-        expect(result).toBe('');
-      });
-
-      it('should return empty string for empty levels', () => {
-        expect(convertNamespaceToId('.sub')).toBe('');
-        expect(convertNamespaceToId('root.')).toBe('');
-        expect(convertNamespaceToId('root..sub')).toBe('');
-      });
-    });
-
-    describe('Edge cases', () => {
-      it('should return empty string for only dots', () => {
-        const result = convertNamespaceToId('...');
-        expect(result).toBe('');
-      });
-
-      it('should handle valid namespace with underscores and hyphens', () => {
-        const result = convertNamespaceToId('test_namespace-name');
-        expect(result).not.toBe('');
-        expect(typeof result).toBe('string');
-      });
-
-      it('should handle valid namespace with numbers', () => {
-        const result = convertNamespaceToId('test123.sub456');
-        expect(result).not.toBe('');
-        expect(typeof result).toBe('string');
-      });
-
-      it('should return empty string for namespace starting with dot after trim', () => {
-        const result = convertNamespaceToId('  .namespace');
-        expect(result).toBe('');
-      });
-
-      it('should return empty string for namespace ending with dot after trim', () => {
-        const result = convertNamespaceToId('namespace.  ');
-        expect(result).toBe('');
       });
     });
   });

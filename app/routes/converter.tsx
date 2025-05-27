@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Address } from "symbol-sdk/symbol";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { convertNamespaceToId } from "~/logics/convert";
+import { datetimeStringToNetworkTimestamp, decodeAddress, encodeAddress, encodeNamespace, fromHexToUTF8, fromUTF8ToHex, networkTimestampToDatetimeString } from "~/logics/convert";
 
 export function meta() {
   return [
@@ -16,7 +17,7 @@ export default function Converter() {
   const { t } = useTranslation();
 
   // ネットワーク時間変換の状態
-  const [networkTime, setNetworkTime] = useState("");
+  const [NetworkTimestamp, setNetworkTimestamp] = useState("");
   const [dateTimeString, setDateTimeString] = useState("");
 
   // Hex string encode/decode state
@@ -32,40 +33,40 @@ export default function Converter() {
   const [namespaceId, setNamespaceId] = useState("");
 
   // 仮実装：同じ値をそのまま表示
-  const handleNetworkTimeChange = (value: string) => {
-    setNetworkTime(value);
-    setDateTimeString(value); // 仮実装
+  const handleNetworkTimestampChange = (value: string) => {
+    setNetworkTimestamp(value);
+    setDateTimeString(networkTimestampToDatetimeString(BigInt(value)).toISOString());
   };
 
   const handleDateTimeStringChange = (value: string) => {
     setDateTimeString(value);
-    setNetworkTime(value); // 仮実装
+    setNetworkTimestamp(datetimeStringToNetworkTimestamp(value).toString());
   };
 
   const handleHexStringChange = (value: string) => {
     setHexString(value);
-    setUtf8String(value); // 仮実装
+    setUtf8String(fromHexToUTF8(value));
   };
 
   const handleUtf8StringChange = (value: string) => {
     setUtf8String(value);
-    setHexString(value); // 仮実装
+    setHexString(fromUTF8ToHex(value));
   };
 
   const handleHexAddressChange = (value: string) => {
     setHexAddress(value);
-    setAccountAddress(value); // 仮実装
+    setAccountAddress(encodeAddress(value).toString());
   };
 
   const handleAccountAddressChange = (value: string) => {
     setAccountAddress(value);
-    setHexAddress(value); // 仮実装
+    setHexAddress(decodeAddress(Address.fromDecodedAddressHexString(value)));
   };
 
   const handleNamespaceStringChange = (value: string) => {
     setNamespaceString(value);
-    const convertedId = convertNamespaceToId(value);
-    setNamespaceId(convertedId);
+    const namespaceId = encodeNamespace(value);
+    setNamespaceId(namespaceId.toString());
   };
 
   return (
@@ -95,8 +96,8 @@ export default function Converter() {
                   id="network-time"
                   type="text"
                   placeholder="110097499"
-                  value={networkTime}
-                  onChange={(e) => handleNetworkTimeChange(e.target.value)}
+                  value={NetworkTimestamp}
+                  onChange={(e) => handleNetworkTimestampChange(e.target.value)}
                 />
               </div>
               <div className="space-y-2">

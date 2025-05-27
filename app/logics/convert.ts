@@ -1,4 +1,32 @@
-import { generateNamespaceId } from "symbol-sdk/symbol";
+import { Address, generateNamespaceId, Network, NetworkTimestamp } from "symbol-sdk/symbol";
+import { utils } from "symbol-sdk";
+
+export const datetimeStringToNetworkTimestamp = (input: string, network: Network = Network.TESTNET): NetworkTimestamp => {
+  return network.fromDatetime(new Date(input))
+}
+
+export const networkTimestampToDatetimeString = (input: bigint, network: Network = Network.TESTNET): Date => {
+  return network.datetimeConverter.toDatetime(Number(input))
+}
+
+export const encodeAddress = (value: string): Address => {
+  return Address.fromDecodedAddressHexString(value);
+}
+
+export const decodeAddress = (value: Address): string => {
+  return utils.uint8ToHex(value.bytes)
+}
+
+export const fromUTF8ToHex = (value: string) => {
+  return utils.uint8ToHex(new TextEncoder().encode(value))
+}
+
+export const fromHexToUTF8 = (value: string) => {
+  return new TextDecoder().decode(utils.hexToUint8(value))
+}
+
+
+
 
 /**
  * Encodes namespace name to generate namespace ID
@@ -57,23 +85,6 @@ export const encodeNamespace = (value: string): bigint => {
   const sub2Id = generateNamespaceId(sub2, sub1Id);
 
   return sub2Id;
-}
-
-/**
- * Convert namespace string to ID value using encodeNamespace function
- * This is a one-way conversion only (namespace string → ID value)
- *
- * @param value - Namespace string to convert
- * @returns Namespace ID as string, or empty string if conversion fails
- */
-export const convertNamespaceToId = (value: string): string => {
-  try {
-    const namespaceId = encodeNamespace(value);
-    return namespaceId.toString();
-  } catch (error) {
-    // Return empty string instead of throwing exception for invalid input
-    return "";
-  }
 }
 
 // export const convertHexToNum = (value: string) => {
@@ -169,33 +180,8 @@ export const convertNamespaceToId = (value: string): string => {
 //     return /[0-9a-fA-F]{16}/.test(value) ? value : ""
 //   }
 // }
-//
-// export const encodeRawToHex = (value: string) => {
-//   return Convert.utf8ToHex(value)
-// }
-//
-// export const decodeHexToRaw = (value: string) => {
-//   if(! /^([0-9a-fA-F][0-9a-fA-F])+$/.test(value)) return ""
-//   return Buffer.from(value, "hex").toString("utf8")
-// }
-//
-// export const encodeAddress = (value: string) => {
-//   try {
-//     return RawAddress.addressToString(Convert.hexToUint8(value))
-//   } catch(error) {
-//     return ""
-//   }
-// }
-//
-// export const decodeAddress = (value: string) => {
-//   try {
-//     const plain = Address.createFromRawAddress(value).plain()
-//     return Convert.uint8ToHex(RawAddress.stringToAddress(plain))
-//   } catch(error) {
-//     return ""
-//   }
-// }
-//
+
+
 // export const hashBySha3 = (input: string) => {
 //   return sha3_256(input)
 // }

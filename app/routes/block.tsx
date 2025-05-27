@@ -1,4 +1,11 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
+import { Button } from "~/components/ui/button";
+import { Textarea } from "~/components/ui/textarea";
+import { useNodeSettings } from "~/hooks/use-node-settings";
 
 export function meta() {
   return [
@@ -7,16 +14,148 @@ export function meta() {
   ];
 }
 
+interface BlockInfo {
+  [key: string]: any;
+}
+
 export default function Block() {
   const { t } = useTranslation();
+  const { getRandomNodeUrl } = useNodeSettings();
+
+  const [identifier, setIdentifier] = useState("");
+  const [result, setResult] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // 入力値の検証
+  const validateIdentifier = (value: string): boolean => {
+    if (!value.trim()) return false;
+
+    // ブロック番号（数値）の場合
+    if (/^\d+$/.test(value)) {
+      return true;
+    }
+
+    // ブロックハッシュ（64文字の16進数）の場合
+    if (/^[0-9A-Fa-f]{64}$/.test(value)) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const fetchBlockInfo = async () => {
+    if (!validateIdentifier(identifier)) {
+      setError("ブロック番号（数値）またはブロックハッシュ（64文字の16進数）を入力してください。");
+      return;
+    }
+
+    setIsLoading(true);
+    setError("");
+    setResult("");
+
+    try {
+      // testnetのランダムなノードURLを取得
+      const nodeUrl = getRandomNodeUrl('testnet');
+      if (!nodeUrl) {
+        throw new Error("利用可能なノードが見つかりません。設定を確認してください。");
+      }
+
+      const apiUrl = `${nodeUrl}/blocks/${identifier}`;
+      const response = await fetch(apiUrl);
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error("指定されたブロックが見つかりません。");
+        } else if (response.status >= 500) {
+          throw new Error("サーバーエラーが発生しました。しばらく時間をおいて再試行してください。");
+        } else {
+          throw new Error(`HTTPエラー: ${response.status} ${response.statusText}`);
+        }
+      }
+
+      const blockInfo: BlockInfo = await response.json();
+      setResult(JSON.stringify(blockInfo, null, 2));
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("ネットワークエラーが発生しました。接続を確認してください。");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    fetchBlockInfo();
+  };
 
   return (
     <div className="p-4">
-      <div className="space-y-2">
-        <div className="flex items-center">
-          <h1 className="font-bold text-gray-900 dark:text-gray-100">{t("block.title")}</h1>
+      <div className="space-y-6">
+        {/* ヘッダー */}
+        <div className="space-y-2">
+          <div className="flex items-center">
+            <h1 className="font-bold text-gray-900 dark:text-gray-100">{t("block.title")}</h1>
+          </div>
+          <p className="text-xs text-gray-600 dark:text-gray-400">{t("block.subtitle")}</p>
         </div>
-        <p className="text-xs text-gray-600 dark:text-gray-400">{t("block.subtitle")}</p>
+
+        {/* ブロック情報取得 */}
+        <Card className="rounded-md py-4 w-full">
+          <CardHeader>
+            <CardTitle>ブロック情報取得</CardTitle>
+            <CardDescription>
+              ブロック番号またはブロックハッシュを入力して、ネットワークからブロック情報を取得します
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="block-identifier">ブロック番号またはブロックハッシュ</Label>
+                <Input
+                  id="block-identifier"
+                  type="text"
+                  placeholder="例: 123456 または 1A2B3C4D5E6F7890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890"
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
+                  disabled={isLoading}
+                />
+              </div>
+
+              <Button
+                type="submit"
+                disabled={isLoading || !identifier.trim()}
+                className="w-full md:w-auto"
+              >
+                {isLoading ? "取得中..." : "取得"}
+              </Button>
+            </form>
+
+            {/* エラー表示 */}
+            {error && (
+              <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
+                <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+              </div>
+            )}
+
+            {/* 結果表示 */}
+            {result && (
+              <div className="mt-4 space-y-2">
+                <Label htmlFor="block-result">ブロック情報（JSON）</Label>
+                <Textarea
+                  id="block-result"
+                  value={result}
+                  readOnly
+                  className="min-h-[400px] font-mono text-sm bg-gray-50 dark:bg-gray-800"
+                  placeholder="ブロック情報がここに表示されます"
+                />
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

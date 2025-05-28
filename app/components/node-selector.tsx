@@ -14,7 +14,7 @@ export function NodeSelector({ className, size = "default", layout = "horizontal
 
   const selectSize = size === "sm" ? "sm" : "default";
 
-  const containerClasses = cn("flex gap-4", layout === "vertical" ? "flex-col" : "flex-row items-end", className);
+  const containerClasses = cn("flex gap-2", layout === "vertical" ? "flex-col" : "flex-row items-end", className);
 
   const selectClasses = cn(size === "sm" ? "h-8 text-xs" : "h-10", layout === "horizontal" ? "min-w-[120px]" : "w-full");
 

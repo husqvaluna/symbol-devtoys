@@ -11,7 +11,7 @@ export default function SymbolLogo({ size = 16, color = "currentColor" }: Symbol
 
   return (
     <svg
-      enable-background="new 0 0 300 300.5"
+      enableBackground="new 0 0 300 300.5"
       viewBox="0 0 300 300.5"
       xmlns="http://www.w3.org/2000/svg"
       className={`transition-transform duration-300 ease-in-out ${isCollapsed ? "rotate-360" : "rotate-0"}`}

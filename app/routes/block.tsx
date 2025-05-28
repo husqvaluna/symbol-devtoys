@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Form } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
@@ -9,6 +10,7 @@ import { useNetworkSelection } from "~/hooks/use-network-selection";
 import { NodeSelector } from "~/components/node-selector";
 import { SidebarInset } from "~/components/ui/sidebar";
 import { PageHeader } from "~/components/page-header";
+import type { Route } from "./+types/block";
 
 export function meta() {
   return [
@@ -17,11 +19,22 @@ export function meta() {
   ];
 }
 
+export async function clientAction({ request }: Route.ClientActionArgs) {
+  // let formData = await request.formData();
+  // let title = await formData.get("title");
+  // let project = await someApi.updateProject({ title });
+  console.debug("client action");
+  return {
+    hoge: 100,
+  };
+  // return project;
+}
+
 interface BlockInfo {
   [key: string]: any;
 }
 
-export default function Block() {
+export default function Block({ actionData }: Route.ComponentProps) {
   const { t } = useTranslation();
   const { getNodeUrl, selectedNetwork } = useNetworkSelection();
 
@@ -96,66 +109,77 @@ export default function Block() {
 
   return (
     <SidebarInset>
-      <PageHeader title={t("block.title")} subtitle={t("block.subtitle")} />
+      <PageHeader title={t("block.title")} subtitle={t("block.subtitle")}>
+        <NodeSelector />
+      </PageHeader>
 
-      <div className="w-full p-4">
-        <div className="space-y-6">
-          {/* ノード選択 */}
-          <Card className="w-full">
-            <CardContent>
-              <NodeSelector />
-            </CardContent>
-          </Card>
+      <div className="p-4 space-y-4">
+        <Card>
+          <CardHeader>
+            <CardTitle>ブロック情報取得</CardTitle>
+            <CardDescription>
+              ブロック番号またはブロックハッシュを入力して、{selectedNetwork}ネットワークからブロック情報を取得します
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Form>
+              <Label htmlFor="block-identifier">ブロック番号またはブロックハッシュ</Label>
+              <div className="flex w-full space-x-2">
+                <Input
+                  id="block-identifier"
+                  type="text"
+                  placeholder="例: 123456 または 1A2B3C4D5E6F7890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890"
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
+                  disabled={isLoading}
+                />
+                <Button type="submit" disabled={isLoading || !identifier.trim()} className="w-full md:w-auto">
+                  {isLoading ? "取得中..." : "取得"}
+                </Button>
+              </div>
+            </Form>
 
-          {/* ブロック情報取得 */}
-          <Card className="w-full">
-            <CardHeader>
-              <CardTitle>ブロック情報取得</CardTitle>
-              <CardDescription>
-                ブロック番号またはブロックハッシュを入力して、{selectedNetwork}ネットワークからブロック情報を取得します
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <Label htmlFor="block-identifier">ブロック番号またはブロックハッシュ</Label>
-                <div className="flex w-full space-x-2">
-                  <Input
-                    id="block-identifier"
-                    type="text"
-                    placeholder="例: 123456 または 1A2B3C4D5E6F7890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890"
-                    value={identifier}
-                    onChange={(e) => setIdentifier(e.target.value)}
-                    disabled={isLoading}
-                  />
-                  <Button type="submit" disabled={isLoading || !identifier.trim()} className="w-full md:w-auto">
-                    {isLoading ? "取得中..." : "取得"}
-                  </Button>
-                </div>
-              </form>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <Label htmlFor="block-identifier">ブロック番号またはブロックハッシュ</Label>
+              <div className="flex w-full space-x-2">
+                <Input
+                  id="block-identifier"
+                  type="text"
+                  placeholder="例: 123456 または 1A2B3C4D5E6F7890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890"
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
+                  disabled={isLoading}
+                />
+                <Button type="submit" disabled={isLoading || !identifier.trim()} className="w-full md:w-auto">
+                  {isLoading ? "取得中..." : "取得"}
+                </Button>
+              </div>
+            </form>
 
-              {/* エラー表示 */}
-              {error && (
-                <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
-                  <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
-                </div>
-              )}
+            {/* エラー表示 */}
+            {error && (
+              <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
+                <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+              </div>
+            )}
 
-              {/* 結果表示 */}
-              {result && (
-                <div className="mt-4 space-y-2">
-                  <Label htmlFor="block-result">ブロック情報（JSON）</Label>
-                  <Textarea
-                    id="block-result"
-                    value={result}
-                    readOnly
-                    className="min-h-[400px] font-mono text-sm bg-gray-50 dark:bg-gray-800"
-                    placeholder="ブロック情報がここに表示されます"
-                  />
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
+            {actionData?.hoge}
+
+            {/* 結果表示 */}
+            {result && (
+              <div className="mt-4 space-y-2">
+                <Label htmlFor="block-result">ブロック情報（JSON）</Label>
+                <Textarea
+                  id="block-result"
+                  value={result}
+                  readOnly
+                  className="min-h-[400px] font-mono text-sm bg-gray-50 dark:bg-gray-800"
+                  placeholder="ブロック情報がここに表示されます"
+                />
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </SidebarInset>
   );

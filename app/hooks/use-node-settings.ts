@@ -1,45 +1,26 @@
-import { useState, useEffect } from 'react';
-import { getNodeSettings, saveNodeSettings, type NodeSettings } from '~/lib/node-settings';
+import { useAtom } from 'jotai';
+import { nodeSettingsAtom } from '~/atoms/network-atoms';
+import type { NodeSettings } from '~/lib/node-settings';
 
 export function useNodeSettings() {
-  const [settings, setSettings] = useState<NodeSettings>({ testnet: [], mainnet: [] });
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const loadSettings = () => {
-      try {
-        const nodeSettings = getNodeSettings();
-        setSettings(nodeSettings);
-      } catch (error) {
-        console.error('Failed to load node settings:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadSettings();
-  }, []);
+  const [settings, setSettings] = useAtom(nodeSettingsAtom);
 
   const updateSettings = (newSettings: NodeSettings) => {
-    setSettings(newSettings);
-    saveNodeSettings(newSettings);
+    try {
+      setSettings(newSettings);
+    } catch (error) {
+      console.error('Failed to update node settings:', error);
+    }
   };
 
   const getNodeUrls = (network: 'testnet' | 'mainnet'): string[] => {
     return settings[network] || [];
   };
 
-  const getRandomNodeUrl = (network: 'testnet' | 'mainnet'): string | null => {
-    const urls = getNodeUrls(network);
-    if (urls.length === 0) return null;
-    return urls[Math.floor(Math.random() * urls.length)];
-  };
-
   return {
     settings,
-    isLoading,
+    isLoading: false, // jotaiでは初期化が同期的なのでローディング状態は不要
     updateSettings,
     getNodeUrls,
-    getRandomNodeUrl,
   };
 }

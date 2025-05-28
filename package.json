@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "fmt": "biome format --write app/",
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
@@ -36,6 +37,7 @@
     "tailwind-merge": "^3.3.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@react-router/dev": "^7.6.1",

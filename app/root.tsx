@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
 } from "react-router";
 import { useTranslation } from "react-i18next";
+import { Provider } from "jotai";
 
 import type { Route } from "./+types/root";
 import "./app.css";
@@ -31,14 +32,16 @@ export const links: Route.LinksFunction = () => [
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <ToastProvider>
-      <SidebarProvider>
-        <AppSidebar />
-        <main>
-          {children}
-        </main>
-      </SidebarProvider>
-    </ToastProvider>
+    <Provider>
+      <ToastProvider>
+        <SidebarProvider>
+          <AppSidebar />
+          <main>
+            {children}
+          </main>
+        </SidebarProvider>
+      </ToastProvider>
+    </Provider>
   )
 }
 

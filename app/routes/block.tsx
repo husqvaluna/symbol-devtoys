@@ -5,7 +5,8 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
 import { Textarea } from "~/components/ui/textarea";
-import { useNodeSettings } from "~/hooks/use-node-settings";
+import { useNetworkSelection } from "~/hooks/use-network-selection";
+import { NodeSelector } from "~/components/node-selector";
 
 export function meta() {
   return [
@@ -20,7 +21,7 @@ interface BlockInfo {
 
 export default function Block() {
   const { t } = useTranslation();
-  const { getRandomNodeUrl } = useNodeSettings();
+  const { getNodeUrl, selectedNetwork } = useNetworkSelection();
 
   const [identifier, setIdentifier] = useState("");
   const [result, setResult] = useState("");
@@ -55,10 +56,9 @@ export default function Block() {
     setResult("");
 
     try {
-      // testnetのランダムなノードURLを取得
-      const nodeUrl = getRandomNodeUrl('testnet');
+      const nodeUrl = getNodeUrl();
       if (!nodeUrl) {
-        throw new Error("利用可能なノードが見つかりません。設定を確認してください。");
+        throw new Error(`${selectedNetwork}ネットワークの利用可能なノードが見つかりません。設定を確認してください。`);
       }
 
       const apiUrl = `${nodeUrl}/blocks/${identifier}`;
@@ -103,12 +103,19 @@ export default function Block() {
           <p className="text-xs text-gray-600 dark:text-gray-400">{t("block.subtitle")}</p>
         </div>
 
+        {/* ノード選択 */}
+        <Card className="rounded-sm py-4 w-full">
+          <CardContent>
+            <NodeSelector />
+          </CardContent>
+        </Card>
+
         {/* ブロック情報取得 */}
         <Card className="rounded-md py-4 w-full">
           <CardHeader>
             <CardTitle>ブロック情報取得</CardTitle>
             <CardDescription>
-              ブロック番号またはブロックハッシュを入力して、ネットワークからブロック情報を取得します
+              ブロック番号またはブロックハッシュを入力して、{selectedNetwork}ネットワークからブロック情報を取得します
             </CardDescription>
           </CardHeader>
           <CardContent>

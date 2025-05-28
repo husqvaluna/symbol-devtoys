@@ -3,9 +3,7 @@ export interface NodeSettings {
   mainnet: string[];
 }
 
-const STORAGE_KEY = 'symbol-devtoys-node-settings';
-
-const DEFAULT_SETTINGS: NodeSettings = {
+export const DEFAULT_SETTINGS: NodeSettings = {
   testnet: [
     'https://201-sai-dual.symboltest.net:3001',
     'https://vmi831828.contaboserver.net:3001',
@@ -23,39 +21,6 @@ const DEFAULT_SETTINGS: NodeSettings = {
     'https://shoestring.pasomi.net:3001'
   ]
 };
-
-export function getNodeSettings(): NodeSettings {
-  if (typeof window === 'undefined') {
-    return { ...DEFAULT_SETTINGS };
-  }
-
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      return {
-        testnet: Array.isArray(parsed.testnet) ? parsed.testnet : [...DEFAULT_SETTINGS.testnet],
-        mainnet: Array.isArray(parsed.mainnet) ? parsed.mainnet : [...DEFAULT_SETTINGS.mainnet],
-      };
-    }
-  } catch (error) {
-    console.error('Failed to load node settings:', error);
-  }
-
-  return { ...DEFAULT_SETTINGS };
-}
-
-export function saveNodeSettings(settings: NodeSettings): void {
-  if (typeof window === 'undefined') {
-    return;
-  }
-
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
-  } catch (error) {
-    console.error('Failed to save node settings:', error);
-  }
-}
 
 export function parseNodeUrls(text: string): string[] {
   return text

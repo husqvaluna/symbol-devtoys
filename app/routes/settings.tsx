@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useAtom } from "jotai";
 import { useToast } from "~/components/ui/toast-provider";
 import type { Route } from "./+types/settings";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
@@ -11,7 +12,8 @@ import { Button } from "~/components/ui/button";
 import { Textarea } from "~/components/ui/textarea";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "~/components/ui/tabs";
 import { LanguageSwitcher } from "~/components/language-switcher";
-import { getNodeSettings, saveNodeSettings, parseNodeUrls, formatNodeUrls, type NodeSettings } from "~/lib/node-settings";
+import { parseNodeUrls, formatNodeUrls, type NodeSettings, DEFAULT_SETTINGS } from "~/lib/node-settings";
+import { nodeSettingsAtom } from "~/atoms/network-atoms";
 import {
   Globe,
   Palette,
@@ -47,21 +49,17 @@ export default function Settings() {
   const [smartDetectionMode, setSmartDetectionMode] = useState("auto");
   const [textEditor, setTextEditor] = useState("monaco");
 
-  // ノード設定の状態管理
-  const [nodeSettings, setNodeSettings] = useState<NodeSettings>({ testnet: [], mainnet: [] });
+  // ノード設定の状態管理（jotai使用）
+  const [nodeSettings, setNodeSettings] = useAtom(nodeSettingsAtom);
   const [activeNetworkTab, setActiveNetworkTab] = useState("testnet");
   const [testnetUrls, setTestnetUrls] = useState("");
   const [mainnetUrls, setMainnetUrls] = useState("");
 
   // ノード設定の初期化
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const settings = getNodeSettings();
-      setNodeSettings(settings);
-      setTestnetUrls(formatNodeUrls(settings.testnet));
-      setMainnetUrls(formatNodeUrls(settings.mainnet));
-    }
-  }, []);
+    setTestnetUrls(formatNodeUrls(nodeSettings.testnet));
+    setMainnetUrls(formatNodeUrls(nodeSettings.mainnet));
+  }, [nodeSettings]);
 
   // ノード設定の保存
   const handleSaveNodeSettings = () => {
@@ -70,7 +68,6 @@ export default function Settings() {
       mainnet: parseNodeUrls(mainnetUrls),
     };
     setNodeSettings(newSettings);
-    saveNodeSettings(newSettings);
 
     // Toastメッセージを表示
     addToast({
@@ -82,28 +79,9 @@ export default function Settings() {
 
   // ノード設定のリセット
   const handleResetNodeSettings = () => {
-    const defaultSettings = {
-      testnet: [
-        'https://201-sai-dual.symboltest.net:3001',
-        'https://vmi831828.contaboserver.net:3001',
-        'https://node-t.sixis.xyz:3001',
-        'https://sym-test-01.opening-line.jp:3001',
-        'https://sym-test-03.opening-line.jp:3001',
-        'https://symbol-azure.0009.co:3001',
-      ],
-      mainnet: [
-        'https://sym-main-01.opening-line.jp:3001',
-        'https://sym-main-02.opening-line.jp:3001',
-        'https://sym-main-03.opening-line.jp:3001',
-        'https://pasomi.net:3001',
-        'https://sakia.harvestasya.com:3001',
-        'https://shoestring.pasomi.net:3001'
-      ]
-    };
-    setNodeSettings(defaultSettings);
-    setTestnetUrls(formatNodeUrls(defaultSettings.testnet));
-    setMainnetUrls(formatNodeUrls(defaultSettings.mainnet));
-    saveNodeSettings(defaultSettings);
+    setNodeSettings(DEFAULT_SETTINGS);
+    setTestnetUrls(formatNodeUrls(DEFAULT_SETTINGS.testnet));
+    setMainnetUrls(formatNodeUrls(DEFAULT_SETTINGS.mainnet));
 
     // Toastメッセージを表示
     addToast({

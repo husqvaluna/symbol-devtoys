@@ -7,14 +7,20 @@ const STORAGE_KEY = 'symbol-devtoys-node-settings';
 
 const DEFAULT_SETTINGS: NodeSettings = {
   testnet: [
+    'https://201-sai-dual.symboltest.net:3001',
+    'https://vmi831828.contaboserver.net:3001',
+    'https://node-t.sixis.xyz:3001',
     'https://sym-test-01.opening-line.jp:3001',
-    'https://sym-test-02.opening-line.jp:3001',
-    'https://sym-test-03.opening-line.jp:3001'
+    'https://sym-test-03.opening-line.jp:3001',
+    'https://symbol-azure.0009.co:3001',
   ],
   mainnet: [
     'https://sym-main-01.opening-line.jp:3001',
     'https://sym-main-02.opening-line.jp:3001',
-    'https://sym-main-03.opening-line.jp:3001'
+    'https://sym-main-03.opening-line.jp:3001',
+    'https://pasomi.net:3001',
+    'https://sakia.harvestasya.com:3001',
+    'https://shoestring.pasomi.net:3001'
   ]
 };
 

@@ -105,52 +105,6 @@
           "ja": "日本語",
           "en": "English"
         }
-      },
-      "theme": {
-        "label": "アプリのテーマ",
-        "description": "アプリケーションの外観テーマを選択してください",
-        "options": {
-          "light": "ライト",
-          "dark": "ダーク",
-          "system": "システム設定に従う"
-        }
-      },
-      "compact": {
-        "label": "コンパクト表示",
-        "description": "UIをコンパクトに表示します"
-      },
-      "updates": {
-        "label": "更新の確認",
-        "description": "アプリケーションの更新を自動的に確認します"
-      }
-    },
-    "display": {
-      "title": "表示設定",
-      "description": "表示に関する設定を管理します",
-      "statistics": {
-        "label": "使用統計とツール表示",
-        "description": "使用統計情報とツールの表示を有効にします"
-      },
-      "smartDetection": {
-        "label": "スマート検出",
-        "description": "入力内容を自動的に検出してツールを提案します",
-        "options": {
-          "auto": "自動",
-          "manual": "手動",
-          "disabled": "無効"
-        }
-      }
-    },
-    "editor": {
-      "title": "エディター設定",
-      "textEditor": {
-        "label": "テキストエディター",
-        "description": "使用するテキストエディターを選択してください",
-        "options": {
-          "monaco": "Monaco Editor",
-          "codemirror": "CodeMirror",
-          "textarea": "標準テキストエリア"
-        }
       }
     },
     "nodes": {
@@ -172,15 +126,11 @@
         "reset": "デフォルト設定に戻しました"
       }
     },
-    "network": {
-      "title": "ネットワーク設定",
-      "description": "Symbol ネットワークの接続設定は今後追加予定です。"
-    },
     "about": {
       "title": "このアプリについて",
-      "devtoys": {
-        "label": "DevToys",
-        "description": "このアプリはDevToysにインスパイアされています"
+      "description": {
+        "label": "Symbol DevToys",
+        "description": "謝辞"
       }
     }
   }

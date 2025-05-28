@@ -105,52 +105,6 @@
           "ja": "日本語",
           "en": "English"
         }
-      },
-      "theme": {
-        "label": "App Theme",
-        "description": "Select the appearance theme for the application",
-        "options": {
-          "light": "Light",
-          "dark": "Dark",
-          "system": "Follow system"
-        }
-      },
-      "compact": {
-        "label": "Compact Display",
-        "description": "Display UI in compact mode"
-      },
-      "updates": {
-        "label": "Check for Updates",
-        "description": "Automatically check for application updates"
-      }
-    },
-    "display": {
-      "title": "Display Settings",
-      "description": "Manage display-related settings",
-      "statistics": {
-        "label": "Usage Statistics and Tool Display",
-        "description": "Enable display of usage statistics and tools"
-      },
-      "smartDetection": {
-        "label": "Smart Detection",
-        "description": "Automatically detect input content and suggest tools",
-        "options": {
-          "auto": "Auto",
-          "manual": "Manual",
-          "disabled": "Disabled"
-        }
-      }
-    },
-    "editor": {
-      "title": "Editor Settings",
-      "textEditor": {
-        "label": "Text Editor",
-        "description": "Select the text editor to use",
-        "options": {
-          "monaco": "Monaco Editor",
-          "codemirror": "CodeMirror",
-          "textarea": "Standard Textarea"
-        }
       }
     },
     "nodes": {
@@ -172,15 +126,11 @@
         "reset": "Settings have been reset to default"
       }
     },
-    "network": {
-      "title": "Network Settings",
-      "description": "Symbol network connection settings will be added in the future."
-    },
     "about": {
       "title": "About This App",
       "devtoys": {
-        "label": "DevToys",
-        "description": "This app is inspired by DevToys"
+        "label": "Symbol DevToys",
+        "description": "Special Thanks"
       }
     }
   }

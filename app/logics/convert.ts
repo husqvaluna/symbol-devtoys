@@ -2,31 +2,28 @@ import { Address, generateNamespaceId, Network, NetworkTimestamp } from "symbol-
 import { utils } from "symbol-sdk";
 
 export const datetimeStringToNetworkTimestamp = (input: string, network: Network = Network.TESTNET): NetworkTimestamp => {
-  return network.fromDatetime(new Date(input))
-}
+  return network.fromDatetime(new Date(input));
+};
 
 export const networkTimestampToDatetimeString = (input: bigint, network: Network = Network.TESTNET): Date => {
-  return network.datetimeConverter.toDatetime(Number(input))
-}
+  return network.datetimeConverter.toDatetime(Number(input));
+};
 
 export const encodeAddress = (value: string): Address => {
   return Address.fromDecodedAddressHexString(value);
-}
+};
 
 export const decodeAddress = (value: Address): string => {
-  return utils.uint8ToHex(value.bytes)
-}
+  return utils.uint8ToHex(value.bytes);
+};
 
 export const fromUTF8ToHex = (value: string) => {
-  return utils.uint8ToHex(new TextEncoder().encode(value))
-}
+  return utils.uint8ToHex(new TextEncoder().encode(value));
+};
 
 export const fromHexToUTF8 = (value: string) => {
-  return new TextDecoder().decode(utils.hexToUint8(value))
-}
-
-
-
+  return new TextDecoder().decode(utils.hexToUint8(value));
+};
 
 /**
  * Encodes namespace name to generate namespace ID
@@ -40,22 +37,22 @@ export const encodeNamespace = (value: string): bigint => {
   const normalizedValue = value.trim().toLowerCase();
 
   if (!normalizedValue) {
-    throw new Error('Namespace name is empty');
+    throw new Error("Namespace name is empty");
   }
 
   if (normalizedValue.length > 64) {
-    throw new Error('Namespace name must be 64 characters or less');
+    throw new Error("Namespace name must be 64 characters or less");
   }
 
   if (!/^[a-z0-9_.-]+$/.test(normalizedValue)) {
-    throw new Error('Namespace name can only use a-z, 0-9, _, -');
+    throw new Error("Namespace name can only use a-z, 0-9, _, -");
   }
 
-  const parts = normalizedValue.split('.');
+  const parts = normalizedValue.split(".");
 
   // Check number of levels (maximum 3 levels)
   if (parts.length > 3) {
-    throw new Error('Namespace can have maximum 3 levels');
+    throw new Error("Namespace can have maximum 3 levels");
   }
 
   // Check that each level name is not empty
@@ -85,7 +82,7 @@ export const encodeNamespace = (value: string): bigint => {
   const sub2Id = generateNamespaceId(sub2, sub1Id);
 
   return sub2Id;
-}
+};
 
 // export const convertHexToNum = (value: string) => {
 //   const parsed = parseInt(value, 16)
@@ -180,7 +177,6 @@ export const encodeNamespace = (value: string): bigint => {
 //     return /[0-9a-fA-F]{16}/.test(value) ? value : ""
 //   }
 // }
-
 
 // export const hashBySha3 = (input: string) => {
 //   return sha3_256(input)

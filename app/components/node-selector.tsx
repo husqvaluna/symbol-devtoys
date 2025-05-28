@@ -1,40 +1,22 @@
-import React from 'react';
-import { useNetworkSelection } from '~/hooks/use-network-selection';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select';
-import { cn } from '~/lib/utils';
+import React from "react";
+import { useNetworkSelection } from "~/hooks/use-network-selection";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
+import { cn } from "~/lib/utils";
 
 export interface NodeSelectorProps {
   className?: string;
-  size?: 'sm' | 'default';
-  layout?: 'horizontal' | 'vertical';
+  size?: "sm" | "default";
+  layout?: "horizontal" | "vertical";
 }
 
-export function NodeSelector({
-  className,
-  size = 'default',
-  layout = 'horizontal'
-}: NodeSelectorProps) {
-  const {
-    selectedNetwork,
-    selectedNodeUrl,
-    availableNodes,
-    isLoading,
-    setNetwork,
-    setNodeUrl
-  } = useNetworkSelection();
+export function NodeSelector({ className, size = "default", layout = "horizontal" }: NodeSelectorProps) {
+  const { selectedNetwork, selectedNodeUrl, availableNodes, isLoading, setNetwork, setNodeUrl } = useNetworkSelection();
 
-  const selectSize = size === 'sm' ? 'sm' : 'default';
+  const selectSize = size === "sm" ? "sm" : "default";
 
-  const containerClasses = cn(
-    "flex gap-4",
-    layout === 'vertical' ? "flex-col" : "flex-row items-end",
-    className
-  );
+  const containerClasses = cn("flex gap-4", layout === "vertical" ? "flex-col" : "flex-row items-end", className);
 
-  const selectClasses = cn(
-    size === 'sm' ? "h-8 text-xs" : "h-10",
-    layout === 'horizontal' ? "min-w-[120px]" : "w-full"
-  );
+  const selectClasses = cn(size === "sm" ? "h-8 text-xs" : "h-10", layout === "horizontal" ? "min-w-[120px]" : "w-full");
 
   if (isLoading) {
     return (
@@ -76,11 +58,7 @@ export function NodeSelector({
 
       {/* ノード選択 */}
       <div className="space-y-2">
-        <Select
-          value={selectedNodeUrl || ''}
-          onValueChange={setNodeUrl}
-          disabled={availableNodes.length === 0}
-        >
+        <Select value={selectedNodeUrl || ""} onValueChange={setNodeUrl} disabled={availableNodes.length === 0}>
           <SelectTrigger id="node-select" className={selectClasses} size={selectSize}>
             <SelectValue placeholder="ノードを選択" />
           </SelectTrigger>
@@ -88,9 +66,7 @@ export function NodeSelector({
             {availableNodes.map((nodeUrl, index) => (
               <SelectItem key={nodeUrl} value={nodeUrl}>
                 <div className="flex items-center gap-2">
-                  <span className="truncate">
-                    {nodeUrl.replace(/^https?:\/\//, '').replace(/:\d+$/, '')}
-                  </span>
+                  <span className="truncate">{nodeUrl.replace(/^https?:\/\//, "").replace(/:\d+$/, "")}</span>
                 </div>
               </SelectItem>
             ))}

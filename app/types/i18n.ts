@@ -41,9 +41,9 @@ export interface CommonTranslation {
   };
 }
 
-declare module 'react-i18next' {
+declare module "react-i18next" {
   interface CustomTypeOptions {
-    defaultNS: 'common';
+    defaultNS: "common";
     resources: {
       common: CommonTranslation;
     };

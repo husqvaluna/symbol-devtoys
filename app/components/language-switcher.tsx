@@ -1,11 +1,5 @@
 import { useTranslation } from "react-i18next";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 
 export function LanguageSwitcher() {
   const { i18n, t } = useTranslation();
@@ -20,12 +14,8 @@ export function LanguageSwitcher() {
         <SelectValue placeholder={t("settings.general.language.label")} />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="ja">
-          {t("settings.general.language.options.ja")}
-        </SelectItem>
-        <SelectItem value="en">
-          {t("settings.general.language.options.en")}
-        </SelectItem>
+        <SelectItem value="ja">{t("settings.general.language.options.ja")}</SelectItem>
+        <SelectItem value="en">{t("settings.general.language.options.en")}</SelectItem>
       </SelectContent>
     </Select>
   );

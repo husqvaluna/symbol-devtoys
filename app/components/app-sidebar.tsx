@@ -1,5 +1,5 @@
-import { Link, useLocation } from "react-router"
-import { useTranslation } from "react-i18next"
+import { Link, useLocation } from "react-router";
+import { useTranslation } from "react-i18next";
 import {
   Home,
   Key,
@@ -15,7 +15,7 @@ import {
   FileText,
   Calculator,
   Settings,
-} from "lucide-react"
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -27,7 +27,7 @@ import {
   SidebarMenuButton,
   SidebarTrigger,
   useSidebar,
-} from "~/components/ui/sidebar"
+} from "~/components/ui/sidebar";
 
 const getMenuItems = (t: (key: string) => string) => [
   {
@@ -108,23 +108,23 @@ const getMenuItems = (t: (key: string) => string) => [
     url: "/converter",
     icon: ArrowLeftRight,
   },
-]
+];
 
 export function AppSidebar() {
-  const { state } = useSidebar()
-  const { t } = useTranslation()
-  const location = useLocation()
-  const menuItems = getMenuItems(t)
+  const { state } = useSidebar();
+  const { t } = useTranslation();
+  const location = useLocation();
+  const menuItems = getMenuItems(t);
 
   // Function to check if current path matches menu item URL
   const isActiveRoute = (url: string) => {
     if (url === "/") {
       // ホームページの場合は完全一致
-      return location.pathname === "/"
+      return location.pathname === "/";
     }
     // For other pages, check if path matches
-    return location.pathname === url || location.pathname.startsWith(url + "/")
-  }
+    return location.pathname === url || location.pathname.startsWith(url + "/");
+  };
 
   return (
     <Sidebar collapsible="icon">
@@ -172,5 +172,5 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

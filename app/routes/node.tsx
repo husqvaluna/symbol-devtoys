@@ -1,10 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 export function meta() {
-  return [
-    { title: "Node - Symbol DevToys" },
-    { name: "description", content: "Retrieve node information from a node host URL." },
-  ];
+  return [{ title: "Node - Symbol DevToys" }, { name: "description", content: "Retrieve node information from a node host URL." }];
 }
 
 export default function Node() {

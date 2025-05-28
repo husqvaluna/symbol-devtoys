@@ -104,14 +104,14 @@ export default function Block() {
         </div>
 
         {/* ノード選択 */}
-        <Card className="rounded-sm py-4 w-full">
+        <Card className="w-full">
           <CardContent>
             <NodeSelector />
           </CardContent>
         </Card>
 
         {/* ブロック情報取得 */}
-        <Card className="rounded-md py-4 w-full">
+        <Card className="w-full">
           <CardHeader>
             <CardTitle>ブロック情報取得</CardTitle>
             <CardDescription>
@@ -120,8 +120,8 @@ export default function Block() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="block-identifier">ブロック番号またはブロックハッシュ</Label>
+              <Label htmlFor="block-identifier">ブロック番号またはブロックハッシュ</Label>
+              <div className="flex w-full space-x-2">
                 <Input
                   id="block-identifier"
                   type="text"
@@ -130,15 +130,10 @@ export default function Block() {
                   onChange={(e) => setIdentifier(e.target.value)}
                   disabled={isLoading}
                 />
+                <Button type="submit" disabled={isLoading || !identifier.trim()} className="w-full md:w-auto">
+                  {isLoading ? "取得中..." : "取得"}
+                </Button>
               </div>
-
-              <Button
-                type="submit"
-                disabled={isLoading || !identifier.trim()}
-                className="w-full md:w-auto"
-              >
-                {isLoading ? "取得中..." : "取得"}
-              </Button>
             </form>
 
             {/* エラー表示 */}

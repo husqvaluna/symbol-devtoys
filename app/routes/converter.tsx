@@ -4,13 +4,18 @@ import { Address } from "symbol-sdk/symbol";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { datetimeStringToNetworkTimestamp, decodeAddress, encodeAddress, encodeNamespace, fromHexToUTF8, fromUTF8ToHex, networkTimestampToDatetimeString } from "~/logics/convert";
+import {
+  datetimeStringToNetworkTimestamp,
+  decodeAddress,
+  encodeAddress,
+  encodeNamespace,
+  fromHexToUTF8,
+  fromUTF8ToHex,
+  networkTimestampToDatetimeString,
+} from "~/logics/convert";
 
 export function meta() {
-  return [
-    { title: "Converter - Symbol DevToys" },
-    { name: "description", content: "Convert various values to each other." },
-  ];
+  return [{ title: "Converter - Symbol DevToys" }, { name: "description", content: "Convert various values to each other." }];
 }
 
 export default function Converter() {
@@ -84,9 +89,7 @@ export default function Converter() {
         <Card className="rounded-md py-4 w-full">
           <CardHeader>
             <CardTitle>ネットワーク時間変換</CardTitle>
-            <CardDescription>
-              Symbolネットワーク時間と現実の世界時間を相互変換します
-            </CardDescription>
+            <CardDescription>Symbolネットワーク時間と現実の世界時間を相互変換します</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -118,9 +121,7 @@ export default function Converter() {
         <Card>
           <CardHeader>
             <CardTitle>Hex String Encode/Decode</CardTitle>
-            <CardDescription>
-              Convert hex messages to readable strings and vice versa
-            </CardDescription>
+            <CardDescription>Convert hex messages to readable strings and vice versa</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -152,9 +153,7 @@ export default function Converter() {
         <Card>
           <CardHeader>
             <CardTitle>アドレスのエンデコ</CardTitle>
-            <CardDescription>
-              Convert hex addresses to account addresses and vice versa
-            </CardDescription>
+            <CardDescription>Convert hex addresses to account addresses and vice versa</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -186,9 +185,7 @@ export default function Converter() {
         <Card>
           <CardHeader>
             <CardTitle>Namespace to ID Conversion</CardTitle>
-            <CardDescription>
-              Convert namespace strings to ID values (one-way conversion only)
-            </CardDescription>
+            <CardDescription>Convert namespace strings to ID values (one-way conversion only)</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">

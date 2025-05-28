@@ -1,11 +1,4 @@
-import {
-  isRouteErrorResponse,
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "react-router";
+import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Provider } from "jotai";
 
@@ -13,9 +6,9 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import "./i18n";
 
-import { SidebarProvider } from "~/components/ui/sidebar"
-import { AppSidebar } from "~/components/app-sidebar"
-import { ToastProvider } from "~/components/ui/toast-provider"
+import { SidebarProvider } from "~/components/ui/sidebar";
+import { AppSidebar } from "~/components/app-sidebar";
+import { ToastProvider } from "~/components/ui/toast-provider";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -36,19 +29,17 @@ function Layout({ children }: { children: React.ReactNode }) {
       <ToastProvider>
         <SidebarProvider>
           <AppSidebar />
-          <main>
-            {children}
-          </main>
+          <main>{children}</main>
         </SidebarProvider>
       </ToastProvider>
     </Provider>
-  )
+  );
 }
 
 export default function App() {
   const { i18n } = useTranslation();
-  const currentLanguage = i18n.language || 'ja';
-  const manifestPath = currentLanguage === 'en' ? '/manifest-en.json' : '/manifest.json';
+  const currentLanguage = i18n.language || "ja";
+  const manifestPath = currentLanguage === "en" ? "/manifest-en.json" : "/manifest.json";
 
   return (
     <html lang={currentLanguage}>
@@ -83,7 +74,7 @@ export default function App() {
         <Scripts />
       </body>
     </html>
-  )
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
@@ -93,10 +84,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   if (isRouteErrorResponse(error)) {
     message = error.status === 404 ? "404" : "Error";
-    details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details;
+    details = error.status === 404 ? "The requested page could not be found." : error.statusText || details;
   } else if (import.meta.env.DEV && error && error instanceof Error) {
     details = error.message;
     stack = error.stack;

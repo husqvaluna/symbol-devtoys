@@ -1,26 +1,17 @@
-import { atom } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
-import type { NodeSettings } from '../lib/node-settings';
-import { DEFAULT_SETTINGS } from '../lib/node-settings';
+import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
+import type { NodeSettings } from "../lib/node-settings";
+import { DEFAULT_SETTINGS } from "../lib/node-settings";
 
 // ネットワーク型の定義
-export type NetworkType = 'testnet' | 'mainnet';
+export type NetworkType = "testnet" | "mainnet";
 
 // 基本的なatoms（永続化あり）
-export const selectedNetworkAtom = atomWithStorage<NetworkType>(
-  'symbol-devtoys-selected-network',
-  'testnet'
-);
+export const selectedNetworkAtom = atomWithStorage<NetworkType>("symbol-devtoys-selected-network", "testnet");
 
-export const selectedNodeUrlAtom = atomWithStorage<string | null>(
-  'symbol-devtoys-selected-node-url',
-  null
-);
+export const selectedNodeUrlAtom = atomWithStorage<string | null>("symbol-devtoys-selected-node-url", null);
 
-export const nodeSettingsAtom = atomWithStorage<NodeSettings>(
-  'symbol-devtoys-node-settings',
-  DEFAULT_SETTINGS
-);
+export const nodeSettingsAtom = atomWithStorage<NodeSettings>("symbol-devtoys-node-settings", DEFAULT_SETTINGS);
 
 // 派生atom: 選択されたネットワークで利用可能なノードURLの配列
 export const availableNodesAtom = atom<string[]>((get) => {

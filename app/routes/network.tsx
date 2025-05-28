@@ -1,10 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 export function meta() {
-  return [
-    { title: "ネットワーク - Symbol DevToys" },
-    { name: "description", content: "Symbolネットワークの情報を取得・表示します。" },
-  ];
+  return [{ title: "ネットワーク - Symbol DevToys" }, { name: "description", content: "Symbolネットワークの情報を取得・表示します。" }];
 }
 
 export default function Network() {

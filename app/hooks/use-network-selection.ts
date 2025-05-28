@@ -1,23 +1,23 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useState, useEffect, useCallback } from "react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
   selectedNetworkAtom,
   selectedNodeUrlAtom,
   availableNodesAtom,
   isValidNodeSelectionAtom,
-  type NetworkType
-} from '../atoms/network-atoms';
-import { useNodeSettings } from './use-node-settings';
+  type NetworkType,
+} from "../atoms/network-atoms";
+import { useNodeSettings } from "./use-node-settings";
 
 export interface NetworkSelectionState {
-  selectedNetwork: 'testnet' | 'mainnet';
+  selectedNetwork: "testnet" | "mainnet";
   selectedNodeUrl: string | null;
   availableNodes: string[];
   isLoading: boolean;
 }
 
 export interface NetworkSelectionActions {
-  setNetwork: (network: 'testnet' | 'mainnet') => void;
+  setNetwork: (network: "testnet" | "mainnet") => void;
   setNodeUrl: (nodeUrl: string) => void;
   getNodeUrl: () => string | null;
 }
@@ -51,15 +51,21 @@ export function useNetworkSelection(): NetworkSelectionState & NetworkSelectionA
     }
   }, [nodeSettingsLoading, isValidNodeSelection, availableNodes, selectedNodeUrl, setSelectedNodeUrlAtom]);
 
-  const setNetwork = useCallback((network: NetworkType) => {
-    setSelectedNetworkAtom(network);
-    // ネットワーク変更時は自動的にノード選択がリセットされるため、
-    // useEffectで適切なノードが自動選択される
-  }, [setSelectedNetworkAtom]);
+  const setNetwork = useCallback(
+    (network: NetworkType) => {
+      setSelectedNetworkAtom(network);
+      // ネットワーク変更時は自動的にノード選択がリセットされるため、
+      // useEffectで適切なノードが自動選択される
+    },
+    [setSelectedNetworkAtom],
+  );
 
-  const setNodeUrl = useCallback((nodeUrl: string) => {
-    setSelectedNodeUrlAtom(nodeUrl);
-  }, [setSelectedNodeUrlAtom]);
+  const setNodeUrl = useCallback(
+    (nodeUrl: string) => {
+      setSelectedNodeUrlAtom(nodeUrl);
+    },
+    [setSelectedNodeUrlAtom],
+  );
 
   const getNodeUrl = useCallback((): string | null => {
     return selectedNodeUrl;

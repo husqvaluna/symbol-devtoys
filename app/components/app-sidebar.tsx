@@ -25,9 +25,11 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarTrigger,
   useSidebar,
+  SidebarRail,
 } from "~/components/ui/sidebar";
+
+import SymbolLogo from "./symbol-logo";
 
 const getMenuItems = (t: (key: string) => string) => [
   {
@@ -131,7 +133,10 @@ export function AppSidebar() {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton>Symbol DevToys</SidebarMenuButton>
+            <SidebarMenuButton>
+              <SymbolLogo />
+              <span>Symbol DevToys</span>
+            </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
@@ -157,6 +162,19 @@ export function AppSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                isActive={isActiveRoute("/glossary")}
+                tooltip={state === "collapsed" ? t("menu.glossary") : undefined}
+                className="h-10 px-2"
+              >
+                <Link to="/glossary">
+                  <Settings className="h-4 w-4" />
+                  <span>{t("menu.glossary")}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
             <SidebarMenuButton
               asChild
               isActive={isActiveRoute("/settings")}
@@ -171,6 +189,7 @@ export function AppSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   );
 }

@@ -14,5 +14,6 @@ export default [
   route("/payload", "routes/payload.tsx"),
   route("/fee", "routes/fee.tsx"),
   route("/converter", "routes/converter.tsx"),
+  route("/glossary", "routes/glossary.tsx"),
   route("/settings", "routes/settings.tsx"),
 ] satisfies RouteConfig;

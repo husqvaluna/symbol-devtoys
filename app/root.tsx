@@ -29,7 +29,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       <ToastProvider>
         <SidebarProvider>
           <AppSidebar />
-          <main>{children}</main>
+          {children}
         </SidebarProvider>
       </ToastProvider>
     </Provider>

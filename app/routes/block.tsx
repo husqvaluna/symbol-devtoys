@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Form } from "react-router";
-import { useFetcher } from "react-router";
+import { data, useFetcher } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
@@ -25,22 +24,24 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const identifier = await formData.get("block-identifier");
   const nodeUrl = await formData.get("node-url");
 
+  // throw data("指定されたブロックが見つかりません。", { status: 404 });
+
   const apiUrl = `${nodeUrl}/blocks/${identifier}`;
   const response = await fetch(apiUrl);
 
-  if (!response.ok) {
-    if (response.status === 404) {
-      throw new Error("指定されたブロックが見つかりません。");
-    } else if (response.status >= 500) {
-      throw new Error("サーバーエラーが発生しました。しばらく時間をおいて再試行してください。");
-    } else {
-      throw new Error(`HTTPエラー: ${response.status} ${response.statusText}`);
-    }
-  }
+  // if (!response.ok) {
+  //   if (response.status === 404) {
+  //     throw new Error("指定されたブロックが見つかりません。");
+  //   } else if (response.status >= 500) {
+  //     throw new Error("サーバーエラーが発生しました。しばらく時間をおいて再試行してください。");
+  //   } else {
+  //     throw new Error(`HTTPエラー: ${response.status} ${response.statusText}`);
+  //   }
+  // }
 
   const blockInfo: BlockInfo = await response.json();
 
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  // // await new Promise((resolve) => setTimeout(resolve, 2000));
   return {
     result: JSON.stringify(blockInfo, null, 2),
   };
@@ -59,7 +60,6 @@ export default function Block() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // 入力値の検証
   const validateIdentifier = (value: string): boolean => {
     if (!value.trim()) return false;
 
@@ -118,8 +118,6 @@ export default function Block() {
     }
   };
 
-  const nodeUrl = getNodeUrl();
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     fetchBlockInfo();
@@ -127,6 +125,7 @@ export default function Block() {
 
   const fetcher = useFetcher<typeof clientAction>();
   const busy = fetcher.state !== "idle";
+  const nodeUrl = getNodeUrl();
 
   return (
     <SidebarInset>
@@ -146,15 +145,16 @@ export default function Block() {
             <fetcher.Form method="post">
               <Label htmlFor="block-identifier">ブロック番号またはブロックハッシュ</Label>
               <div className="flex w-full space-x-2">
-                <Input id="node-url" type="hidden" value={nodeUrl || ""} />
                 <Input
                   id="block-identifier"
+                  name="block-identifier"
                   type="text"
                   placeholder="例: 123456 または 1A2B3C4D5E6F7890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
                   disabled={isLoading}
                 />
+                <Input id="node-url" name="node-url" type="hidden" value={nodeUrl || ""} />
                 <Button type="submit" disabled={busy} className="w-full md:w-auto">
                   {busy ? "取得中..." : "取得"}
                 </Button>
@@ -169,7 +169,7 @@ export default function Block() {
             )}
 
             {/* 結果表示 */}
-            {result && (
+            {fetcher.data?.result && (
               <div className="mt-4 space-y-2">
                 <Label htmlFor="block-result">ブロック情報（JSON）</Label>
                 <Textarea

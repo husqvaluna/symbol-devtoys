@@ -27,6 +27,7 @@
     "i18next-http-backend": "^3.0.2",
     "isbot": "^5.1.27",
     "jotai": "^2.12.4",
+    "ky": "^1.8.1",
     "lucide-react": "^0.511.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -34,7 +35,8 @@
     "react-router": "^7.6.1",
     "symbol-crypto-wasm-web": "^0.1.1",
     "symbol-sdk": "^3.2.3",
-    "tailwind-merge": "^3.3.0"
+    "tailwind-merge": "^3.3.0",
+    "zod": "^3.25.36"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Form } from "react-router";
+import { useFetcher } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
@@ -20,21 +21,36 @@ export function meta() {
 }
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
-  // let formData = await request.formData();
-  // let title = await formData.get("title");
-  // let project = await someApi.updateProject({ title });
-  console.debug("client action");
+  const formData = await request.formData();
+  const identifier = await formData.get("block-identifier");
+  const nodeUrl = await formData.get("node-url");
+
+  const apiUrl = `${nodeUrl}/blocks/${identifier}`;
+  const response = await fetch(apiUrl);
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      throw new Error("指定されたブロックが見つかりません。");
+    } else if (response.status >= 500) {
+      throw new Error("サーバーエラーが発生しました。しばらく時間をおいて再試行してください。");
+    } else {
+      throw new Error(`HTTPエラー: ${response.status} ${response.statusText}`);
+    }
+  }
+
+  const blockInfo: BlockInfo = await response.json();
+
+  // await new Promise((resolve) => setTimeout(resolve, 2000));
   return {
-    hoge: 100,
+    result: JSON.stringify(blockInfo, null, 2),
   };
-  // return project;
 }
 
 interface BlockInfo {
   [key: string]: any;
 }
 
-export default function Block({ actionData }: Route.ComponentProps) {
+export default function Block() {
   const { t } = useTranslation();
   const { getNodeUrl, selectedNetwork } = useNetworkSelection();
 
@@ -102,10 +118,15 @@ export default function Block({ actionData }: Route.ComponentProps) {
     }
   };
 
+  const nodeUrl = getNodeUrl();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     fetchBlockInfo();
   };
+
+  const fetcher = useFetcher<typeof clientAction>();
+  const busy = fetcher.state !== "idle";
 
   return (
     <SidebarInset>
@@ -122,9 +143,10 @@ export default function Block({ actionData }: Route.ComponentProps) {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Form>
+            <fetcher.Form method="post">
               <Label htmlFor="block-identifier">ブロック番号またはブロックハッシュ</Label>
               <div className="flex w-full space-x-2">
+                <Input id="node-url" type="hidden" value={nodeUrl || ""} />
                 <Input
                   id="block-identifier"
                   type="text"
@@ -133,28 +155,11 @@ export default function Block({ actionData }: Route.ComponentProps) {
                   onChange={(e) => setIdentifier(e.target.value)}
                   disabled={isLoading}
                 />
-                <Button type="submit" disabled={isLoading || !identifier.trim()} className="w-full md:w-auto">
-                  {isLoading ? "取得中..." : "取得"}
+                <Button type="submit" disabled={busy} className="w-full md:w-auto">
+                  {busy ? "取得中..." : "取得"}
                 </Button>
               </div>
-            </Form>
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <Label htmlFor="block-identifier">ブロック番号またはブロックハッシュ</Label>
-              <div className="flex w-full space-x-2">
-                <Input
-                  id="block-identifier"
-                  type="text"
-                  placeholder="例: 123456 または 1A2B3C4D5E6F7890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890"
-                  value={identifier}
-                  onChange={(e) => setIdentifier(e.target.value)}
-                  disabled={isLoading}
-                />
-                <Button type="submit" disabled={isLoading || !identifier.trim()} className="w-full md:w-auto">
-                  {isLoading ? "取得中..." : "取得"}
-                </Button>
-              </div>
-            </form>
+            </fetcher.Form>
 
             {/* エラー表示 */}
             {error && (
@@ -163,15 +168,13 @@ export default function Block({ actionData }: Route.ComponentProps) {
               </div>
             )}
 
-            {actionData?.hoge}
-
             {/* 結果表示 */}
             {result && (
               <div className="mt-4 space-y-2">
                 <Label htmlFor="block-result">ブロック情報（JSON）</Label>
                 <Textarea
                   id="block-result"
-                  value={result}
+                  value={fetcher.data?.result}
                   readOnly
                   className="min-h-[400px] font-mono text-sm bg-gray-50 dark:bg-gray-800"
                   placeholder="ブロック情報がここに表示されます"

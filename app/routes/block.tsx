@@ -31,7 +31,6 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const entries: BlockRequestSchemaType = { nodeUrl, identifier };
 
   const submission = BlockRequestSchema.safeParse(entries);
-  console.debug(submission);
 
   if (submission.success === false) {
     return data({ errors: submission.error.errors }, { status: 400 });
@@ -40,7 +39,6 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const url = `${nodeUrl}/blocks/${identifier}`;
   const response = await ky.get(url, { throwHttpErrors: false });
 
-  console.debug(response);
   if (!response.ok) {
     const body = await response.json<{ code: string; message: string }>();
     return data({ errors: [body] }, { status: response.status });

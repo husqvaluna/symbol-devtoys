@@ -40,7 +40,7 @@ export const graph2tree = (graph: ILayer[], options: IOptions = {}) => {
   const layer = graph.find((l: ILayer) => l.level === 0);
   const referer = layer ? layer.multisigEntries[0].multisig.accountPublicKey : "";
   const tree = buildTree(graph);
-  return buildOutput(tree, referer, { ...defaultOptions, ...options });
+  return buildTextOutput(tree, referer, { ...defaultOptions, ...options });
 };
 
 export const buildTree = (graph: ILayer[]): NodeTuple[] => {
@@ -75,7 +75,15 @@ const findParentNode = (tree: NodeTuple[], account: string, level: number): Node
   return undefined;
 };
 
-const buildOutput = (tree: NodeTuple[], referer: string, options: InternalOptions): string => {
+const addressify = (publicKeyString: string, network: Network) => {
+  const facade = new SymbolFacade(network);
+  const publicKey = new PublicKey(publicKeyString);
+  return new Address(facade.network.publicKeyToAddress(publicKey));
+};
+
+// ---------------------------------------------------------
+
+const buildTextOutput = (tree: NodeTuple[], referer: string, options: InternalOptions): string => {
   const buf: string[] = [];
 
   const renderLine = (entry: IEntry, level: number, end: boolean) => {
@@ -103,12 +111,6 @@ const buildOutput = (tree: NodeTuple[], referer: string, options: InternalOption
 
   putIntoBuf(tree[0], 0, true);
   return buf.join("\n");
-};
-
-const addressify = (publicKeyString: string, network: Network) => {
-  const facade = new SymbolFacade(network);
-  const publicKey = new PublicKey(publicKeyString);
-  return new Address(facade.network.publicKeyToAddress(publicKey));
 };
 
 export default graph2tree;

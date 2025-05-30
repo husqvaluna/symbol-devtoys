@@ -34,7 +34,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   console.debug(submission);
 
   if (submission.success === false) {
-    return data({ error: submission.error.errors[0].message }, { status: 400 });
+    return data({ errors: submission.error.errors }, { status: 400 });
   }
 
   const url = `${nodeUrl}/blocks/${identifier}`;
@@ -43,7 +43,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   console.debug(response);
   if (!response.ok) {
     const body = await response.json<{ code: string; message: string }>();
-    return data({ error: body.message }, { status: response.status });
+    return data({ errors: [body] }, { status: response.status });
   }
 
   const blockInfo: BlockInfo = await response.json();
@@ -63,7 +63,7 @@ export default function Block() {
 
   const nodeUrl = getNodeUrl();
 
-  const fetcher = useFetcher<{ result?: string; error?: string }>();
+  const fetcher = useFetcher<{ result?: string; errors?: { message: string }[] }>();
   const busy = fetcher.state !== "idle";
 
   const [identifier, setIdentifier] = useState("1");
@@ -101,9 +101,13 @@ export default function Block() {
             </fetcher.Form>
 
             {/* エラー表示 */}
-            <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
-              <p className="text-sm text-red-600 dark:text-red-400">{fetcher.data?.error}</p>
-            </div>
+            {fetcher.data?.errors && (
+              <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
+                {fetcher.data.errors.map((error) => (
+                  <p className="text-sm text-red-600 dark:text-red-400">{error.message}</p>
+                ))}
+              </div>
+            )}
 
             {/* 結果表示 */}
             <div className="mt-4 space-y-2">

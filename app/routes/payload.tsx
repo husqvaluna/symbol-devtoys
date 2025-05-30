@@ -1,4 +1,8 @@
 import { useTranslation } from "react-i18next";
+import { SidebarInset } from "~/components/ui/sidebar";
+import { PageHeader } from "~/components/page-header";
+import { useNetworkSelection } from "~/hooks/use-network-selection";
+import { NodeSelector } from "~/components/node-selector";
 
 export function meta() {
   return [
@@ -9,15 +13,17 @@ export function meta() {
 
 export default function Payload() {
   const { t } = useTranslation();
+  const { getNodeUrl, selectedNetwork } = useNetworkSelection();
+
+  const nodeUrl = getNodeUrl();
 
   return (
-    <div className="p-4">
-      <div className="space-y-2">
-        <div className="flex items-center">
-          <h1 className="font-bold text-gray-900 dark:text-gray-100">{t("payload.title")}</h1>
-        </div>
-        <p className="text-xs text-gray-600 dark:text-gray-400">{t("payload.subtitle")}</p>
-      </div>
-    </div>
+    <SidebarInset>
+      <PageHeader title={t("payload.title")} subtitle={t("payload.subtitle")}>
+        <NodeSelector />
+      </PageHeader>
+
+      <div className="p-4 space-y-4">{/* コンテンツ部分はここに実装されます */}</div>
+    </SidebarInset>
   );
 }

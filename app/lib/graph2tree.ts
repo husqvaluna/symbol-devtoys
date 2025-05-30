@@ -1,13 +1,12 @@
-import { PublicKey } from "symbol-sdk";
-import { Address, Network, SymbolFacade } from "symbol-sdk/symbol";
+import { encodeAddress } from "~/logics/convert";
 
 export interface IMultisig {
-  accountPublicKey: string;
+  version: number;
   accountAddress: string;
   minApproval: number;
   minRemoval: number;
-  cosignatoryPublicKeys: string[];
-  multisigPublicKeys: string[];
+  cosignatoryAddresses: string[];
+  multisigAddresses: string[];
 }
 
 export interface IEntry {
@@ -26,8 +25,7 @@ export const defaultOptions = {
   head: 8,
   tail: 4,
   truncated: true,
-  addressify: false,
-  network: Network.TESTNET,
+  readableAddress: false,
 };
 
 export type IOptions = Partial<typeof defaultOptions>;
@@ -38,7 +36,7 @@ type InternalOptions = typeof defaultOptions;
 
 export const graph2tree = (graph: ILayer[], options: IOptions = {}) => {
   const layer = graph.find((l: ILayer) => l.level === 0);
-  const referer = layer ? layer.multisigEntries[0].multisig.accountPublicKey : "";
+  const referer = layer ? layer.multisigEntries[0].multisig.accountAddress : "";
   const tree = buildTree(graph);
   return buildTextOutput(tree, referer, { ...defaultOptions, ...options });
 };
@@ -51,7 +49,7 @@ export const buildTree = (graph: ILayer[]): NodeTuple[] => {
       tree.push([layer.level, entry, []]);
     } else {
       layer.multisigEntries.forEach((entry) => {
-        const parentNode = findParentNode(tree, entry.multisig.accountPublicKey, layer.level);
+        const parentNode = findParentNode(tree, entry.multisig.accountAddress, layer.level);
         if (parentNode) {
           parentNode[2].push([layer.level, entry, []]);
         }
@@ -62,7 +60,7 @@ export const buildTree = (graph: ILayer[]): NodeTuple[] => {
 };
 
 const findParentNode = (tree: NodeTuple[], account: string, level: number): NodeTuple | undefined => {
-  const parentNode = tree.find((n) => n[1].multisig.cosignatoryPublicKeys.includes(account));
+  const parentNode = tree.find((n) => n[1].multisig.cosignatoryAddresses.includes(account));
   if (parentNode && level - parentNode[0] === 1) {
     return parentNode;
   }
@@ -75,12 +73,6 @@ const findParentNode = (tree: NodeTuple[], account: string, level: number): Node
   return undefined;
 };
 
-const addressify = (publicKeyString: string, network: Network) => {
-  const facade = new SymbolFacade(network);
-  const publicKey = new PublicKey(publicKeyString);
-  return new Address(facade.network.publicKeyToAddress(publicKey));
-};
-
 // ---------------------------------------------------------
 
 const buildTextOutput = (tree: NodeTuple[], referer: string, options: InternalOptions): string => {
@@ -89,12 +81,11 @@ const buildTextOutput = (tree: NodeTuple[], referer: string, options: InternalOp
   const renderLine = (entry: IEntry, level: number, end: boolean) => {
     const pad = "  ".repeat(level * 2) + (level === 0 ? `${options.root} ` : `${options.child} `);
     const msig = entry.multisig;
-    const ref = msig.accountPublicKey === referer ? ` ${options.referer}` : "";
+    const ref = msig.accountAddress === referer ? ` ${options.referer}` : "";
     const nOfm =
-      msig.cosignatoryPublicKeys.length === 0 ? "" : ` (C:${msig.cosignatoryPublicKeys.length}/A:${msig.minApproval}/R:${msig.minRemoval})`;
+      msig.cosignatoryAddresses.length === 0 ? "" : ` (C:${msig.cosignatoryAddresses.length}/A:${msig.minApproval}/R:${msig.minRemoval})`;
 
-    const identifier = options.addressify ? addressify(msig.accountPublicKey, options.network).toString() : msig.accountPublicKey;
-
+    const identifier = options.readableAddress ? encodeAddress(msig.accountAddress).toString() : msig.accountAddress;
     const identifierToDisplay = options.truncated
       ? `${identifier.slice(0, options.head)}..${identifier.slice((options.tail || 0) * -1)}`
       : identifier;

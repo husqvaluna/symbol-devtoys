@@ -9,6 +9,7 @@
     "block": "Block",
     "transaction": "Transaction",
     "node": "Node",
+    "multisig": "Multisig",
     "network": "Network",
     "payload": "Payload",
     "fee": "Fee Calculator",
@@ -52,6 +53,10 @@
   "account": {
     "title": "Account",
     "subtitle": "Query the network with an address to retrieve account information."
+  },
+  "multisig": {
+    "title": "Multisig",
+    "subtitle": "Query the network with an address to retrieve multisig account graph information."
   },
   "block": {
     "title": "Block",

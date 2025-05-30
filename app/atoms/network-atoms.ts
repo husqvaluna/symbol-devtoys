@@ -4,10 +4,10 @@ import type { NodeSettings } from "../lib/node-settings";
 import { DEFAULT_SETTINGS } from "../lib/node-settings";
 
 // ネットワーク型の定義
-export type NetworkType = "testnet" | "mainnet";
+export type NetworkType = "TESTNET" | "MAINNET";
 
 // 基本的なatoms（永続化あり）
-export const selectedNetworkAtom = atomWithStorage<NetworkType>("symbol-devtoys-selected-network", "testnet");
+export const selectedNetworkAtom = atomWithStorage<NetworkType>("symbol-devtoys-selected-network", "TESTNET");
 
 export const selectedNodeUrlAtom = atomWithStorage<string | null>("symbol-devtoys-selected-node-url", null);
 

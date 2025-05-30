@@ -4,6 +4,7 @@ import {
   Home,
   Key,
   User,
+  Users,
   Monitor,
   Tag,
   Grid3X3,
@@ -49,6 +50,12 @@ const getMenuItems = (t: (key: string) => string) => [
     title: t("menu.account"),
     url: "/account",
     icon: User,
+  },
+  {
+    titleKey: "menu.multisig",
+    title: t("menu.multisig"),
+    url: "/multisig",
+    icon: Users,
   },
   {
     titleKey: "menu.monitor",

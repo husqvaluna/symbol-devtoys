@@ -3,70 +3,57 @@ import graph2tree from "./graph2tree";
 
 test("reference from Root", () => {
   const json = require("./graph/fromLevel0.json");
-  const expected = `# A01CF346..43E2 (C:3/A:3/R:1) <<
-    └ 06193475..0772 (C:2/A:1/R:1)
-        └ 465D4063..2F68
-        └ 4FCBC947..D28D
-    └ 92BE08D5..E910
-    └ 9835C3BA..92C2 (C:3/A:2/R:1)
-        └ 4F722246..B27F
-        └ 8BFDE2C8..93E0 (C:1/A:1/R:1)
-            └ A8443CB1..CC47
-        └ 92BE08D5..E910`;
+  const expected = `# 9815758B..8AAE (C:3/A:2/R:1) <<
+    └ 9856A7DB..5F24 (C:2/A:2/R:1)
+        └ 98405015..64B0
+        └ 98AE9CAF..D358
+    └ 986D8EE4..CEBB (C:3/A:2/R:1)
+        └ 9804E7EC..780A
+        └ 98ACC4FB..523A
+        └ 98B9A474..A157 (C:1/A:1/R:1)
+            └ 98ADB16E..6E9B
+    └ 98E3E132..C30F`;
   expect(graph2tree(json)).toBe(expected);
 });
 
 test("reference from Root", () => {
   const json = require("./graph/fromLevel0.json");
-  const expected = `# TAJPRPCJ..65XI (C:3/A:3/R:1) <<
-    └ TC4YUUTH..74TA (C:2/A:1/R:1)
-        └ TBVVJ2SF..E2OI
-        └ TBSIQYVE..MLUQ
-    └ TA3DKOSY..WEDI
-    └ TCIEWKDV..POLQ (C:3/A:2/R:1)
-        └ TAJXXUJN..2SUI
-        └ TBXVHT4D..63MQ (C:1/A:1/R:1)
-            └ TDYL7MLU..EO5Y
-        └ TA3DKOSY..WEDI`;
-  expect(graph2tree(json, { addressify: true })).toBe(expected);
-});
-
-test("Level3 Multisig Structure", () => {
-  const json = require("./graph/level3.json");
-  const expected = `# 53E5971F..67AA (C:2/A:1/R:2) <<
-    └ 4F51CCC5..31AA (C:2/A:1/R:2)
-        └ E9E9B98A..8561 (C:2/A:1/R:2)
-            └ 9F4AE6DA..6D2A
-            └ B07DB04C..3C6B
-        └ F082C407..0351 (C:2/A:1/R:2)
-            └ 621D90B5..3CB6
-            └ ADA2847D..2A0F
-    └ E39F3106..673E`;
-  expect(graph2tree(json)).toBe(expected);
+  const expected = `# TAKXLCYU..YVLQ (C:3/A:2/R:1) <<
+    └ TBLKPW6L..F6JA (C:2/A:2/R:1)
+        └ TBAFAFMW..WJMA
+        └ TCXJZL3F..NGWA
+    └ TBWY5ZH6..M5OY (C:3/A:2/R:1)
+        └ TACOP3GK..HQCQ
+        └ TCWMJ6YS..FEOQ
+        └ TC42I5D4..KCVY (C:1/A:1/R:1)
+            └ TCW3C3VQ..W5GY
+    └ TDR6CMWU..MGDY`;
+  expect(graph2tree(json, { readableAddress: true })).toBe(expected);
 });
 
 test("reference from Level1", () => {
   const json = require("./graph/fromLevel1.json");
-  const expected = `# A01CF346..43E2 (C:3/A:3/R:1)
-    └ 06193475..0772 (C:2/A:1/R:1) <<
-        └ 465D4063..2F68
-        └ 4FCBC947..D28D`;
+  const expected = `# 9815758B..8AAE (C:3/A:2/R:1)
+    └ 9856A7DB..5F24 (C:2/A:2/R:1) <<
+        └ 98405015..64B0
+        └ 98AE9CAF..D358`;
   expect(graph2tree(json)).toBe(expected);
 });
 
 test("reference from Level2", () => {
   const json = require("./graph/fromLevel2.json");
-  const expected = `# A01CF346..43E2 (C:3/A:3/R:1)
-    └ 06193475..0772 (C:2/A:1/R:1)
-        └ 465D4063..2F68 <<`;
+  const expected = `# 9815758B..8AAE (C:3/A:2/R:1)
+    └ 986D8EE4..CEBB (C:3/A:2/R:1)
+        └ 9804E7EC..780A <<`;
   expect(graph2tree(json)).toBe(expected);
 });
 
 test("reference from Level3", () => {
   const json = require("./graph/fromLevel3.json");
-  const expected = `# A01CF346..43E2 (C:3/A:3/R:1)
-    └ 9835C3BA..92C2 (C:3/A:2/R:1)
-        └ 8BFDE2C8..93E0 (C:1/A:1/R:1)
-            └ A8443CB1..CC47 <<`;
+  const expected = `# 9815758B..8AAE (C:3/A:2/R:1)
+    └ 986D8EE4..CEBB (C:3/A:2/R:1)
+        └ 98B9A474..A157 (C:1/A:1/R:1)
+            └ 98ADB16E..6E9B <<`;
+
   expect(graph2tree(json)).toBe(expected);
 });

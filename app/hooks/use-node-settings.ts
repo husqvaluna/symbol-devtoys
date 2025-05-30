@@ -13,7 +13,7 @@ export function useNodeSettings() {
     }
   };
 
-  const getNodeUrls = (network: "testnet" | "mainnet"): string[] => {
+  const getNodeUrls = (network: "TESTNET" | "MAINNET"): string[] => {
     return settings[network] || [];
   };
 

@@ -26,7 +26,7 @@ export default function Settings() {
 
   // ノード設定の状態管理（jotai使用）
   const [nodeSettings, setNodeSettings] = useAtom(nodeSettingsAtom);
-  const [activeNetworkTab, setActiveNetworkTab] = useState("testnet");
+  const [activeNetworkTab, setActiveNetworkTab] = useState("TESTNET");
   const [testnetUrls, setTestnetUrls] = useState("");
   const [mainnetUrls, setMainnetUrls] = useState("");
 
@@ -108,11 +108,11 @@ export default function Settings() {
 
                   <Tabs value={activeNetworkTab} onValueChange={setActiveNetworkTab}>
                     <TabsList className="grid w-full grid-cols-2">
-                      <TabsTrigger value="testnet">{t("settings.nodes.testnet.label")}</TabsTrigger>
+                      <TabsTrigger value="TESTNET">{t("settings.nodes.testnet.label")}</TabsTrigger>
                       <TabsTrigger value="mainnet">{t("settings.nodes.mainnet.label")}</TabsTrigger>
                     </TabsList>
 
-                    <TabsContent value="testnet" className="space-y-3">
+                    <TabsContent value="TESTNET" className="space-y-3">
                       <div className="space-y-2">
                         <Label htmlFor="testnet-urls" className="text-sm font-medium">
                           {t("settings.nodes.testnet.label")}

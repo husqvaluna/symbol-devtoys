@@ -85,6 +85,7 @@ export default function Block() {
               <div className="flex w-full space-x-2">
                 <Input
                   type="number"
+                  min={1}
                   id="identifier"
                   name="identifier"
                   placeholder=""

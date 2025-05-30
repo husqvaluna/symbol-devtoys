@@ -4,6 +4,7 @@ export default [
   index("routes/home.tsx"),
   route("/keypair", "routes/keypair.tsx"),
   route("/account", "routes/account.tsx"),
+  route("/multisig", "routes/multisig.tsx"),
   route("/monitor", "routes/monitor.tsx"),
   route("/namespace", "routes/namespace.tsx"),
   route("/mosaic", "routes/mosaic.tsx"),

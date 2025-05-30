@@ -37,19 +37,19 @@ export function NodeSelector({ className, size = "default", layout = "horizontal
       <div className="space-y-2">
         <Select value={selectedNetwork} onValueChange={setNetwork}>
           <SelectTrigger id="network-select" className={selectClasses} size={selectSize}>
-            <SelectValue />
+            <SelectValue placeholder="ネットワークを選択" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="testnet">
+            <SelectItem value="TESTNET">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                <span>Testnet</span>
+                <span>TestNet</span>
               </div>
             </SelectItem>
-            <SelectItem value="mainnet">
+            <SelectItem value="MAINNET">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-orange-500 rounded-full" />
-                <span>Mainnet</span>
+                <span>MainNet</span>
               </div>
             </SelectItem>
           </SelectContent>

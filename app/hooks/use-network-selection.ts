@@ -10,14 +10,14 @@ import {
 import { useNodeSettings } from "./use-node-settings";
 
 export interface NetworkSelectionState {
-  selectedNetwork: "testnet" | "mainnet";
+  selectedNetwork: "TESTNET" | "MAINNET";
   selectedNodeUrl: string | null;
   availableNodes: string[];
   isLoading: boolean;
 }
 
 export interface NetworkSelectionActions {
-  setNetwork: (network: "testnet" | "mainnet") => void;
+  setNetwork: (network: "TESTNET" | "MAINNET") => void;
   setNodeUrl: (nodeUrl: string) => void;
   getNodeUrl: () => string | null;
 }
@@ -54,8 +54,6 @@ export function useNetworkSelection(): NetworkSelectionState & NetworkSelectionA
   const setNetwork = useCallback(
     (network: NetworkType) => {
       setSelectedNetworkAtom(network);
-      // ネットワーク変更時は自動的にノード選択がリセットされるため、
-      // useEffectで適切なノードが自動選択される
     },
     [setSelectedNetworkAtom],
   );

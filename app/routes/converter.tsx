@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Address } from "symbol-sdk/symbol";
+import { Address, Network } from "symbol-sdk/symbol";
+import { NodeSelector } from "~/components/node-selector";
 import { PageHeader } from "~/components/page-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { SidebarInset } from "~/components/ui/sidebar";
+import { useNetworkSelection } from "~/hooks/use-network-selection";
 import {
   datetimeStringToNetworkTimestamp,
   decodeAddress,
@@ -22,6 +24,7 @@ export function meta() {
 
 export default function Converter() {
   const { t } = useTranslation();
+  const { selectedNetwork } = useNetworkSelection();
 
   const [NetworkTimestamp, setNetworkTimestamp] = useState("");
   const [dateTimeString, setDateTimeString] = useState("");
@@ -37,12 +40,12 @@ export default function Converter() {
 
   const handleNetworkTimestampChange = (value: string) => {
     setNetworkTimestamp(value);
-    setDateTimeString(networkTimestampToDatetimeString(BigInt(value)).toISOString());
+    setDateTimeString(networkTimestampToDatetimeString(BigInt(value), Network[selectedNetwork]).toISOString());
   };
 
   const handleDateTimeStringChange = (value: string) => {
     setDateTimeString(value);
-    setNetworkTimestamp(datetimeStringToNetworkTimestamp(value).toString());
+    setNetworkTimestamp(datetimeStringToNetworkTimestamp(value, Network[selectedNetwork]).toString());
   };
 
   const handleHexStringChange = (value: string) => {
@@ -73,7 +76,9 @@ export default function Converter() {
 
   return (
     <SidebarInset>
-      <PageHeader title={t("converter.title")} subtitle={t("converter.subtitle")} />
+      <PageHeader title={t("converter.title")} subtitle={t("converter.subtitle")}>
+        <NodeSelector />
+      </PageHeader>
 
       <div className="w-full p-4">
         <div className="space-y-4">
@@ -89,7 +94,8 @@ export default function Converter() {
                   <Label htmlFor="network-time">ネットワーク時間</Label>
                   <Input
                     id="network-time"
-                    type="text"
+                    type="number"
+                    min={0}
                     placeholder="110097499"
                     value={NetworkTimestamp}
                     onChange={(e) => handleNetworkTimestampChange(e.target.value)}

@@ -16,6 +16,9 @@ export default defineConfig({
       'symbol-crypto-wasm-node': 'symbol-crypto-wasm-web/symbol_crypto_wasm.js',
     }
   },
+  build: {
+    chunkSizeWarningLimit: 4000,
+  },
   plugins: [
     nodePolyfills({
       include: [
@@ -41,6 +44,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
+        maximumFileSizeToCacheInBytes: 4000000,
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         runtimeCaching: [
           {
@@ -71,13 +75,21 @@ export default defineConfig({
       manifest: {
         name: 'Symbol DevToys',
         short_name: 'Symbol DevToys',
-        description: 'Symbol blockchain development tools and utilities',
+        description: 'Swiss Army knife for Symbol Blockchain Developers.',
         theme_color: '#ffffff',
         background_color: '#ffffff',
         display: 'standalone',
-        orientation: 'portrait',
+        orientation: 'landscape',
         scope: '/',
         start_url: '/',
+        screenshots: [
+          {
+            src: "screenshot-wide.jpg",
+            sizes: "1280x720",
+            type: "image/jpeg",
+            form_factor: "wide"
+          }
+        ],
         icons: [
           {
             src: 'pwa-192x192.png',

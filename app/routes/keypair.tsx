@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/com
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { useNetworkSelection } from "~/hooks/use-network-selection";
 import { NodeSelector } from "~/components/node-selector";
 import { useEffect, useState } from "react";
@@ -26,6 +27,7 @@ export default function Keypair() {
   const [privateKey, setPrivateKey] = useState("");
   const [publicKey, setPublicKey] = useState("");
   const [address, setAddress] = useState("");
+  const [vanity, setVanity] = useState("");
 
   useEffect(() => {
     if (privateKey.length < 64) {
@@ -34,9 +36,23 @@ export default function Keypair() {
 
     const facade = new SymbolFacade(Network[selectedNetwork]);
     const account = facade.createAccount(new PrivateKey(privateKey));
+
     setPublicKey(account.publicKey.toString());
     setAddress(account.address.toString());
   }, [privateKey, selectedNetwork]);
+
+  function generateNewKey() {
+    const facade = new SymbolFacade(Network[selectedNetwork]);
+    let key = "";
+    while (true) {
+      key = PrivateKey.random().toString();
+      const account = facade.createAccount(new PrivateKey(key));
+      if (vanity === "" || account.address.toString().charAt(1) === vanity) {
+        break;
+      }
+    }
+    setPrivateKey(key);
+  }
 
   return (
     <SidebarInset>
@@ -65,9 +81,33 @@ export default function Keypair() {
                   value={privateKey}
                   onChange={(e) => setPrivateKey(e.target.value)}
                 />
-                <Button type="submit" className="w-full" onClick={() => setPrivateKey(PrivateKey.random().toString())}>
+                <Button type="submit" className="w-full" onClick={() => generateNewKey()}>
                   generate
                 </Button>
+                <div className="pt-4">
+                  <RadioGroup defaultValue="" className="flex space-x-4" onValueChange={setVanity}>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="" id="option-any" />
+                      <Label htmlFor="option-any">Any</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="A" id="option-A" />
+                      <Label htmlFor="option-A">A</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="B" id="option-B" />
+                      <Label htmlFor="option-B">B</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="C" id="option-C" />
+                      <Label htmlFor="option-C">C</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="D" id="option-D" />
+                      <Label htmlFor="option-D">D</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
               </div>
             </CardContent>
           </Card>

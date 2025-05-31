@@ -39,7 +39,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language || "ja";
-  const manifestPath = currentLanguage === "en" ? "/manifest-en.json" : "/manifest.json";
+  const manifestPath = currentLanguage === "en" ? "/manifest.webmanifest" : "/manifest.webmanifest";
 
   return (
     <html lang={currentLanguage}>

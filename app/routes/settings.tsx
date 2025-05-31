@@ -32,15 +32,15 @@ export default function Settings() {
 
   // ノード設定の初期化
   useEffect(() => {
-    setTestnetUrls(formatNodeUrls(nodeSettings.testnet));
-    setMainnetUrls(formatNodeUrls(nodeSettings.mainnet));
+    setTestnetUrls(formatNodeUrls(nodeSettings.TESTNET));
+    setMainnetUrls(formatNodeUrls(nodeSettings.MAINNET));
   }, [nodeSettings]);
 
   // ノード設定の保存
   const handleSaveNodeSettings = () => {
     const newSettings: NodeSettings = {
-      testnet: parseNodeUrls(testnetUrls),
-      mainnet: parseNodeUrls(mainnetUrls),
+      TESTNET: parseNodeUrls(testnetUrls),
+      MAINNET: parseNodeUrls(mainnetUrls),
     };
     setNodeSettings(newSettings);
 
@@ -55,8 +55,8 @@ export default function Settings() {
   // ノード設定のリセット
   const handleResetNodeSettings = () => {
     setNodeSettings(DEFAULT_SETTINGS);
-    setTestnetUrls(formatNodeUrls(DEFAULT_SETTINGS.testnet));
-    setMainnetUrls(formatNodeUrls(DEFAULT_SETTINGS.mainnet));
+    setTestnetUrls(formatNodeUrls(DEFAULT_SETTINGS.TESTNET));
+    setMainnetUrls(formatNodeUrls(DEFAULT_SETTINGS.MAINNET));
 
     // Toastメッセージを表示
     addToast({

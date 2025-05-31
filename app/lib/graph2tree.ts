@@ -1,6 +1,6 @@
 import { encodeAddress } from "~/logics/convert";
 
-export interface IMultisig {
+export interface MultisigEntity {
   version: number;
   accountAddress: string;
   minApproval: number;
@@ -9,39 +9,18 @@ export interface IMultisig {
   multisigAddresses: string[];
 }
 
-export interface IEntry {
-  multisig: IMultisig;
+export interface MultisigEntry {
+  multisig: MultisigEntity;
 }
 
-export interface ILayer {
+export interface MultisigLayer {
   level: number;
-  multisigEntries: IEntry[];
+  multisigEntries: MultisigEntry[];
 }
 
-export const defaultOptions = {
-  referer: "<<",
-  root: "#",
-  child: "└",
-  head: 8,
-  tail: 4,
-  truncated: true,
-  readableAddress: false,
-};
+type NodeTuple = [number, MultisigEntry, NodeTuple[]];
 
-export type IOptions = Partial<typeof defaultOptions>;
-
-export type NodeTuple = [number, IEntry, NodeTuple[]];
-
-type InternalOptions = typeof defaultOptions;
-
-export const graph2tree = (graph: ILayer[], options: IOptions = {}) => {
-  const layer = graph.find((l: ILayer) => l.level === 0);
-  const referer = layer ? layer.multisigEntries[0].multisig.accountAddress : "";
-  const tree = buildTree(graph);
-  return buildTextOutput(tree, referer, { ...defaultOptions, ...options });
-};
-
-export const buildTree = (graph: ILayer[]): NodeTuple[] => {
+export const graph2tree = (graph: MultisigLayer[]): NodeTuple[] => {
   const tree: NodeTuple[] = [];
   for (const layer of graph) {
     if (tree.length === 0) {
@@ -73,27 +52,43 @@ const findParentNode = (tree: NodeTuple[], account: string, level: number): Node
   return undefined;
 };
 
+export default graph2tree;
+
 // ---------------------------------------------------------
 
-const buildTextOutput = (tree: NodeTuple[], referer: string, options: InternalOptions): string => {
+const asciiDefaultOptions = {
+  referer: "<<",
+  root: "#",
+  child: "└",
+  head: 8,
+  tail: 4,
+  truncated: true,
+  readableAddress: false,
+};
+
+export type AsciiOptions = Partial<typeof asciiDefaultOptions>;
+
+export const renderAscii = (tree: NodeTuple[], options: AsciiOptions = {}): string => {
+  const opts = { ...asciiDefaultOptions, ...options };
   const buf: string[] = [];
 
-  const renderLine = (entry: IEntry, level: number, end: boolean) => {
-    const pad = "  ".repeat(level * 2) + (level === 0 ? `${options.root} ` : `${options.child} `);
+  const renderLine = (entry: MultisigEntry, level: number, refinedLevel: number, end: boolean) => {
+    const pad = "  ".repeat(refinedLevel * 2) + (refinedLevel === 0 ? `${opts.root} ` : `${opts.child} `);
     const msig = entry.multisig;
-    const ref = msig.accountAddress === referer ? ` ${options.referer}` : "";
+
+    const ref = level == 0 ? ` ${opts.referer}` : "";
     const nOfm =
       msig.cosignatoryAddresses.length === 0 ? "" : ` (C:${msig.cosignatoryAddresses.length}/A:${msig.minApproval}/R:${msig.minRemoval})`;
 
-    const identifier = options.readableAddress ? encodeAddress(msig.accountAddress).toString() : msig.accountAddress;
-    const identifierToDisplay = options.truncated
-      ? `${identifier.slice(0, options.head)}..${identifier.slice((options.tail || 0) * -1)}`
+    const identifier = opts.readableAddress ? encodeAddress(msig.accountAddress).toString() : msig.accountAddress;
+    const identifierToDisplay = opts.truncated
+      ? `${identifier.slice(0, opts.head)}..${identifier.slice((opts.tail || 0) * -1)}`
       : identifier;
     buf.push(`${pad}${identifierToDisplay}${nOfm}${ref}`);
   };
 
   const putIntoBuf = (node: NodeTuple, level: number, end: boolean) => {
-    renderLine(node[1], level, end);
+    renderLine(node[1], node[0], level, end);
     level++;
     for (let i = 0; i < node[2].length; i++) {
       putIntoBuf(node[2][i], level, node[2].length - 1 === i);
@@ -104,4 +99,31 @@ const buildTextOutput = (tree: NodeTuple[], referer: string, options: InternalOp
   return buf.join("\n");
 };
 
-export default graph2tree;
+// ---------------------------------------------------------
+
+export interface IMermaidOptions {
+  truncated?: boolean;
+  head?: number;
+  tail?: number;
+  direction?: "TD" | "LR" | "BT" | "RL";
+  nodeShape?: "rect" | "round" | "circle" | "rhombus";
+  showDetails?: boolean;
+  theme?: "default" | "dark" | "forest" | "base";
+}
+
+const mermaidDefaultOptions = {
+  head: 8,
+  tail: 4,
+  truncated: true,
+  direction: "TD",
+  nodeShape: "rect",
+  showDetails: true,
+  theme: "default",
+};
+
+export type MermaidOptions = Partial<typeof mermaidDefaultOptions>;
+
+export const renderMermaid = (tree: NodeTuple[], options: MermaidOptions = {}): string => {
+  const opts = { ...asciiDefaultOptions, ...options };
+  // TODO: ここに実装する
+}

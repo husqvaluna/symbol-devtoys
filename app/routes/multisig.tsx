@@ -15,7 +15,7 @@ import type { Route } from "./+types/multisig";
 import ky from "ky";
 
 import MultisigRequestSchema, { type MultisigRequestSchemaType } from "~/schemas/multisig-request";
-import { graph2tree, type ILayer } from "~/lib/graph2tree";
+import { graph2tree, renderAscii, type MultisigLayer } from "~/lib/graph2tree";
 
 export function meta() {
   return [
@@ -44,14 +44,14 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     return data({ errors: [body] }, { status: response.status });
   }
 
-  const multisigGraph: ILayer[] = await response.json();
+  const multisigGraph: MultisigLayer[] = await response.json();
 
-  // graph2tree関数で整形
-  const treeOutput = graph2tree(multisigGraph, { readableAddress: true });
+  const tree = graph2tree(multisigGraph);
+  const asciiOutput = renderAscii(tree, { readableAddress: true });
 
   return {
     result: multisigGraph,
-    treeOutput,
+    asciiOutput,
   };
 }
 
@@ -65,7 +65,7 @@ export default function Multisig() {
 
   const nodeUrl = getNodeUrl();
 
-  const fetcher = useFetcher<{ result?: MultisigGraph; treeOutput?: string; errors?: { message: string }[] }>();
+  const fetcher = useFetcher<{ result?: MultisigGraph; asciiOutput?: string; errors?: { message: string }[] }>();
   const busy = fetcher.state !== "idle";
 
   const [address, setAddress] = useState("");
@@ -115,12 +115,12 @@ export default function Multisig() {
             )}
 
             {/* ツリー表示 */}
-            {fetcher.data?.treeOutput && (
+            {fetcher.data?.asciiOutput && (
               <div className="mt-4 space-y-2">
                 <Label htmlFor="tree-output">マルチシグアカウントツリー</Label>
                 <Textarea
                   id="tree-output"
-                  value={fetcher.data.treeOutput}
+                  value={fetcher.data.asciiOutput}
                   readOnly
                   className="min-h-[200px] font-mono text-sm bg-gray-50 dark:bg-gray-800"
                   placeholder="マルチシグアカウントツリーがここに表示されます"

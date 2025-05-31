@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import graph2tree from "./graph2tree";
+import graph2tree, { renderAscii } from "./graph2tree";
 
 test("reference from Root", () => {
   const json = require("./graph/fromLevel0.json");
@@ -13,7 +13,8 @@ test("reference from Root", () => {
         └ 98B9A474..A157 (C:1/A:1/R:1)
             └ 98ADB16E..6E9B
     └ 98E3E132..C30F`;
-  expect(graph2tree(json)).toBe(expected);
+  const tree = graph2tree(json);
+  expect(renderAscii(tree, {})).toBe(expected);
 });
 
 test("reference from Root", () => {
@@ -28,7 +29,8 @@ test("reference from Root", () => {
         └ TC42I5D4..KCVY (C:1/A:1/R:1)
             └ TCW3C3VQ..W5GY
     └ TDR6CMWU..MGDY`;
-  expect(graph2tree(json, { readableAddress: true })).toBe(expected);
+  const tree = graph2tree(json);
+  expect(renderAscii(tree, { readableAddress: true })).toBe(expected);
 });
 
 test("reference from Level1", () => {
@@ -37,7 +39,8 @@ test("reference from Level1", () => {
     └ 9856A7DB..5F24 (C:2/A:2/R:1) <<
         └ 98405015..64B0
         └ 98AE9CAF..D358`;
-  expect(graph2tree(json)).toBe(expected);
+  const tree = graph2tree(json);
+  expect(renderAscii(tree, {})).toBe(expected);
 });
 
 test("reference from Level2", () => {
@@ -45,7 +48,8 @@ test("reference from Level2", () => {
   const expected = `# 9815758B..8AAE (C:3/A:2/R:1)
     └ 986D8EE4..CEBB (C:3/A:2/R:1)
         └ 9804E7EC..780A <<`;
-  expect(graph2tree(json)).toBe(expected);
+  const tree = graph2tree(json);
+  expect(renderAscii(tree, {})).toBe(expected);
 });
 
 test("reference from Level3", () => {
@@ -54,6 +58,6 @@ test("reference from Level3", () => {
     └ 986D8EE4..CEBB (C:3/A:2/R:1)
         └ 98B9A474..A157 (C:1/A:1/R:1)
             └ 98ADB16E..6E9B <<`;
-
-  expect(graph2tree(json)).toBe(expected);
+  const tree = graph2tree(json);
+  expect(renderAscii(tree, {})).toBe(expected);
 });

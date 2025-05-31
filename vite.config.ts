@@ -3,22 +3,37 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
-import wasm from 'vite-plugin-wasm'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import topLevelAwait from 'vite-plugin-top-level-await'
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
-import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
-import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
-import replace from '@rollup/plugin-replace'
+import wasm from 'vite-plugin-wasm'
 
+import replace from '@rollup/plugin-replace'
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      'symbol-crypto-wasm-node': 'symbol-crypto-wasm-web/symbol_crypto_wasm.js',
+    }
+  },
   plugins: [
+    nodePolyfills({
+      include: [
+        // 'buffer',
+        'crypto',
+        // 'util'
+      ],
+      globals: {
+        Buffer: true,
+        // global: true,
+        // process: true,
+      },
+    }),
+    topLevelAwait(),
+    wasm(),
     tailwindcss(),
     reactRouter(),
     tsconfigPaths(),
-    wasm(),
-    topLevelAwait(),
     replace({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV ?? 'development'),
       preventAssignment: true
@@ -84,31 +99,4 @@ export default defineConfig({
       }
     })
   ],
-  resolve: {
-    alias: {
-      'symbol-crypto-wasm-node': 'symbol-crypto-wasm-web/symbol_crypto_wasm.js',
-      crypto: 'crypto-browserify',
-      stream: 'stream-browserify',
-      path: 'path-browserify'
-    }
-  },
-  optimizeDeps: {
-    esbuildOptions: {
-      define: {
-        global: 'globalThis'
-      },
-      plugins: [
-        NodeGlobalsPolyfillPlugin({
-          process: true,
-          buffer: true
-        }),
-        NodeModulesPolyfillPlugin()
-      ]
-    }
-  },
-  build: {
-    rollupOptions: {
-      plugins: [rollupNodePolyFill()]
-    }
-  }
 })

@@ -15,7 +15,7 @@ import type { Route } from "./+types/multisig";
 import ky from "ky";
 
 import MultisigRequestSchema, { type MultisigRequestSchemaType } from "~/schemas/multisig-request";
-import { graph2tree, renderAscii, type MultisigLayer } from "~/lib/graph2tree";
+import { graph2tree, renderAscii, renderMermaid, type MultisigLayer } from "~/lib/graph2tree";
 
 export function meta() {
   return [
@@ -48,6 +48,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 
   const tree = graph2tree(multisigGraph);
   const asciiOutput = renderAscii(tree, { readableAddress: true });
+  // const mermaidOutput = renderMermaid(tree);
 
   return {
     result: multisigGraph,

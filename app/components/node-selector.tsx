@@ -33,7 +33,6 @@ export function NodeSelector({ className, size = "default", layout = "horizontal
 
   return (
     <div className={containerClasses}>
-      {/* ネットワーク選択 */}
       <div className="space-y-2">
         <Select value={selectedNetwork} onValueChange={setNetwork}>
           <SelectTrigger id="network-select" className={selectClasses} size={selectSize}>

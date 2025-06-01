@@ -60,15 +60,15 @@ export default function Keypair() {
         <NodeSelector />
       </PageHeader>
 
-      <div className="p-4 space-y-4">
+      <div className="p-2">
         <div className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle></CardTitle>
-              <CardDescription></CardDescription>
+              <CardTitle>キーペア生成</CardTitle>
+              <CardDescription>新しい秘密鍵を生成し、公開鍵とアドレスを導出します。</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
                 <Label htmlFor="private-key">秘密鍵</Label>
                 <Input
                   type="text"
@@ -76,15 +76,19 @@ export default function Keypair() {
                   name="private-key"
                   pattern="[a-fA-F\d]+"
                   maxLength={64}
-                  placeholder=""
+                  placeholder="秘密鍵を入力または生成してください"
                   autoFocus
                   value={privateKey}
                   onChange={(e) => setPrivateKey(e.target.value)}
+                  className="font-mono"
                 />
-                <Button type="submit" className="w-full" onClick={() => generateNewKey()}>
-                  generate
+              </div>
+              <div className="space-y-2">
+                <Button type="button" className="w-full" onClick={() => generateNewKey()}>
+                  新しいキーペアを生成
                 </Button>
-                <div className="pt-4">
+                <div className="pt-2 space-y-2">
+                  <Label>アドレスの先頭文字（バニティアドレス）</Label>
                   <RadioGroup defaultValue="" className="flex space-x-4" onValueChange={setVanity}>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="" id="option-any" />
@@ -111,22 +115,27 @@ export default function Keypair() {
               </div>
             </CardContent>
           </Card>
-        </div>
 
-        <div className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle></CardTitle>
-              <CardDescription></CardDescription>
+              <CardTitle>導出された情報</CardTitle>
+              <CardDescription>入力された秘密鍵から導出された公開鍵とアドレスです。</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
                 <Label htmlFor="public-key">公開鍵</Label>
-                <Input type="text" id="public-key" name="public-key" value={publicKey} readOnly />
+                <Input
+                  type="text"
+                  id="public-key"
+                  name="public-key"
+                  value={publicKey}
+                  readOnly
+                  className="font-mono bg-gray-50 dark:bg-gray-800"
+                />
               </div>
-              <div>
+              <div className="space-y-2">
                 <Label htmlFor="address">アドレス</Label>
-                <Input type="text" id="address" name="address" value={address} readOnly />
+                <Input type="text" id="address" name="address" value={address} readOnly className="font-mono bg-gray-50 dark:bg-gray-800" />
               </div>
             </CardContent>
           </Card>

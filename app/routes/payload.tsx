@@ -1,8 +1,13 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SidebarInset } from "~/components/ui/sidebar";
 import { PageHeader } from "~/components/page-header";
-import { useNetworkSelection } from "~/hooks/use-network-selection";
-import { NodeSelector } from "~/components/node-selector";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import { Textarea } from "~/components/ui/textarea";
+import { Label } from "~/components/ui/label";
+
+import { utils } from "symbol-sdk";
+import { SymbolTransactionFactory, models } from "symbol-sdk/symbol";
 
 export function meta() {
   return [
@@ -11,19 +16,56 @@ export function meta() {
   ];
 }
 
+function restore(hexPayload: string): models.Transaction {
+  const transaction = SymbolTransactionFactory.deserialize(utils.hexToUint8(hexPayload));
+  return transaction;
+}
+
 export default function Payload() {
   const { t } = useTranslation();
-  const { getNodeUrl, selectedNetwork } = useNetworkSelection();
 
-  const nodeUrl = getNodeUrl();
+  const [payload, setPayload] = useState("");
+
+  let readable = "";
+  try {
+    readable = JSON.stringify(restore(payload).toJson(), null, 2);
+  } catch (e: any) {}
 
   return (
     <SidebarInset>
-      <PageHeader title={t("payload.title")} subtitle={t("payload.subtitle")}>
-        <NodeSelector />
-      </PageHeader>
+      <PageHeader title={t("payload.title")} subtitle={t("payload.subtitle")}></PageHeader>
 
-      <div className="p-4 space-y-4">{/* コンテンツ部分はここに実装されます */}</div>
+      <div className="p-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>ペイロードデコード</CardTitle>
+            <CardDescription>16進数ペイロードをデコードしてトランザクション情報を取得します</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="payload">ペイロード（16進数）</Label>
+              <Textarea
+                id="payload"
+                value={payload}
+                onChange={(e) => setPayload(e.target.value)}
+                className="min-h-[300px] font-mono"
+                placeholder="ここに16進数ペイロードを入力してください"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="transaction-result">トランザクション情報（JSON）</Label>
+              <Textarea
+                id="transaction-result"
+                value={readable}
+                readOnly
+                className="min-h-[300px] font-mono text-sm bg-gray-50 dark:bg-gray-800"
+                placeholder="トランザクション情報がここに表示されます"
+              />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </SidebarInset>
   );
 }

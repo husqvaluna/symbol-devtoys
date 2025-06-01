@@ -2,6 +2,7 @@ import { useState } from "react";
 import { data, useFetcher } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
@@ -72,14 +73,14 @@ export default function Block() {
         <NodeSelector />
       </PageHeader>
 
-      <div className="p-4 space-y-4">
+      <div className="p-2">
         <Card>
           <CardHeader>
             <CardTitle>ブロック情報取得</CardTitle>
             <CardDescription>{selectedNetwork}ネットワークからブロック情報を取得します</CardDescription>
           </CardHeader>
-          <CardContent>
-            <fetcher.Form method="post">
+          <CardContent className="space-y-4">
+            <fetcher.Form method="post" className="space-y-2">
               <Input name="node-url" type="hidden" value={nodeUrl || ""} />
               <Label htmlFor="identifier">ブロック番号</Label>
               <div className="flex w-full space-x-2">
@@ -99,17 +100,22 @@ export default function Block() {
               </div>
             </fetcher.Form>
 
-            {/* エラー表示 */}
             {fetcher.data?.errors && (
-              <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
-                {fetcher.data.errors.map((error) => (
-                  <p className="text-sm text-red-600 dark:text-red-400">{error.message}</p>
-                ))}
-              </div>
+              <Alert variant="destructive">
+                <AlertTitle>取得エラー</AlertTitle>
+                <AlertDescription>
+                  <ul className="list-inside list-disc text-sm">
+                    {fetcher.data.errors.map((error, index) => (
+                      <li key={index} className="text-sm text-red-600 dark:text-red-400">
+                        {error.message}
+                      </li>
+                    ))}
+                  </ul>
+                </AlertDescription>
+              </Alert>
             )}
 
-            {/* 結果表示 */}
-            <div className="mt-4 space-y-2">
+            <div className="space-y-2">
               <Label htmlFor="block-result">ブロック情報（JSON）</Label>
               <Textarea
                 id="block-result"

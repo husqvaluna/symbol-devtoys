@@ -2,6 +2,7 @@ import { useState } from "react";
 import { data, useFetcher } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
@@ -71,22 +72,25 @@ export default function Transaction() {
         <NodeSelector />
       </PageHeader>
 
-      <div className="p-4 space-y-4">
+      <div className="p-2">
         <Card>
           <CardHeader>
             <CardTitle>トランザクション情報取得</CardTitle>
             <CardDescription>{selectedNetwork}ネットワークからトランザクション情報を取得します</CardDescription>
           </CardHeader>
-          <CardContent>
-            <fetcher.Form method="post">
+          <CardContent className="space-y-4">
+            <fetcher.Form method="post" className="space-y-2">
               <Input name="node-url" type="hidden" value={nodeUrl || ""} />
-              <Label htmlFor="transactionId">トランザクションIDまたはハッシュ</Label>
+              <Label htmlFor="transaction-id">トランザクションIDまたはハッシュ</Label>
               <div className="flex w-full space-x-2">
                 <Input
                   type="text"
-                  id="transactionId"
-                  name="transactionId"
-                  placeholder="例: 0000000000000000000000000000000000000000000000000000000000000000"
+                  id="transaction-id"
+                  name="transaction-id"
+                  pattern="[a-fA-F\d]+"
+                  maxLength={64}
+                  placeholder="ex: 0000000000000000000000000000000000000000000000000000000000000000"
+                  autoFocus
                   value={transactionId}
                   onChange={(e) => setTransactionId(e.target.value)}
                   disabled={busy}
@@ -98,22 +102,25 @@ export default function Transaction() {
               </div>
             </fetcher.Form>
 
-            {/* エラー表示 */}
             {fetcher.data?.errors && (
-              <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
-                {fetcher.data.errors.map((error, index) => (
-                  <p key={index} className="text-sm text-red-600 dark:text-red-400">
-                    {error.message}
-                  </p>
-                ))}
-              </div>
+              <Alert variant="destructive">
+                <AlertTitle>取得エラー</AlertTitle>
+                <AlertDescription>
+                  <ul className="list-inside list-disc text-sm">
+                    {fetcher.data.errors.map((error, index) => (
+                      <li key={index} className="text-sm text-red-600 dark:text-red-400">
+                        {error.message}
+                      </li>
+                    ))}
+                  </ul>
+                </AlertDescription>
+              </Alert>
             )}
 
-            {/* 結果表示 */}
-            <div className="mt-4 space-y-2">
-              <Label htmlFor="transaction-result">トランザクション情報（JSON）</Label>
+            <div className="space-y-2">
+              <Label htmlFor="result">トランザクション情報（JSON）</Label>
               <Textarea
-                id="transaction-result"
+                id="result"
                 value={JSON.stringify(fetcher.data?.result, null, 2)}
                 readOnly
                 className="min-h-[300px] font-mono text-sm bg-gray-50 dark:bg-gray-800"

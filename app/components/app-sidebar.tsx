@@ -11,6 +11,7 @@ import {
   TicketCheck,
   Box,
   ArrowLeftRight,
+  BookText,
   Server,
   Network,
   FileText,
@@ -155,7 +156,7 @@ export function AppSidebar() {
                 asChild
                 isActive={isActiveRoute(item.url)}
                 tooltip={state === "collapsed" ? item.title : undefined}
-                className="h-10 px-2"
+                className="h-8 px-2"
               >
                 <Link to={item.url}>
                   <item.icon className="h-4 w-4" />
@@ -173,10 +174,10 @@ export function AppSidebar() {
               asChild
               isActive={isActiveRoute("/glossary")}
               tooltip={state === "collapsed" ? t("menu.glossary") : undefined}
-              className="h-10 px-2"
+              className="h-8 px-2"
             >
               <Link to="/glossary">
-                <Settings className="h-4 w-4" />
+                <BookText className="h-4 w-4" />
                 <span>{t("menu.glossary")}</span>
               </Link>
             </SidebarMenuButton>
@@ -186,7 +187,7 @@ export function AppSidebar() {
               asChild
               isActive={isActiveRoute("/settings")}
               tooltip={state === "collapsed" ? t("menu.settings") : undefined}
-              className="h-10 px-2"
+              className="h-8 px-2"
             >
               <Link to="/settings">
                 <Settings className="h-4 w-4" />

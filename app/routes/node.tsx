@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { data, useFetcher } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
@@ -94,14 +95,14 @@ export default function Node() {
         <NodeSelector />
       </PageHeader>
 
-      <div className="p-4 space-y-4">
+      <div className="p-2">
         <Card>
           <CardHeader>
             <CardTitle>ノード情報取得</CardTitle>
             <CardDescription>{selectedNetwork}ネットワークのノード情報を取得します</CardDescription>
           </CardHeader>
-          <CardContent>
-            <fetcher.Form method="post">
+          <CardContent className="space-y-4">
+            <fetcher.Form method="post" className="space-y-2">
               <input name="node-url" type="hidden" value={nodeUrl || ""} />
               <div className="flex w-full space-x-2">
                 <Button type="submit" disabled={busy}>
@@ -110,19 +111,22 @@ export default function Node() {
               </div>
             </fetcher.Form>
 
-            {/* エラー表示 */}
             {fetcher.data?.errors && (
-              <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
-                {fetcher.data.errors.map((error, index) => (
-                  <p key={index} className="text-sm text-red-600 dark:text-red-400">
-                    {error.message}
-                  </p>
-                ))}
-              </div>
+              <Alert variant="destructive">
+                <AlertTitle>取得エラー</AlertTitle>
+                <AlertDescription>
+                  <ul className="list-inside list-disc text-sm">
+                    {fetcher.data.errors.map((error, index) => (
+                      <li key={index} className="text-sm text-red-600 dark:text-red-400">
+                        {error.message}
+                      </li>
+                    ))}
+                  </ul>
+                </AlertDescription>
+              </Alert>
             )}
 
-            {/* 結果表示 */}
-            <div className="mt-4 space-y-4">
+            <div className="space-y-4">
               {API_ENDPOINTS.map((endpoint) => (
                 <div key={endpoint} className="space-y-2">
                   <Label htmlFor={`node-result-${endpoint}`}>/{endpoint} 情報（JSON）</Label>

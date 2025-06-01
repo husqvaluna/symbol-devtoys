@@ -80,7 +80,7 @@ export default function Converter() {
         <NodeSelector />
       </PageHeader>
 
-      <div className="w-full p-4">
+      <div className="p-2">
         <div className="space-y-4">
           {/* ネットワーク時間変換 */}
           <Card>
@@ -88,7 +88,7 @@ export default function Converter() {
               <CardTitle>ネットワーク時間変換</CardTitle>
               <CardDescription>現実の世界時間とSymbolネットワーク時間を相互変換します</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <div className="space-y-1">
                   <Label htmlFor="network-time">ネットワーク時間</Label>
@@ -121,7 +121,7 @@ export default function Converter() {
               <CardTitle>Hex String Encode/Decode</CardTitle>
               <CardDescription>Convert hex messages to readable strings and vice versa</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <div className="space-y-1">
                   <Label htmlFor="hex-string">16進数</Label>
@@ -152,7 +152,7 @@ export default function Converter() {
               <CardTitle>アドレスのエンデコ</CardTitle>
               <CardDescription>Convert hex addresses to account addresses and vice versa</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <div className="space-y-1">
                   <Label htmlFor="hex-address">16進数アドレス</Label>
@@ -184,7 +184,7 @@ export default function Converter() {
               <CardTitle>Namespace to ID Conversion</CardTitle>
               <CardDescription>Convert namespace strings to ID values (one-way conversion only)</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <div className="space-y-1">
                   <Label htmlFor="namespace-string">Namespace String</Label>

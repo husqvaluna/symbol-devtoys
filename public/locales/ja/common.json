@@ -14,6 +14,7 @@
     "payload": "ペイロード",
     "fee": "手数料計算機",
     "converter": "コンバータ",
+    "glossary": "用語集",
     "settings": "設定"
   },
   "home": {
@@ -93,6 +94,10 @@
   "fee": {
     "title": "手数料計算機",
     "subtitle": "構築したトランザクションの手数料を試算する計算機です。"
+  },
+  "glossary": {
+    "title": "用語集",
+    "subtitle": ""
   },
   "settings": {
     "title": "設定",

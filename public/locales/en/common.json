@@ -14,6 +14,7 @@
     "payload": "Payload",
     "fee": "Fee Calculator",
     "converter": "Converter",
+    "glossary": "Glossary",
     "settings": "Settings"
   },
   "home": {
@@ -94,6 +95,10 @@
     "title": "Fee Calculator",
     "subtitle": "A calculator to estimate fees for constructed transactions."
   },
+  "glossary": {
+    "title": "Glossary",
+    "subtitle": ""
+  },
   "settings": {
     "title": "Settings",
     "subtitle": "Manage application settings",
@@ -107,8 +112,8 @@
         "label": "Language",
         "description": "Select the display language for the application",
         "options": {
-          "ja": "日本語",
-          "en": "English"
+          "en": "English",
+          "ja": "日本語"
         }
       }
     },

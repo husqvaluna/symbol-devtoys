@@ -42,10 +42,13 @@ export default defineConfig({
       preventAssignment: true
     }),
     VitePWA({
+      devOptions: {
+        enabled: true
+      },
       registerType: 'autoUpdate',
       workbox: {
         maximumFileSizeToCacheInBytes: 4000000,
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,webmanifest}'],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -76,8 +79,8 @@ export default defineConfig({
         name: 'Symbol DevToys',
         short_name: 'Symbol DevToys',
         description: 'Swiss Army knife for Symbol Blockchain Developers.',
-        theme_color: '#ffffff',
-        background_color: '#ffffff',
+        theme_color: '#5200C6',
+        background_color: '#5200C6',
         display: 'standalone',
         orientation: 'landscape',
         scope: '/',

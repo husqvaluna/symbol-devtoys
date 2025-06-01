@@ -143,7 +143,9 @@ export default function Network() {
                     <Label htmlFor={`network-result-${key}`}>{label}（JSON）</Label>
                     <Textarea
                       id={`network-result-${key}`}
-                      value={results[key] ? JSON.stringify(results[key], null, 2) : busy ? "Fetching..." : "Information will be displayed here"}
+                      value={
+                        results[key] ? JSON.stringify(results[key], null, 2) : busy ? "Fetching..." : "Information will be displayed here"
+                      }
                       readOnly
                       className="min-h-[150px] font-mono text-sm bg-gray-50 dark:bg-gray-800"
                       placeholder="Information will be displayed here"

@@ -16,7 +16,7 @@ import ky from "ky";
 import { z } from "zod";
 
 const NodeRequestSchema = z.object({
-  nodeUrl: z.string().url("有効なURLを入力してください。"),
+  nodeUrl: z.string().url("Please enter a valid URL."),
 });
 
 type NodeRequestSchemaType = z.infer<typeof NodeRequestSchema>;
@@ -24,7 +24,7 @@ type NodeRequestSchemaType = z.infer<typeof NodeRequestSchema>;
 const API_ENDPOINTS = ["health", "info", "peers", "storage", "time", "server", "unlockedaccount"];
 
 export function meta() {
-  return [{ title: "ノード - Symbol DevToys" }, { name: "description", content: "ノードホストURLからノード情報を取得します。" }];
+  return [{ title: "Node - Symbol DevToys" }, { name: "description", content: "Retrieve node information from the node host URL." }];
 }
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
@@ -98,22 +98,22 @@ export default function Node() {
       <div className="p-2">
         <Card>
           <CardHeader>
-            <CardTitle>ノード情報取得</CardTitle>
-            <CardDescription>{selectedNetwork}ネットワークのノード情報を取得します</CardDescription>
+            <CardTitle>Retrieve Node Information</CardTitle>
+            <CardDescription>Retrieve {selectedNetwork} network node information</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <fetcher.Form method="post" className="space-y-2">
               <input name="node-url" type="hidden" value={nodeUrl || ""} />
               <div className="flex w-full space-x-2">
                 <Button type="submit" disabled={busy}>
-                  {busy ? "取得中..." : "取得"}
+                  {busy ? "Fetching..." : "Fetch"}
                 </Button>
               </div>
             </fetcher.Form>
 
             {fetcher.data?.errors && (
               <Alert variant="destructive">
-                <AlertTitle>取得エラー</AlertTitle>
+                <AlertTitle>Fetch Error</AlertTitle>
                 <AlertDescription>
                   <ul className="list-inside list-disc text-sm">
                     {fetcher.data.errors.map((error, index) => (
@@ -129,13 +129,13 @@ export default function Node() {
             <div className="space-y-4">
               {API_ENDPOINTS.map((endpoint) => (
                 <div key={endpoint} className="space-y-2">
-                  <Label htmlFor={`node-result-${endpoint}`}>/{endpoint} 情報（JSON）</Label>
+                  <Label htmlFor={`node-result-${endpoint}`}>/{endpoint} Information (JSON)</Label>
                   <Textarea
                     id={`node-result-${endpoint}`}
                     value={results[endpoint] ? JSON.stringify(results[endpoint], null, 2) : busy ? "取得中..." : "情報がここに表示されます"}
                     readOnly
                     className="min-h-[150px] font-mono text-sm bg-gray-50 dark:bg-gray-800"
-                    placeholder="情報がここに表示されます"
+                    placeholder="Information will be displayed here"
                   />
                 </div>
               ))}

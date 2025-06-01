@@ -4,7 +4,7 @@ import type { Route } from "./+types/home";
 export function meta({}: Route.MetaArgs) {
   // Note: useTranslation cannot be used within meta function,
   // it is recommended to use i18n instance in loader for actual projects
-  return [{ title: "Symbol DevToys - ホーム" }, { name: "description", content: "Symbol DevToys のホームページ" }];
+  return [{ title: "Symbol DevToys - Home" }, { name: "description", content: "Symbol DevToys Home Page" }];
 }
 
 export default function Home() {

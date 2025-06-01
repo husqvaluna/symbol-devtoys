@@ -6,8 +6,8 @@ import { NodeSelector } from "~/components/node-selector";
 
 export function meta() {
   return [
-    { title: "手数料計算機 - Symbol DevToys" },
-    { name: "description", content: "構築したトランザクションの手数料を試算する計算機です。" },
+    { title: "Fee Calculator - Symbol DevToys" },
+    { name: "description", content: "A calculator to estimate the fees for constructed transactions." },
   ];
 }
 
@@ -23,7 +23,7 @@ export default function Fee() {
         <NodeSelector />
       </PageHeader>
 
-      <div className="p-4 space-y-4">{/* コンテンツ部分はここに実装されます */}</div>
+      <div className="p-4 space-y-4">{/* Content section will be implemented here */}</div>
     </SidebarInset>
   );
 }

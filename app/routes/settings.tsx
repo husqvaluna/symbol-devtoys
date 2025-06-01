@@ -17,7 +17,7 @@ import { SidebarInset } from "~/components/ui/sidebar";
 import { PageHeader } from "~/components/page-header";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "Symbol DevToys - 設定" }, { name: "description", content: "Symbol DevToys の設定ページ" }];
+  return [{ title: "Symbol DevToys - Settings" }, { name: "description", content: "Symbol DevToys Settings Page" }];
 }
 
 export default function Settings() {
@@ -25,18 +25,18 @@ export default function Settings() {
   const { addToast } = useToast();
 
   // ノード設定の状態管理（jotai使用）
-  const [nodeSettings, setNodeSettings] = useAtom(nodeSettingsAtom);
+  const [nodeSettings, setNodeSettings] = useAtom(nodeSettingsAtom); // Node settings state management (using Jotai)
   const [activeNetworkTab, setActiveNetworkTab] = useState("TESTNET");
   const [testnetUrls, setTestnetUrls] = useState("");
   const [mainnetUrls, setMainnetUrls] = useState("");
 
-  // ノード設定の初期化
+  // Initialize Node Settings
   useEffect(() => {
     setTestnetUrls(formatNodeUrls(nodeSettings.TESTNET));
     setMainnetUrls(formatNodeUrls(nodeSettings.MAINNET));
   }, [nodeSettings]);
 
-  // ノード設定の保存
+  // Save Node Settings
   const handleSaveNodeSettings = () => {
     const newSettings: NodeSettings = {
       TESTNET: parseNodeUrls(testnetUrls),
@@ -44,7 +44,7 @@ export default function Settings() {
     };
     setNodeSettings(newSettings);
 
-    // Toastメッセージを表示
+    // Display Toast Message
     addToast({
       title: t("settings.nodes.toast.saved"),
       variant: "success",
@@ -52,13 +52,13 @@ export default function Settings() {
     });
   };
 
-  // ノード設定のリセット
+  // Reset Node Settings
   const handleResetNodeSettings = () => {
     setNodeSettings(DEFAULT_SETTINGS);
     setTestnetUrls(formatNodeUrls(DEFAULT_SETTINGS.TESTNET));
     setMainnetUrls(formatNodeUrls(DEFAULT_SETTINGS.MAINNET));
 
-    // Toastメッセージを表示
+    // Display Toast Message
     addToast({
       title: t("settings.nodes.toast.reset"),
       variant: "success",
@@ -72,12 +72,12 @@ export default function Settings() {
 
       <div className="w-full p-4">
         <div className="space-y-4">
-          {/* 一般設定 */}
+          {/* General Settings */}
           <div className="flex items-center">
             <h2 className="text-sm font-bold text-gray-900 dark:text-gray-100">{t("settings.general.title")}</h2>
           </div>
 
-          {/* 言語設定 */}
+          {/* Language Settings */}
           <Card>
             <CardContent>
               <div className="flex items-center space-x-4">
@@ -91,7 +91,7 @@ export default function Settings() {
             </CardContent>
           </Card>
 
-          {/* ノード設定 */}
+          {/* Node Settings */}
           <div className="flex items-center">
             <h2 className="text-sm font-bold text-gray-900 dark:text-gray-100">{t("settings.nodes.title")}</h2>
           </div>
@@ -160,7 +160,7 @@ export default function Settings() {
             </CardContent>
           </Card>
 
-          {/* このアプリについて */}
+          {/* About This App */}
           <div className="flex items-center">
             <h2 className="text-sm font-bold text-gray-900 dark:text-gray-100">{t("settings.about.title")}</h2>
           </div>

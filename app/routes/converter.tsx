@@ -85,13 +85,13 @@ export default function Converter() {
           {/* ネットワーク時間変換 */}
           <Card>
             <CardHeader>
-              <CardTitle>ネットワーク時間変換</CardTitle>
-              <CardDescription>現実の世界時間とSymbolネットワーク時間を相互変換します</CardDescription>
+              <CardTitle>Network Time Conversion</CardTitle>
+              <CardDescription>Convert between real-world time and Symbol network time</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <div className="space-y-1">
-                  <Label htmlFor="network-time">ネットワーク時間</Label>
+                  <Label htmlFor="network-time">Network Time</Label>
                   <Input
                     id="network-time"
                     type="number"
@@ -124,7 +124,7 @@ export default function Converter() {
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <div className="space-y-1">
-                  <Label htmlFor="hex-string">16進数</Label>
+                  <Label htmlFor="hex-string">Hexadecimal</Label>
                   <Input
                     id="hex-string"
                     type="text"
@@ -149,13 +149,13 @@ export default function Converter() {
 
           <Card>
             <CardHeader>
-              <CardTitle>アドレスのエンデコ</CardTitle>
+              <CardTitle>Address Encode/Decode</CardTitle>
               <CardDescription>Convert hex addresses to account addresses and vice versa</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <div className="space-y-1">
-                  <Label htmlFor="hex-address">16進数アドレス</Label>
+                  <Label htmlFor="hex-address">Hexadecimal Address</Label>
                   <Input
                     id="hex-address"
                     type="text"

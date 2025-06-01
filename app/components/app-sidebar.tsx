@@ -129,7 +129,7 @@ export function AppSidebar() {
   // Function to check if current path matches menu item URL
   const isActiveRoute = (url: string) => {
     if (url === "/") {
-      // ホームページの場合は完全一致
+      // Exact match for homepage
       return location.pathname === "/";
     }
     // For other pages, check if path matches

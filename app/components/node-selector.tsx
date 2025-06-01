@@ -36,7 +36,7 @@ export function NodeSelector({ className, size = "default", layout = "horizontal
       <div className="space-y-2">
         <Select value={selectedNetwork} onValueChange={setNetwork}>
           <SelectTrigger id="network-select" className={selectClasses} size={selectSize}>
-            <SelectValue placeholder="ネットワークを選択" />
+            <SelectValue placeholder="Select a network" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="TESTNET">
@@ -55,11 +55,11 @@ export function NodeSelector({ className, size = "default", layout = "horizontal
         </Select>
       </div>
 
-      {/* ノード選択 */}
+      {/* Node Selection */}
       <div className="space-y-2">
         <Select value={selectedNodeUrl || ""} onValueChange={setNodeUrl} disabled={availableNodes.length === 0}>
           <SelectTrigger id="node-select" className={selectClasses} size={selectSize}>
-            <SelectValue placeholder="ノードを選択" />
+            <SelectValue placeholder="Select a node" />
           </SelectTrigger>
           <SelectContent>
             {availableNodes.map((nodeUrl, index) => (
@@ -71,7 +71,7 @@ export function NodeSelector({ className, size = "default", layout = "horizontal
             ))}
             {availableNodes.length === 0 && (
               <SelectItem value="" disabled>
-                利用可能なノードがありません
+                No nodes available
               </SelectItem>
             )}
           </SelectContent>

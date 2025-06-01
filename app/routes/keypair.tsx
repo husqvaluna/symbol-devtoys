@@ -64,19 +64,19 @@ export default function Keypair() {
         <div className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>キーペア生成</CardTitle>
-              <CardDescription>新しい秘密鍵を生成し、公開鍵とアドレスを導出します。</CardDescription>
+              <CardTitle>Keypair Generation</CardTitle>
+              <CardDescription>Generate a new private key and derive the public key and address.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="private-key">秘密鍵</Label>
+                <Label htmlFor="private-key">Private Key</Label>
                 <Input
                   type="text"
                   id="private-key"
                   name="private-key"
                   pattern="[a-fA-F\d]+"
                   maxLength={64}
-                  placeholder="秘密鍵を入力または生成してください"
+                  placeholder="Enter or generate a private key"
                   autoFocus
                   value={privateKey}
                   onChange={(e) => setPrivateKey(e.target.value)}
@@ -85,10 +85,10 @@ export default function Keypair() {
               </div>
               <div className="space-y-2">
                 <Button type="button" className="w-full" onClick={() => generateNewKey()}>
-                  新しいキーペアを生成
+                  Generate New Keypair
                 </Button>
                 <div className="pt-2 space-y-2">
-                  <Label>アドレスの先頭文字（バニティアドレス）</Label>
+                  <Label>Address Prefix (Vanity Address)</Label>
                   <RadioGroup defaultValue="" className="flex space-x-4" onValueChange={setVanity}>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="" id="option-any" />
@@ -118,12 +118,12 @@ export default function Keypair() {
 
           <Card>
             <CardHeader>
-              <CardTitle>導出された情報</CardTitle>
-              <CardDescription>入力された秘密鍵から導出された公開鍵とアドレスです。</CardDescription>
+              <CardTitle>Derived Information</CardTitle>
+              <CardDescription>Public key and address derived from the entered private key.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="public-key">公開鍵</Label>
+                <Label htmlFor="public-key">Public Key</Label>
                 <Input
                   type="text"
                   id="public-key"
@@ -134,7 +134,7 @@ export default function Keypair() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="address">アドレス</Label>
+                <Label htmlFor="address">Address</Label>
                 <Input type="text" id="address" name="address" value={address} readOnly className="font-mono bg-gray-50 dark:bg-gray-800" />
               </div>
             </CardContent>

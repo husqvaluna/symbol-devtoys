@@ -23,7 +23,7 @@ export default function Monitor() {
         <NodeSelector />
       </PageHeader>
 
-      <div className="p-4 space-y-4">{/* コンテンツ部分はここに実装されます */}</div>
+      <div className="p-4 space-y-4">{/* Content section will be implemented here */}</div>
     </SidebarInset>
   );
 }

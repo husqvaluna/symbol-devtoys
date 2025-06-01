@@ -16,7 +16,7 @@ import ky from "ky";
 import { z } from "zod";
 
 const NetworkRequestSchema = z.object({
-  nodeUrl: z.string().url("有効なURLを入力してください。"),
+  nodeUrl: z.string().url("Please enter a valid URL."),
 });
 
 type NetworkRequestSchemaType = z.infer<typeof NetworkRequestSchema>;
@@ -24,7 +24,7 @@ type NetworkRequestSchemaType = z.infer<typeof NetworkRequestSchema>;
 const API_ENDPOINTS = ["", "fees/rental", "fees/transaction", "properties"];
 
 export function meta() {
-  return [{ title: "ネットワーク - Symbol DevToys" }, { name: "description", content: "Symbolネットワークの情報を取得・表示します。" }];
+  return [{ title: "Network - Symbol DevToys" }, { name: "description", content: "Retrieve and display Symbol network information." }];
 }
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
@@ -71,12 +71,12 @@ interface NetworkInfo {
   [key: string]: any;
 }
 
-// エンドポイントの日本語ラベルマッピング
+// Japanese Label Mapping for Endpoints
 const ENDPOINT_LABELS: { [key: string]: string } = {
-  "": "ネットワークタイプ",
-  "fees/rental": "レンタル料金情報",
-  "fees/transaction": "トランザクション料金情報",
-  properties: "ネットワークプロパティ",
+  "": "Network Type",
+  "fees/rental": "Rental Fee Information",
+  "fees/transaction": "Transaction Fee Information",
+  properties: "Network Properties",
 };
 
 export default function Network() {
@@ -106,22 +106,22 @@ export default function Network() {
       <div className="p-2">
         <Card>
           <CardHeader>
-            <CardTitle>ネットワーク情報取得</CardTitle>
-            <CardDescription>{selectedNetwork}ネットワークの情報を取得します</CardDescription>
+            <CardTitle>Retrieve Network Information</CardTitle>
+            <CardDescription>Retrieve {selectedNetwork} network information</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <fetcher.Form method="post" className="space-y-2">
               <input name="node-url" type="hidden" value={nodeUrl || ""} />
               <div className="flex w-full space-x-2">
                 <Button type="submit" disabled={busy}>
-                  {busy ? "取得中..." : "取得"}
+                  {busy ? "Fetching..." : "Fetch"}
                 </Button>
               </div>
             </fetcher.Form>
 
             {fetcher.data?.errors && (
               <Alert variant="destructive">
-                <AlertTitle>取得エラー</AlertTitle>
+                <AlertTitle>Fetch Error</AlertTitle>
                 <AlertDescription>
                   <ul className="list-inside list-disc text-sm">
                     {fetcher.data.errors.map((error, index) => (
@@ -143,10 +143,10 @@ export default function Network() {
                     <Label htmlFor={`network-result-${key}`}>{label}（JSON）</Label>
                     <Textarea
                       id={`network-result-${key}`}
-                      value={results[key] ? JSON.stringify(results[key], null, 2) : busy ? "取得中..." : "情報がここに表示されます"}
+                      value={results[key] ? JSON.stringify(results[key], null, 2) : busy ? "Fetching..." : "Information will be displayed here"}
                       readOnly
                       className="min-h-[150px] font-mono text-sm bg-gray-50 dark:bg-gray-800"
-                      placeholder="情報がここに表示されます"
+                      placeholder="Information will be displayed here"
                     />
                   </div>
                 );

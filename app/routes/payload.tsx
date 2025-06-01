@@ -38,29 +38,29 @@ export default function Payload() {
       <div className="p-2">
         <Card>
           <CardHeader>
-            <CardTitle>ペイロードデコード</CardTitle>
-            <CardDescription>16進数ペイロードをデコードしてトランザクション情報を取得します</CardDescription>
+            <CardTitle>Payload Decode</CardTitle>
+            <CardDescription>Decode hexadecimal payload to get transaction information</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="payload">ペイロード（16進数）</Label>
+              <Label htmlFor="payload">Payload (Hex)</Label>
               <Textarea
                 id="payload"
                 value={payload}
                 onChange={(e) => setPayload(e.target.value)}
                 className="min-h-[300px] font-mono"
-                placeholder="ここに16進数ペイロードを入力してください"
+                placeholder="Enter hexadecimal payload here"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="transaction-result">トランザクション情報（JSON）</Label>
+              <Label htmlFor="transaction-result">Transaction Information (JSON)</Label>
               <Textarea
                 id="transaction-result"
                 value={readable}
                 readOnly
                 className="min-h-[300px] font-mono text-sm bg-gray-50 dark:bg-gray-800"
-                placeholder="トランザクション情報がここに表示されます"
+                placeholder="Transaction information will be displayed here"
               />
             </div>
           </CardContent>

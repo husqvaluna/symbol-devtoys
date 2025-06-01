@@ -19,8 +19,8 @@ import AccountRequestSchema, { type AccountRequestSchemaType } from "~/schemas/a
 
 export function meta() {
   return [
-    { title: "アカウント - Symbol DevToys" },
-    { name: "description", content: "アカウントIDでネットワークに問い合わせて、アカウント情報を取得します。" },
+    { title: "Account - Symbol DevToys" },
+    { name: "description", content: "Query the network by account ID to retrieve account information." },
   ];
 }
 
@@ -75,13 +75,13 @@ export default function Account() {
       <div className="p-2">
         <Card>
           <CardHeader>
-            <CardTitle>アカウント情報取得</CardTitle>
-            <CardDescription>{selectedNetwork}ネットワークからアカウント情報を取得します</CardDescription>
+            <CardTitle>Retrieve Account Information</CardTitle>
+            <CardDescription>Retrieve account information from the {selectedNetwork} network</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <fetcher.Form method="post" className="space-y-2">
               <Input name="node-url" type="hidden" value={nodeUrl || ""} />
-              <Label htmlFor="accountId">アカウントID（公開鍵またはアドレス）</Label>
+              <Label htmlFor="accountId">Account ID (Public Key or Address)</Label>
               <div className="flex w-full space-x-2">
                 <Input
                   type="text"
@@ -94,14 +94,14 @@ export default function Account() {
                   className="font-mono"
                 />
                 <Button type="submit" disabled={busy}>
-                  {busy ? "取得中..." : "取得"}
+                  {busy ? "Fetching..." : "Fetch"}
                 </Button>
               </div>
             </fetcher.Form>
 
             {fetcher.data?.errors && (
               <Alert variant="destructive">
-                <AlertTitle>取得エラー</AlertTitle>
+                <AlertTitle>Fetch Error</AlertTitle>
                 <AlertDescription>
                   <ul className="list-inside list-disc text-sm">
                     {fetcher.data.errors.map((error, index) => (
@@ -115,13 +115,13 @@ export default function Account() {
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="account-result">アカウント情報（JSON）</Label>
+              <Label htmlFor="account-result">Account Information (JSON)</Label>
               <Textarea
                 id="account-result"
                 value={JSON.stringify(fetcher.data?.result, null, 2)}
                 readOnly
                 className="min-h-[300px] font-mono text-sm bg-gray-50 dark:bg-gray-800"
-                placeholder="アカウント情報がここに表示されます"
+                placeholder="Account information will be displayed here"
               />
             </div>
           </CardContent>

@@ -20,8 +20,8 @@ import { graph2tree, renderAscii, renderMermaid, type MultisigLayer } from "~/li
 
 export function meta() {
   return [
-    { title: "マルチシグ - Symbol DevToys" },
-    { name: "description", content: "アドレスでネットワークに問い合わせて、マルチシグアカウントグラフ情報を取得します。" },
+    { title: "Multisig - Symbol DevToys" },
+    { name: "description", content: "Query the network by address to retrieve multisig account graph information." },
   ];
 }
 
@@ -81,13 +81,13 @@ export default function Multisig() {
       <div className="p-2">
         <Card>
           <CardHeader>
-            <CardTitle>マルチシグアカウントグラフ取得</CardTitle>
-            <CardDescription>{selectedNetwork}ネットワークからマルチシグアカウントグラフ情報を取得します</CardDescription>
+            <CardTitle>Retrieve Multisig Account Graph</CardTitle>
+            <CardDescription>Retrieve multisig account graph information from the {selectedNetwork} network</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <fetcher.Form method="post" className="space-y-2">
               <Input name="node-url" type="hidden" value={nodeUrl || ""} />
-              <Label htmlFor="address">アドレス</Label>
+              <Label htmlFor="address">Address</Label>
               <div className="flex w-full space-x-2">
                 <Input
                   type="text"
@@ -100,14 +100,14 @@ export default function Multisig() {
                   className="font-mono"
                 />
                 <Button type="submit" disabled={busy}>
-                  {busy ? "取得中..." : "取得"}
+                  {busy ? "Fetching..." : "Fetch"}
                 </Button>
               </div>
             </fetcher.Form>
 
             {fetcher.data?.errors && (
               <Alert variant="destructive">
-                <AlertTitle>取得エラー</AlertTitle>
+                <AlertTitle>Fetch Error</AlertTitle>
                 <AlertDescription>
                   <ul className="list-inside list-disc text-sm">
                     {fetcher.data.errors.map((error, index) => (
@@ -122,25 +122,25 @@ export default function Multisig() {
 
             {fetcher.data?.asciiOutput && (
               <div className="space-y-2">
-                <Label htmlFor="tree-output">マルチシグアカウントツリー</Label>
+                <Label htmlFor="tree-output">Multisig Account Tree</Label>
                 <Textarea
                   id="tree-output"
                   value={fetcher.data.asciiOutput}
                   readOnly
                   className="min-h-[200px] font-mono text-sm bg-gray-50 dark:bg-gray-800"
-                  placeholder="マルチシグアカウントツリーがここに表示されます"
+                  placeholder="Multisig account tree will be displayed here"
                 />
               </div>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="multisig-result">マルチシググラフ情報（JSON）</Label>
+              <Label htmlFor="multisig-result">Multisig Graph Information (JSON)</Label>
               <Textarea
                 id="multisig-result"
                 value={JSON.stringify(fetcher.data?.result, null, 2)}
                 readOnly
                 className="min-h-[300px] font-mono text-sm bg-gray-50 dark:bg-gray-800"
-                placeholder="マルチシググラフ情報がここに表示されます"
+                placeholder="Multisig graph information will be displayed here"
               />
             </div>
           </CardContent>

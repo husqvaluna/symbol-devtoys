@@ -57,7 +57,7 @@ export default function App() {
         <meta name="msapplication-TileColor" content="#ffffff" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
 
-        {/* PWAアイコン */}
+        {/* PWA Icon */}
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/pwa-192x192.png" />
         <link rel="icon" type="image/png" sizes="512x512" href="/pwa-512x512.png" />

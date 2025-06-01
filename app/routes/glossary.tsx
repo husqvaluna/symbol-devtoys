@@ -4,7 +4,7 @@ import { SidebarInset } from "~/components/ui/sidebar";
 import { PageHeader } from "~/components/page-header";
 
 export function meta() {
-  return [{ title: "用語集 - Symbol DevToys" }, { name: "description", content: "" }];
+  return [{ title: "Glossary - Symbol DevToys" }, { name: "description", content: "" }];
 }
 
 export default function Glossary() {

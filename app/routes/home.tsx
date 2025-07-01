@@ -6,7 +6,7 @@ import { SidebarInset } from "~/components/ui/sidebar";
 export function meta({}: Route.MetaArgs) {
   // Note: useTranslation cannot be used within meta function,
   // it is recommended to use i18n instance in loader for actual projects
-  return [{ title: "Symbol DevToys - Home" }, { name: "description", content: "Symbol DevToys Home Page" }];
+  return [{ title: "Symbol DevToys" }, { name: "description", content: "Symbol DevToys" }];
 }
 
 export default function Home() {
